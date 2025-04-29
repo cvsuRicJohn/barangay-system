@@ -58,6 +58,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($fields['id']);
     }
 
+    // Fetch column types for the entity to identify date fields
+    $columnTypes = [];
+    foreach ($columns as $column) {
+        $columnTypes[$column['Field']] = $column['Type'];
+    }
+
+    // Format date fields to 'Y-m-d' or 'Y-m-d H:i:s' as needed
+    foreach ($fields as $key => $value) {
+        if (isset($columnTypes[$key])) {
+            $type = $columnTypes[$key];
+            if (strpos($type, 'date') !== false) {
+                // Try to parse date and format
+                $date = date_create($value);
+                if ($date) {
+                    if (strpos($type, 'datetime') !== false) {
+                        $fields[$key] = $date->format('Y-m-d H:i:s');
+                    } else {
+                        $fields[$key] = $date->format('Y-m-d');
+                    }
+                } else {
+                    // Invalid date, set to null or handle error
+                    $fields[$key] = null;
+                }
+            }
+        }
+    }
+
     $keys = array_keys($fields);
     $placeholders = array_fill(0, count($keys), '?');
     $values = array_values($fields);

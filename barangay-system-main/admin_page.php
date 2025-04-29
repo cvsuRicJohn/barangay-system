@@ -147,22 +147,22 @@ try {
         $months[] = date('M Y', strtotime($month));
 
         // Barangay ID requests count for month
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM barangay_id_requests WHERE DATE_FORMAT(date_of_birth, '%Y-%m') = ?");
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM barangay_id_requests WHERE DATE_FORMAT(created_at, '%Y-%m') = ?");
         $stmt->execute([$month]);
         $barangay_id_data[] = (int)$stmt->fetchColumn();
 
         // Clearance requests count for month
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM barangay_clearance WHERE DATE_FORMAT(birth_date, '%Y-%m') = ?");
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM barangay_clearance WHERE DATE_FORMAT(created_at, '%Y-%m') = ?");
         $stmt->execute([$month]);
         $clearance_data[] = (int)$stmt->fetchColumn();
 
         // Indigency requests count for month
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM certificate_of_indigency_requests WHERE DATE_FORMAT(date_of_birth, '%Y-%m') = ?");
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM certificate_of_indigency_requests WHERE DATE_FORMAT(created_at, '%Y-%m') = ?");
         $stmt->execute([$month]);
         $indigency_data[] = (int)$stmt->fetchColumn();
 
         // Residency requests count for month
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM certificate_of_residency_requests WHERE DATE_FORMAT(date_of_birth, '%Y-%m') = ?");
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM certificate_of_residency_requests WHERE DATE_FORMAT(created_at, '%Y-%m') = ?");
         $stmt->execute([$month]);
         $residency_data[] = (int)$stmt->fetchColumn();
     }
@@ -173,13 +173,13 @@ try {
 // Prepare recent requests for dashboard (latest 7 requests from all request tables)
 try {
     $stmt = $pdo->query("
-        SELECT first_name, 'Barangay ID' AS type, date_of_birth AS date_requested FROM barangay_id_requests
+        SELECT first_name, 'Barangay ID' AS type, created_at AS date_requested FROM barangay_id_requests
         UNION ALL
-        SELECT first_name, 'Barangay Clearance' AS type, birth_date AS date_requested FROM barangay_clearance
+        SELECT first_name, 'Barangay Clearance' AS type, created_at AS date_requested FROM barangay_clearance
         UNION ALL
-        SELECT first_name, 'Certificate of Indigency' AS type, date_of_birth AS date_requested FROM certificate_of_indigency_requests
+        SELECT first_name, 'Certificate of Indigency' AS type, created_at AS date_requested FROM certificate_of_indigency_requests
         UNION ALL
-        SELECT first_name, 'Certificate of Residency' AS type, date_of_birth AS date_requested FROM certificate_of_residency_requests
+        SELECT first_name, 'Certificate of Residency' AS type, created_at AS date_requested FROM certificate_of_residency_requests
         ORDER BY date_requested DESC
         LIMIT 7
     ");
@@ -336,7 +336,8 @@ try {
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($req['first_name']) . "</td>";
                             echo "<td>" . htmlspecialchars($req['type']) . "</td>";
-                            echo "<td>" . htmlspecialchars($req['date_requested']) . "</td>";
+                      $date = new DateTime($req['date_requested']);
+                      echo "<td>" . htmlspecialchars($date->format('F j, Y, g:i a')) . "</td>";
                             echo "</tr>";
                           }
                         } else {
@@ -421,7 +422,7 @@ try {
                       <td><?php echo htmlspecialchars($req['middle_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['last_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['address']); ?></td>
-                      <td><?php echo htmlspecialchars($req['date_of_birth']); ?></td>
+                      <td><?php $date = new DateTime($req['date_of_birth']); echo htmlspecialchars($date->format('F j, Y')); ?></td>
                       <td><?php echo htmlspecialchars($req['gov_id']); ?></td>
                       <td><?php echo htmlspecialchars($req['email']); ?></td>
                       <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
@@ -475,7 +476,7 @@ try {
                       <td><?php echo htmlspecialchars($req['middle_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['last_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['complete_address']); ?></td>
-                      <td><?php echo htmlspecialchars($req['birth_date']); ?></td>
+                      <td><?php $date = new DateTime($req['birth_date']); echo htmlspecialchars($date->format('F j, Y')); ?></td>
                       <td><?php echo htmlspecialchars($req['age']); ?></td>
                       <td><?php echo htmlspecialchars($req['status']); ?></td>
                       <td><?php echo htmlspecialchars($req['mobile_number']); ?></td>
@@ -533,7 +534,7 @@ try {
                       <td><?php echo htmlspecialchars($req['first_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['middle_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['last_name']); ?></td>
-                      <td><?php echo htmlspecialchars($req['date_of_birth']); ?></td>
+                      <td><?php $date = new DateTime($req['date_of_birth']); echo htmlspecialchars($date->format('F j, Y')); ?></td>
                       <td><?php echo htmlspecialchars($req['civil_status']); ?></td>
                       <td><?php echo htmlspecialchars($req['occupation']); ?></td>
                       <td><?php echo htmlspecialchars($req['monthly_income']); ?></td>
@@ -587,7 +588,7 @@ try {
                       <td><?php echo htmlspecialchars($req['first_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['middle_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['last_name']); ?></td>
-                      <td><?php echo htmlspecialchars($req['date_of_birth']); ?></td>
+                      <td><?php $date = new DateTime($req['date_of_birth']); echo htmlspecialchars($date->format('F j, Y')); ?></td>
                       <td><?php echo htmlspecialchars($req['gov_id']); ?></td>
                       <td><?php echo htmlspecialchars($req['complete_address']); ?></td>
                       <td><?php echo htmlspecialchars($req['proof_of_residency']); ?></td>
@@ -636,7 +637,7 @@ try {
                       <td><?php echo htmlspecialchars($user['address']); ?></td>
                       <td><?php echo htmlspecialchars($user['email']); ?></td>
                       <td><?php echo htmlspecialchars($user['username']); ?></td>
-                      <td><?php echo htmlspecialchars($user['created_at']); ?></td>
+                      <td><?php $date = new DateTime($user['created_at']); echo htmlspecialchars($date->format('F j, Y, g:i a')); ?></td>
                       <td>
                         <a href="edit.php?entity=users&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
                         <a href="admin_page.php?view=users&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
