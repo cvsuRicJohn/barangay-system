@@ -3,14 +3,14 @@ session_start();
 
 // Check if admin is logged in
 if (!isset($_SESSION['admin_id'])) {
-    header("Location: admin_login.php");
+    header("Location: chatbot-main/login.php");
     exit();
 }
 
 // Handle logout
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_destroy();
-    header("Location: admin_login.php");
+    header("Location: chatbot-main/login.php");
     exit();
 }
 
