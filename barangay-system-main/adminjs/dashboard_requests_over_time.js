@@ -1,17 +1,43 @@
 document.addEventListener('DOMContentLoaded', function () {
   const ctx = document.getElementById('requestsOverTimeChart').getContext('2d');
 
-  // Placeholder data for requests over time
+  // Use dynamic data passed from PHP
   const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [{
-      label: 'Requests Over Time',
-      data: [12, 19, 3, 5, 2, 3, 7],
-      fill: false,
-      borderColor: 'rgba(75, 192, 192, 1)',
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      tension: 0.1
-    }]
+    labels: requestsOverTimeData.labels,
+    datasets: [
+      {
+        label: 'Barangay ID',
+        data: requestsOverTimeData.barangay_id,
+        fill: false,
+        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        tension: 0.1
+      },
+      {
+        label: 'Barangay Clearance',
+        data: requestsOverTimeData.clearance,
+        fill: false,
+        borderColor: 'rgba(54, 162, 235, 1)',
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        tension: 0.1
+      },
+      {
+        label: 'Certificate of Indigency',
+        data: requestsOverTimeData.indigency,
+        fill: false,
+        borderColor: 'rgba(255, 206, 86, 1)',
+        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+        tension: 0.1
+      },
+      {
+        label: 'Certificate of Residency',
+        data: requestsOverTimeData.residency,
+        fill: false,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.1
+      }
+    ]
   };
 
   const config = {
@@ -25,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         title: {
           display: true,
-          text: 'Requests Over Time (Placeholder)'
+          text: 'Requests Over Time'
         }
       },
       scales: {

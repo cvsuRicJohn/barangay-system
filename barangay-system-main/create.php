@@ -29,7 +29,8 @@ $allowed_entities = [
     'barangay_id_requests',
     'barangay_clearance',
     'certificate_of_indigency_requests',
-    'certificate_of_residency_requests'
+    'certificate_of_residency_requests',
+    'contact_inquiries'
 ];
 
 if (!isset($_GET['entity']) || !in_array($_GET['entity'], $allowed_entities)) {

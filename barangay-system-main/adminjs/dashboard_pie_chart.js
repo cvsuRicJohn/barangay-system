@@ -1,17 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
   const ctx = document.getElementById('requestsPieChart').getContext('2d');
 
-  // Placeholder pie chart data
+  // Use dynamic pie chart data passed from PHP
   const data = {
-    labels: [
-      'Category A',
-      'Category B',
-      'Category C',
-      'Category D'
-    ],
+    labels: pieChartData.labels,
     datasets: [{
-      label: 'Placeholder Data',
-      data: [10, 20, 30, 40],
+      label: 'Requests Count',
+      data: pieChartData.data,
       backgroundColor: [
         'rgba(255, 99, 132, 0.7)',
         'rgba(54, 162, 235, 0.7)',
@@ -39,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         title: {
           display: true,
-          text: 'Placeholder Pie Chart'
+          text: 'Requests Distribution by Type'
         }
       }
     },

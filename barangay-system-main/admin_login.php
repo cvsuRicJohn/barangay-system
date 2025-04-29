@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (isset($_SESSION['admin_id'])) {
+    header("Location: admin_page.php");
+    exit();
+}
+
 // Database connection parameters
 $servername = "localhost";
 $username_db = "root"; // Adjust if needed

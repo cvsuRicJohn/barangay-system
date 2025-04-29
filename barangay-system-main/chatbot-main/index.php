@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
@@ -28,7 +31,28 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-// You can add dynamic content fetching here if needed
+// Handle contact form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $subject = trim($_POST['subject'] ?? '');
+    $message = trim($_POST['message'] ?? '');
+
+    // Basic validation
+    if ($name === '' || $email === '' || $subject === '' || $message === '') {
+        $contact_error = "Please fill in all fields.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $contact_error = "Please enter a valid email address.";
+    } else {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO contact_inquiries (name, email, subject, message, created_at) VALUES (?, ?, ?, ?, NOW())");
+            $stmt->execute([$name, $email, $subject, $message]);
+            $contact_success = "Thank you for contacting us. We will get back to you soon.";
+        } catch (PDOException $e) {
+            $contact_error = "Failed to send your message. Please try again later. Error: " . $e->getMessage();
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -234,15 +258,20 @@ try {
   <section class="contact-section"data-aos="fade-up" data-aos-duration="1000">
     <div class="contact-form">
       <h2>For Inquiries and Concerns, Contact Us</h2>
-      <form>
+      <form method="POST" action="">
         <div class="form-row">
-          <input type="text" placeholder="Name" class="form-input" required>
-          <input type="email" placeholder="Email" class="form-input" required>
+          <input type="text" name="name" placeholder="Name" class="form-input" required value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>">
+          <input type="email" name="email" placeholder="Email" class="form-input" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
         </div>
-        <input type="text" placeholder="Subject" class="form-input full-width" required>
-        <textarea placeholder="Message" class="form-textarea" required></textarea>
-        <button type="submit" class="submit-btn">Send Message</button>
+        <input type="text" name="subject" placeholder="Subject" class="form-input full-width" required value="<?php echo htmlspecialchars($_POST['subject'] ?? ''); ?>">
+        <textarea name="message" placeholder="Message" class="form-textarea" required><?php echo htmlspecialchars($_POST['message'] ?? ''); ?></textarea>
+        <button type="submit" name="contact_submit" class="submit-btn">Send Message</button>
       </form>
+      <?php if (!empty($contact_error)): ?>
+        <p style="color: red; font-weight: bold;"><?php echo htmlspecialchars($contact_error); ?></p>
+      <?php elseif (!empty($contact_success)): ?>
+        <p style="color: green; font-weight: bold;"><?php echo htmlspecialchars($contact_success); ?></p>
+      <?php endif; ?>
     </div>
   
     <!-- Contact Info -->
