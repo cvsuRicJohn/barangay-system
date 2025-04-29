@@ -181,6 +181,7 @@ try {
         UNION ALL
         SELECT first_name, 'Certificate of Residency' AS type, created_at AS date_requested FROM certificate_of_residency_requests
         ORDER BY date_requested DESC
+        LIMIT 7
     ");
     $recent_requests = $stmt->fetchAll();
 } catch (PDOException $e) {
@@ -316,8 +317,8 @@ try {
           </div>
           <div class="d-flex justify-content-between align-items-start" style="align-items: flex-start !important; margin-top: -20px;">
             <div class="graphs-container" style="flex: 1; max-width: 60%; margin-right: 20px; margin-left: 200px;">
-<div class="card shadow-lg h-100 dashboard-card recent-requests-container" style="max-width: 1000px; margin: 0 auto; min-height: 450px; overflow-y: auto; max-height: 450px;">
-                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="font-size: 1rem; font-weight: 600; color: #555; height: 350px; overflow-y: auto;">
+<div class="card shadow-lg h-100 dashboard-card recent-requests-container" style="max-width: 1000px; margin: 0 auto; min-height: 450px;">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="font-size: 1rem; font-weight: 600; color: #555; height: 350px;">
                   <h4 class="mb-3" style="font-weight: 700; color: #333;">Recent Requests</h4>
                   <table class="table table-striped table-hover table-bordered mb-0 recent-requests-table" style="width: auto;">
                     <thead class="thead-dark">
@@ -387,6 +388,7 @@ try {
             </div>
           </div>
         </div>
+        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
         
 
