@@ -259,7 +259,7 @@ body:not(.sidebar-collapsed) #sidebarBackdrop {
     display: flex !important;
     flex-wrap: wrap !important;
     max-width: 100% !important;
-    margin-top: -390px !important;
+    margin-top: 0px !important;
     margin-left: 100px !important;
     gap: 15px !important;
     justify-content: flex-start !important;
@@ -318,3 +318,4 @@ body:not(.sidebar-collapsed) #sidebarBackdrop {
     margin-bottom: 10px;
   }
 }
+
