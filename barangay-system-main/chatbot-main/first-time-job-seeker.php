@@ -182,18 +182,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label>Full Name *</label>
             <input type="text" name="full_name" class="form-control" required>
         </div>
+
         <div class="form-group col-md-6">
             <label>Address *</label>
             <input type="text" name="address" class="form-control" required>
         </div>
+
         <div class="form-group col-md-6">
             <label>Length of Residency (e.g., 2 years, 6 months) *</label>
             <input type="text" name="residency_length" class="form-control" required>
         </div>
+
+        <div class="form-group col-md-6">
+            <label>Has taken Oath of Undertaking? *</label>
+            <select name="oath_acknowledged" class="form-control" required>
+                <option value="">-- Select --</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
         <div class="form-group col-md-6">
             <label>Email *</label>
             <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
         </div>
+
         <div class="form-group col-md-6">
             <label>Shipping Method *</label>
             <select name="shipping_method" class="form-control" required>
@@ -206,6 +219,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit" class="btn btn-primary px-5">Submit</button>
     </div>
 </form>
+
 
 
         <!-- Success Modal -->

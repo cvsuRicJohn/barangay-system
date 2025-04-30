@@ -226,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Good Moral -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="common-law-form.html" style="text-decoration: none;">
+          <a href="certificate-of-good-moral.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-shield fa-2x mb-2"></i>
               <h5>Good Moral</h5>
@@ -256,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Solo Parent -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="loan-form.html" style="text-decoration: none;">
+          <a href="solo-parent.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/loan.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-user-friends fa-2x mb-2"></i>
               <h5>Solo Parent</h5>
@@ -266,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Business Permit -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="medical-form.html" style="text-decoration: none;">
+          <a href="business-permit.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/medical.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-store fa-2x mb-2"></i>
               <h5>Business Permit</h5>
@@ -286,7 +286,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Job Seeker -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-          <a href="other-form.html" style="text-decoration: none;">
+          <a href="first-time-job-seeker.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/other.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-briefcase fa-2x mb-2"></i>
               <h5>Job Seeker</h5>
