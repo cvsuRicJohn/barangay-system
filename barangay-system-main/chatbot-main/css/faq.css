@@ -51,6 +51,7 @@ nav.scrolled {
   }
   
   /* Dropdown styles */
+
   .dropdown {
     display: inline-block;
     position: relative;
@@ -74,7 +75,7 @@ nav.scrolled {
   
   .dropdown-content a {
     color: #000;
-    padding: 12px 5px;
+    padding: 5px 5px;
     text-decoration: none;
     display: block;
   }
@@ -98,7 +99,7 @@ nav.scrolled {
   left: 100%;
   top: 0;
   background-color: #f1f1f1;
-  min-width: 280px;
+  min-width: 300px;
   }
   
   .dropdown-submenu:hover .submenu-content {

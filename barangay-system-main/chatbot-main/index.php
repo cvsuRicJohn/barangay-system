@@ -117,43 +117,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
 
       <!-- Barangay Certification submenu -->
       <div class="dropdown-submenu">
-        <a href="#">Barangay Certification ▸</a>
+        <a href="#"> Barangay Certification ▸</a>
         <div class="submenu-content">
           <a href="certificate-of-residency.php" title="Proof that you live in the barangay">
-            <i class="fas fa-home"></i> Certificate of Residency
+            <i class="fas fa-home"></i> Residency
           </a>
           <a href="certificate-of-indigency.php" title="Proof of financial need for assistance or benefits">
-            <i class="fas fa-hand-holding-heart"></i> Certificate of Indigency
+            <i class="fas fa-hand-holding-heart"></i> Indigency
           </a>
           <a href="certificate-of-good-moral.php" title="Good moral standing for legal or school requirements">
-            <i class="fas fa-shield-alt"></i> Certificate of Good Moral Character
+            <i class="fas fa-shield-alt"></i> Good Moral 
           </a>
           <a href="first-time-job-seeker.php" title="Certification for first-time job seekers">
-            <i class="fas fa-briefcase"></i> First Time Job Seeker (RA 11261)
-          </a>
+            <i class="fas fa-briefcase"></i> First Time Job Seeker
+
           <a href="solo-parent.php" title="Certification for solo or single parents">
-            <i class="fas fa-user-friends"></i> Solo Parent Certification
+            <i class="fas fa-user-friends"></i> Solo Parent 
           </a>
           <a href="out-of-school-youth.php" title="Declared as out-of-school youth">
-            <i class="fas fa-user-graduate"></i> Out-of-School Youth Certification
+            <i class="fas fa-user-graduate"></i> Out of School Youth 
           </a>
           <a href="unemployment-certification.php" title="Certification that the person is unemployed">
-            <i class="fas fa-user-times"></i> Unemployment Certification
+            <i class="fas fa-user-times"></i> Unemployment 
           </a>
           <a href="no-income-certification.php" title="Declaration of no income">
-            <i class="fas fa-ban"></i> No Income Certification
+            <i class="fas fa-ban"></i> No Income 
           </a>
           <a href="late-birth-registration.php" title="Support for late birth registration">
-            <i class="fas fa-baby"></i> Late Birth Registration Certification
+            <i class="fas fa-baby"></i> Late Birth Registration 
           </a>
           <a href="cohabitation-certification.php" title="Proof of cohabitation without marriage">
-            <i class="fas fa-users"></i> Cohabitation Certification
+            <i class="fas fa-users"></i> Cohabitation 
           </a>
           <a href="non-residency-certification.php" title="Proof of not living in the barangay anymore">
-            <i class="fas fa-map-marker-alt"></i> Non-Residency Certification
+            <i class="fas fa-map-marker-alt"></i> Non-Residency 
           </a>
           <a href="baptismal-certification.php" title="Permission for baptismal activity">
-            <i class="fas fa-church"></i> Baptismal Certification
+            <i class="fas fa-church"></i> Baptismal 
           </a>
         </div>
       </div>
@@ -162,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   </div>
 
   <a href="contact.php">About</a>
-  <a href="faq.html">FAQs</a>
+  <a href="faq.php">FAQs</a>
 </nav>
 
 
@@ -219,17 +219,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
           <a href="barangay-clearance.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/4ps.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-tasks fa-2x mb-2"></i>
-              <h5>Barangay Clearance</h5>
+              <h5>Clearance</h5>
             </div>
           </a>
         </div>
   
-        <!-- Common Law -->
+        <!-- Good Moral -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
           <a href="common-law-form.html" style="text-decoration: none;">
-            <div class="service-box" style="background: url('image/common-law.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
-              <i class="fas fa-balance-scale fa-2x mb-2"></i>
-              <h5>Common Law</h5>
+            <div class="service-box" style="background: url('image/.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
+              <i class="fas fa-shield fa-2x mb-2"></i>
+              <h5>Good Moral</h5>
             </div>
           </a>
         </div>
@@ -254,22 +254,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
           </a>
         </div>
   
-        <!-- Loan -->
+        <!-- Solo Parent -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
           <a href="loan-form.html" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/loan.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
-              <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
-              <h5>Loan</h5>
+              <i class="fas fa-user-friends fa-2x mb-2"></i>
+              <h5>Solo Parent</h5>
             </div>
           </a>
         </div>
   
-        <!-- Medical Assistance -->
+        <!-- Business Permit -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
           <a href="medical-form.html" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/medical.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
-              <i class="fas fa-briefcase-medical fa-2x mb-2"></i>
-              <h5>Medical Assistance</h5>
+              <i class="fas fa-store fa-2x mb-2"></i>
+              <h5>Business Permit</h5>
             </div>
           </a>
         </div>
@@ -279,17 +279,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
           <a href="certificate-of-residency.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/residency.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-home fa-2x mb-2"></i>
-              <h5>Certificate of Residency</h5>
+              <h5>Residency</h5>
             </div>
           </a>
         </div>
   
-        <!-- Other Purposes -->
+        <!-- Job Seeker -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="200">
           <a href="other-form.html" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/other.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
-              <i class="fas fa-th-list fa-2x mb-2"></i>
-              <h5>Other Purposes</h5>
+              <i class="fas fa-briefcase fa-2x mb-2"></i>
+              <h5>Job Seeker</h5>
             </div>
           </a>
         </div>
@@ -352,7 +352,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   </div>
   
   <!-- Chatbot iframe -->
-  <iframe src="chatbot.html"
+  <iframe src="chatbot.php"
     style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
   </iframe>
 
