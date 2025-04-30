@@ -288,19 +288,12 @@ body:not(.sidebar-collapsed) #sidebarBackdrop {
     margin-top: 0 !important;
     margin-left: 0 !important;
   }
-  /* Chart container widths for mobile */
-  #dashboard > .row.mb-4 > div:nth-child(1),
-  #dashboard > .row.mb-4 > div:nth-child(2) {
-    width: 100% !important;
-    min-width: auto !important;
-    margin-left: 0 !important;
-  }
   /* Chart canvas sizes for mobile */
   #requestsPieChart,
   #requestsOverTimeChart {
     width: 100% !important;
     height: auto !important;
-    min-height: 320px !important;
+    min-height: 220px !important;
   }
 }
 

@@ -299,28 +299,34 @@ try {
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
         <div id="dashboard" class="content-section">
           <h2>Dashboard Overview</h2>
-          <div class="row mb-4 justify-content-center">
-          <div class="col-md-auto" style="max-width: 400px; margin: 0 20px 20px 0;">
-              <div class="card shadow-lg h-100 dashboard-card" style="max-width: 350px; margin: 0 10px;">
+            <!-- Charts Row - Will stack vertically on mobile -->
+          <div class="row mb-4">
+            <!-- Pie Chart -->
+            <div class="col-12 col-lg-4 mb-4">
+              <div class="card shadow-lg h-100 dashboard-card">
                 <div class="card-body">
-                  <canvas id="requestsPieChart" style="max-width: 100%; height: 220px;"></canvas>
+                  <canvas id="requestsPieChart" style="width:100%; height:150px;"></canvas>
                 </div>
               </div>
             </div>
-            <div class="col-md-auto" style="max-width: 400px; margin: 0 200px 20px 0;">
-              <div class="card shadow-lg h-100 dashboard-card" style="max-width: 350px; margin: 0 10px;">
+            
+            <!-- Line Chart -->
+            <div class="col-12 col-lg-4 mb-4">
+              <div class="card shadow-lg h-100 dashboard-card">
                 <div class="card-body">
-                  <canvas id="requestsOverTimeChart" style="max-width: 100%; height: 220px;"></canvas>
+                  <canvas id="requestsOverTimeChart" style="width:100%; height:220px;"></canvas>
                 </div>
               </div>
             </div>
           </div>
-          <div class="d-flex justify-content-between align-items-start" style="align-items: flex-start !important; margin-top: -20px;">
-            <div class="graphs-container" style="flex: 1; max-width: 60%; margin-right: 20px; margin-left: 200px;">
-<div class="card shadow-lg h-100 dashboard-card recent-requests-container" style="max-width: 1000px; margin: 0 auto; min-height: 450px;">
-                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="font-size: 1rem; font-weight: 600; color: #555; height: 350px;">
-                  <h4 class="mb-3" style="font-weight: 700; color: #333;">Recent Requests</h4>
-                  <table class="table table-striped table-hover table-bordered mb-0 recent-requests-table" style="width: auto;">
+          <div class="row" style="align-items: flex-start;">
+          <!-- Recent Requests -->
+          <div class="col-12 col-lg-8 mb-4">
+            <div class="card shadow-lg h-100 dashboard-card recent-requests-container">
+              <div class="card-body">
+                <h4 class="mb-3" style="font-weight: 700; color: #333;">Recent Requests</h4>
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover table-bordered recent-requests-table">
                     <thead class="thead-dark">
                       <tr>
                         <th>Name</th>
@@ -328,16 +334,15 @@ try {
                         <th>Date Requested</th>
                       </tr>
                     </thead>
-                  <tbody>
+                    <tbody>
                       <?php
-                        // Use actual recent requests data from database
                         if (is_array($recent_requests) && !empty($recent_requests)) {
                           foreach ($recent_requests as $req) {
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($req['first_name']) . "</td>";
                             echo "<td>" . htmlspecialchars($req['type']) . "</td>";
-                      $date = new DateTime($req['date_requested']);
-                      echo "<td>" . htmlspecialchars($date->format('F j, Y, g:i a')) . "</td>";
+                            $date = new DateTime($req['date_requested']);
+                            echo "<td>" . htmlspecialchars($date->format('F j, Y, g:i a')) . "</td>";
                             echo "</tr>";
                           }
                         } else {
@@ -349,40 +354,78 @@ try {
                 </div>
               </div>
             </div>
-            <div class="blocks-container d-flex flex-column justify-content-start" style="max-width: 35%; gap: 10px; align-self: flex-start; margin-top: 0; padding-top: 0; margin-top: -350px;">
-              <div class="card shadow-lg text-white bg-primary h-100 dashboard-card mb-2" style="font-size: 0.85rem;">
+          </div>
+          
+          <div class="col-12 col-lg-4 mb-4">
+            <div class="blocks-container" style="display: grid; max-width: 500px; gap: 15px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); padding-top: 0; margin-left: 0px;">
+              <div class="card shadow-lg text-white bg-primary dashboard-card" style="font-size: 0.85rem; height: 150px;">
                 <div class="card-body d-flex flex-column justify-content-center align-items-center" style="padding: 10px;">
-                  <i class="fas fa-id-card fa-2x mb-2"></i>
-                  <h5 class="card-title" style="font-size: 1rem;">Barangay ID Requests</h5>
-                  <p class="card-text display-5" style="font-size: 1.5rem;"><?php echo count($requests); ?></p>
+                  <i class="fas fa-id-card fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">Barangay ID Requests</h5>
+                  <p class="card-text display-5" style="font-size: 1.50rem;"><?php echo count($requests); ?></p>
                 </div>
               </div>
-              <div class="card shadow-lg text-white bg-success h-100 dashboard-card mb-2" style="font-size: 0.85rem;">
+              <div class="card shadow-lg text-white bg-success dashboard-card" style="font-size: 0.85rem; height: 150px;">
                 <div class="card-body d-flex flex-column justify-content-center align-items-center" style="padding: 10px;">
-                  <i class="fas fa-file-alt fa-2x mb-2"></i>
-                  <h5 class="card-title" style="font-size: 1rem;">Barangay Clearance Requests</h5>
-                  <p class="card-text display-5" style="font-size: 1.5rem;"><?php echo count($clearance_requests); ?></p>
+                  <i class="fas fa-file-alt fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">Barangay Clearance Requests</h5>
+                  <p class="card-text display-5" style="font-size: 1.50rem;"><?php echo count($clearance_requests); ?></p>
                 </div>
               </div>
-              <div class="card shadow-lg text-white bg-warning h-100 dashboard-card mb-2" style="font-size: 0.85rem;">
-                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="padding: 10px;">
-                  <i class="fas fa-certificate fa-2x mb-2"></i>
-                  <h5 class="card-title" style="font-size: 1rem;">Certificate of Indigency Requests</h5>
-                  <p class="card-text display-5" style="font-size: 1.5rem;"><?php echo count($indigency_requests); ?></p>
+              <div class="card shadow-lg text-white bg-warning dashboard-card" style="font-size: 0.85rem; height: 150px;">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center text-center" style="padding: 10px;">
+                  <i class="fas fa-certificate fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">Certificate of Indigency Requests</h5>
+                  <p class="card-text display-5" style="font-size: 1.50rem;"><?php echo count($indigency_requests); ?></p>
                 </div>
               </div>
-              <div class="card shadow-lg text-white bg-info h-100 dashboard-card mb-2" style="font-size: 0.85rem;">
-                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="padding: 10px;">
-                  <i class="fas fa-home fa-2x mb-2"></i>
-                  <h5 class="card-title" style="font-size: 1rem;">Certificate of Residency Requests</h5>
-                  <p class="card-text display-5" style="font-size: 1.5rem;"><?php echo count($residency_requests); ?></p>
+              <div class="card shadow-lg text-white bg-info dashboard-card" style="font-size: 0.85rem; height: 150px;">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center text-center" style="padding: 10px;">
+                  <i class="fas fa-home fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">Certificate of Residency Requests</h5>
+                  <p class="card-text display-5" style="font-size: 1.50rem;"><?php echo count($residency_requests); ?></p>
                 </div>
               </div>
-              <div class="card shadow-lg text-white bg-secondary h-100 dashboard-card mb-2" style="font-size: 0.85rem;">
+              <div class="card shadow-lg text-white bg-secondary dashboard-card" style="font-size: 0.85rem; height: 150px;">
                 <div class="card-body d-flex flex-column justify-content-center align-items-center" style="padding: 10px;">
-                  <i class="fas fa-users fa-2x mb-2"></i>
-                  <h5 class="card-title" style="font-size: 1rem;">Users</h5>
-                  <p class="card-text display-5" style="font-size: 1.5rem;"><?php echo count($users); ?></p>
+                  <i class="fas fa-users fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">Users</h5>
+                  <p class="card-text display-5" style="font-size: 1.50rem;"><?php echo count($users); ?></p>
+                </div>
+              </div>
+              <div class="card shadow-lg text-white bg-info dashboard-card" style="font-size: 0.85rem; height: 150px;">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="padding: 10px;">
+                  <i class="fas fa-envelope fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">Contact Inquiries</h5>
+                  <p class="card-text display-5" style="font-size: 1.50rem;"><?php echo count($contact_inquiries); ?></p>
+                </div>
+              </div>
+              <div class="card shadow-lg text-white bg-dark dashboard-card" style="font-size: 0.85rem; height: 150px;">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="padding: 10px;">
+                  <i class="fas fa-comments fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">First Time Jobseeker</h5>
+                  <p class="card-text display-5" style="font-size: 1.50rem;">0</p>
+                </div>
+              </div>
+              <div class="card shadow-lg text-white bg-secondary dashboard-card" style="font-size: 0.85rem; height: 150px;">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center text-center" style="padding: 10px;">
+                  <i class="fas fa-chart-line fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">Women And Children Assistance</h5>
+                  <p class="card-text display-5" style="font-size: 1.50rem;">0</p>
+                </div>
+              </div>
+              <div class="card shadow-lg text-white bg-primary dashboard-card" style="font-size: 0.85rem; height: 150px;">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="padding: 10px;">
+                  <i class="fas fa-users-cog fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">Placeholder 3</h5>
+                  <p class="card-text display-5" style="font-size: 1.75rem;">0</p>
+                </div>
+              </div>
+              <div class="card shadow-lg text-white bg-success dashboard-card" style="font-size: 0.85rem; height: 150px;">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="padding: 10px;">
+                  <i class="fas fa-bell fa-3x mb-3"></i>
+                  <h5 class="card-title" style="font-size: 1.0rem;">Placeholder 4</h5>
+                  <p class="card-text display-5" style="font-size: 1.50rem;">0</p>
                 </div>
               </div>
             </div>
@@ -721,16 +764,26 @@ try {
 
     $(document).ready(function() {
       function showSection(target) {
+        console.log('showSection called with target:', target);
         $('.content-section').hide();
         $('#' + target).show();
         $('.nav-link').removeClass('active');
         $('.nav-link[data-target="' + target + '"]').addClass('active');
+
+        // If charts exist, trigger resize to fix display issues on tab switch
+        if (typeof requestsPieChart !== 'undefined' && typeof requestsPieChart.resize === 'function') {
+          requestsPieChart.resize();
+        }
+        if (typeof requestsOverTimeChart !== 'undefined' && typeof requestsOverTimeChart.resize === 'function') {
+          requestsOverTimeChart.resize();
+        }
       }
 
       // Handle sidebar navigation clicks
       $('.nav-link').click(function(e) {
         e.preventDefault();
         var target = $(this).data('target');
+        console.log('nav-link clicked, target:', target);
         showSection(target);
         // Update dropdown selection if on dashboard page
         if (target === 'dashboard') {
@@ -763,20 +816,28 @@ try {
         $('#dashboardDropdown').val('');
       }
 
+      // Sidebar toggle functions
+      function openSidebar() {
+        $('body').removeClass('sidebar-collapsed');
+        $('#sidebarBackdrop').show();
+      }
+      function closeSidebar() {
+        $('body').addClass('sidebar-collapsed');
+        $('#sidebarBackdrop').hide();
+      }
+
       // Toggle sidebar on burger menu click
       $('#burgerMenuBtnMain, #burgerMenuBtnSidebar').click(function() {
-        $('body').toggleClass('sidebar-collapsed');
         if ($('body').hasClass('sidebar-collapsed')) {
-          $('#sidebarBackdrop').hide();
+          openSidebar();
         } else {
-          $('#sidebarBackdrop').show();
+          closeSidebar();
         }
       });
 
       // Close sidebar when clicking outside of it
       $('#sidebarBackdrop').click(function() {
-        $('body').addClass('sidebar-collapsed');
-        $('#sidebarBackdrop').hide();
+        closeSidebar();
       });
     });
   </script>
@@ -801,9 +862,10 @@ if (isset($_GET['view']) && isset($_GET['id'])) {
         $record = $stmt->fetch();
 
         if ($record) {
-            echo "<div style='padding: 30px; background: #fff; border-radius: 10px; margin: 20px auto; max-width: 700px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-family: Georgia, serif;'>";
-            echo "<h2 style='text-align: center; margin-bottom: 30px; font-weight: 700; font-size: 2rem; color: #2c3e50;'>View Details - " . htmlspecialchars($entity) . "</h2>";
-            echo "<div style='display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; background-color: #fafafa; padding: 20px; border-radius: 8px; border: 1px solid #ccc;'>";
+            echo "<div class='container mt-4'>";
+            echo "<div class='card shadow-lg p-4' style='max-width: 800px; margin: 0 auto;'>";
+            echo "<h2 class='mb-4 text-center'>View Details - " . htmlspecialchars($entity) . "</h2>";
+            echo "<div class='row'>";
             foreach ($record as $key => $value) {
                 $label = htmlspecialchars(ucwords(str_replace('_', ' ', $key)));
                 $val = nl2br(htmlspecialchars($value));
@@ -818,21 +880,22 @@ if (isset($_GET['view']) && isset($_GET['id'])) {
                         break;
                     }
                 }
-                echo "<div style='flex: 1 1 45%; min-width: 300px;'>";
-                echo "<label style='display: block; font-weight: 700; font-size: 1.1rem; color: #34495e; margin-bottom: 6px;'>" . $label . "</label>";
+                echo "<div class='col-md-6 mb-3'>";
+                echo "<label class='font-weight-bold d-block mb-1'>" . $label . "</label>";
                 if ($isImage) {
                     // Display image with max width and height
                     $imgSrc = htmlspecialchars($value);
-                    echo "<img src='$imgSrc' alt='$label' style='max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid #ddd; object-fit: contain;'>";
+                    echo "<img src='$imgSrc' alt='$label' class='img-fluid rounded border' style='max-height: 200px; object-fit: contain;'>";
                 } else {
-                    echo "<div style='padding: 10px 15px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; color: #555; min-height: 30px;'>" . $val . "</div>";
+                    echo "<div class='p-2 border rounded bg-light text-dark' style='min-height: 30px;'>" . $val . "</div>";
                 }
                 echo "</div>";
             }
             echo "</div>";
-            echo "<div style='text-align: center; margin-top: 30px;'>";
-            echo "<a href='admin_page.php?tab=$entity' class='btn btn-secondary mr-3' style='padding: 10px 20px; font-size: 1rem;'>Back</a>";
-            echo "<a href='edit.php?entity=$entity&id=$id' class='btn btn-primary' style='padding: 10px 20px; font-size: 1rem;'>Edit</a>";
+            echo "<div class='text-center mt-4'>";
+            echo "<a href='admin_page.php?tab=$entity' class='btn btn-secondary mr-3'>Back</a>";
+            echo "<a href='edit.php?entity=$entity&id=$id' class='btn btn-primary'>Edit</a>";
+            echo "</div>";
             echo "</div>";
             echo "</div>";
             exit();
