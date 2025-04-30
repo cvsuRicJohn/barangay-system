@@ -24,27 +24,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = trim($_POST['first_name'] ?? '');
     $middle_name = trim($_POST['middle_name'] ?? '');
     $last_name = trim($_POST['last_name'] ?? '');
+    $address = trim($_POST['address'] ?? '');
     $date_of_birth = trim($_POST['date_of_birth'] ?? '');
     $gov_id = trim($_POST['gov_id'] ?? '');
-    $complete_address = trim($_POST['complete_address'] ?? '');
-    $proof_of_residency = trim($_POST['proof_of_residency'] ?? '');
-    $purpose = trim($_POST['purpose'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($first_name) || empty($middle_name) || empty($last_name) || empty($date_of_birth) ||
-        empty($gov_id) || empty($complete_address) || empty($proof_of_residency) || empty($purpose) ||
-        empty($email) || empty($shipping_method)
+        empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
+        empty($date_of_birth) || empty($gov_id) || empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO certificate_of_residency_requests 
-                (first_name, middle_name, last_name, date_of_birth, gov_id, complete_address, proof_of_residency, purpose, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
+                (first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $date_of_birth, $gov_id, $complete_address, $proof_of_residency, $purpose, $email, $shipping_method
+                $first_name, $middle_name, $last_name, $address, $date_of_birth, $gov_id, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -56,20 +53,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- Keep existing head content from certificate-of-residency.html -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Barangay Certificate of Residency</title>
+    <title>Out of School Youth Certification Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="image/imus-logo.png">
     <link rel="stylesheet" href="css/contact.css" />
 </head>
-<body>
-    <!-- Keep existing body content from certificate-of-residency.html up to the form -->
 
+<body>
+
+    <!-- Header and Navigation -->
     <div style="background-color: #0056b3; color: white; display: flex; justify-content: space-between; align-items: center; padding: 5px 20px; font-family: Arial, sans-serif; font-size: 14px;">
         <div>
             <strong>GOVPH</strong> | The Official Website of Barangay Bucandala 1, Imus Cavite
@@ -160,12 +158,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <a href="faq.php">FAQs</a>
 </nav>
 
+    <!-- Cover Photo -->
     <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
         <img src="image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 
+    <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center mb-4">Barangay Certificate of Residency Form</h2>
+        <h2 class="text-center mb-4">Out of School Youth Certification Form</h2>
 
         <?php if ($success_message): ?>
             <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
@@ -174,60 +174,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
 
-        <form method="POST" action="certificate-of-residency.php" id="myForm">
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label>First Name *</label>
-                    <input type="text" name="first_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['first_name'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Middle Name *</label>
-                    <input type="text" name="middle_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['middle_name'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Last Name *</label>
-                    <input type="text" name="last_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['last_name'] ?? ''); ?>">
-                </div>
+        
 
-                <div class="form-group col-md-6">
-                    <label>Date of Birth *</label>
-                    <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Government-issued ID *</label>
-                    <input type="text" name="gov_id" class="form-control" required value="<?php echo htmlspecialchars($_POST['gov_id'] ?? ''); ?>">
-                </div>
+        <form method="POST" action="out-of-school-youth.php" id="outOfSchoolYouthForm">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Full Name *</label>
+            <input type="text" name="full_name" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Address *</label>
+            <input type="text" name="address" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Citizenship *</label>
+            <input type="text" name="citizenship" class="form-control" value="Filipino" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Purpose of Certification *</label>
+            <input type="text" name="purpose" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Email *</label>
+            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Shipping Method *</label>
+            <select name="shipping_method" class="form-control" required>
+                <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am–5pm)</option>
+            </select>
+        </div>
+    </div>
 
-                <div class="form-group col-md-12">
-                    <label>Complete Address *</label>
-                    <input type="text" name="complete_address" class="form-control" required value="<?php echo htmlspecialchars($_POST['complete_address'] ?? ''); ?>">
-                </div>
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary px-5">Submit</button>
+    </div>
+</form>
 
-                <div class="form-group col-md-6">
-                    <label>Proof of Residency *</label>
-                    <input type="text" name="proof_of_residency" class="form-control" required value="<?php echo htmlspecialchars($_POST['proof_of_residency'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Purpose of Certificate *</label>
-                    <input type="text" name="purpose" class="form-control" required value="<?php echo htmlspecialchars($_POST['purpose'] ?? ''); ?>">
-                </div>
 
-                <div class="form-group col-md-6">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Shipping Method *</label>
-                    <select name="shipping_method" class="form-control" required>
-                        <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
-                    </select>
-                </div>
+        <!-- Success Modal -->
+        <div id="successModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h3>Form successfully submitted!</h3>
             </div>
-
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary px-5">Submit</button>
-            </div>
-        </form>
+        </div>
     </div>
 
     <!-- Footer Section -->
@@ -235,18 +226,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="footer-content">
             <img src="image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
             <div class="footer-text">
-                <p>&copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
+                <p>Copyright &copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
                 <p>Bucandala 1 Barangay Hall, Imus, Cavite, Philippines 4103.</p>
                 <p>Call Us Today: +46 40 256 14</p>
             </div>
         </div>
     </div>
 
-    <!-- Chatbot Widget -->
-    <iframe src="chatbot.php"
-        style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
-    </iframe>
-
+    <!-- Chatbot -->
+    <iframe src="chatbot.php" style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;"></iframe>
     <script src="js/services.js"></script>
+
 </body>
+
 </html>
