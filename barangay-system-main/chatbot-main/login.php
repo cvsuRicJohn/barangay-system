@@ -36,13 +36,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         $login_error = "Username and password are required.";
     } else {
         // Check user credentials
-        $stmt = $pdo->prepare("SELECT id, password FROM users WHERE username = ?");
+        $stmt = $pdo->prepare("SELECT id, password, is_admin FROM users WHERE username = ?");
         $stmt->execute([$username]);
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $username;
+
+            if (!empty($user['is_admin']) && $user['is_admin'] == 1) {
+                // Set admin session id
+                $_SESSION['admin_id'] = $user['id'];
+                // Redirect admin users to admin page
+                header("Location: ../admin_page.php");
+                exit();
+            }
 
             // Redirect regular users to homepage or user dashboard
             header("Location: index.php");
@@ -223,9 +231,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 
         <div class="switch-btn">
             <button class="btn btn-link" id="switchToRegister">Don't have an account? Create one</button>
-        </div>
-        <div class="switch-btn admin-login-btn-container" style="margin-top: 10px;">
-            <a href="../admin_login.php" class="btn btn-link">Admin Login</a>
         </div>
     </div>
 

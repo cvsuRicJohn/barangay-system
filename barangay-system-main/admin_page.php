@@ -3,15 +3,30 @@ session_start();
 
 // Check if admin is logged in
 if (!isset($_SESSION['admin_id'])) {
-    header("Location: admin_login.php");
+    header("Location: chatbot-main/login.php");
     exit();
 }
 
 // Handle logout
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_destroy();
-    header("Location: admin_login.php");
+    header("Location: chatbot-main/login.php");
     exit();
+}
+
+$servername = "localhost";
+$username_db = "root"; // Adjust if needed
+$password_db = "";     // Adjust if needed
+$dbname = "barangay_db";
+
+try {
+    $dsn = "mysql:host=$servername;dbname=$dbname;charset=utf8mb4";
+    $pdo = new PDO($dsn, $username_db, $password_db, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
 
 // Handle delete action
@@ -24,14 +39,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
         die("Invalid ID for deletion.");
     }
 
-    // Map entity to table name
-    $valid_entities = [
-        'barangay_id_requests' => 'barangay_id_requests',
-        'barangay_clearance' => 'barangay_clearance',
-        'certificate_of_indigency_requests' => 'certificate_of_indigency_requests',
-        'certificate_of_residency_requests' => 'certificate_of_residency_requests',
-        'users' => 'users'
-    ];
+// Map entity to table name
+$valid_entities = [
+    'barangay_id_requests' => 'barangay_id_requests',
+    'barangay_clearance' => 'barangay_clearance',
+    'certificate_of_indigency_requests' => 'certificate_of_indigency_requests',
+    'certificate_of_residency_requests' => 'certificate_of_residency_requests',
+    'users' => 'users',
+    'contact_inquiries' => 'contact_inquiries'
+];
 
     if (!array_key_exists($entity, $valid_entities)) {
         die("Invalid entity for deletion.");
@@ -51,21 +67,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
     }
 }
 
-// Database connection parameters
-$servername = "localhost";
-$username_db = "root"; // Adjust if needed
-$password_db = "";     // Adjust if needed
-$dbname = "barangay_db";
-
-try {
-    $dsn = "mysql:host=$servername;dbname=$dbname;charset=utf8mb4";
-    $pdo = new PDO($dsn, $username_db, $password_db, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ]);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+/* Prepare data for dashboard charts */
 
 // Fetch all Barangay ID requests
 try {
@@ -83,6 +85,8 @@ try {
     die("Error fetching barangay clearance requests: " . $e->getMessage());
 }
 
+/* Prepare data for dashboard charts */
+
 // Fetch all Certificate of Indigency requests
 try {
     $stmt = $pdo->query("SELECT * FROM certificate_of_indigency_requests ORDER BY id DESC");
@@ -99,12 +103,89 @@ try {
     die("Error fetching certificate of residency requests: " . $e->getMessage());
 }
 
+/* Prepare data for dashboard charts */
+
 // Fetch all users for user management
 try {
     $stmt = $pdo->query("SELECT * FROM users ORDER BY id DESC");
     $users = $stmt->fetchAll();
 } catch (PDOException $e) {
     die("Error fetching users: " . $e->getMessage());
+}
+
+// Fetch all contact inquiries
+try {
+    $stmt = $pdo->query("SELECT * FROM contact_inquiries ORDER BY id DESC");
+    $contact_inquiries = $stmt->fetchAll();
+} catch (PDOException $e) {
+    die("Error fetching contact inquiries: " . $e->getMessage());
+}
+
+// Prepare data for pie chart: counts of each request type
+try {
+    $stmt = $pdo->query("SELECT 
+        (SELECT COUNT(*) FROM barangay_id_requests) AS barangay_id_count,
+        (SELECT COUNT(*) FROM barangay_clearance) AS clearance_count,
+        (SELECT COUNT(*) FROM certificate_of_indigency_requests) AS indigency_count,
+        (SELECT COUNT(*) FROM certificate_of_residency_requests) AS residency_count
+    ");
+    $counts = $stmt->fetch();
+} catch (PDOException $e) {
+    die("Error fetching counts for pie chart: " . $e->getMessage());
+}
+
+// Prepare data for requests over time chart (last 6 months)
+try {
+    $months = [];
+    $barangay_id_data = [];
+    $clearance_data = [];
+    $indigency_data = [];
+    $residency_data = [];
+
+    for ($i = 5; $i >= 0; $i--) {
+        $month = date('Y-m', strtotime("-$i months"));
+        $months[] = date('M Y', strtotime($month));
+
+        // Barangay ID requests count for month
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM barangay_id_requests WHERE DATE_FORMAT(created_at, '%Y-%m') = ?");
+        $stmt->execute([$month]);
+        $barangay_id_data[] = (int)$stmt->fetchColumn();
+
+        // Clearance requests count for month
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM barangay_clearance WHERE DATE_FORMAT(created_at, '%Y-%m') = ?");
+        $stmt->execute([$month]);
+        $clearance_data[] = (int)$stmt->fetchColumn();
+
+        // Indigency requests count for month
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM certificate_of_indigency_requests WHERE DATE_FORMAT(created_at, '%Y-%m') = ?");
+        $stmt->execute([$month]);
+        $indigency_data[] = (int)$stmt->fetchColumn();
+
+        // Residency requests count for month
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM certificate_of_residency_requests WHERE DATE_FORMAT(created_at, '%Y-%m') = ?");
+        $stmt->execute([$month]);
+        $residency_data[] = (int)$stmt->fetchColumn();
+    }
+} catch (PDOException $e) {
+    die("Error fetching data for requests over time chart: " . $e->getMessage());
+}
+
+// Prepare recent requests for dashboard (latest 7 requests from all request tables)
+try {
+    $stmt = $pdo->query("
+        SELECT first_name, 'Barangay ID' AS type, created_at AS date_requested FROM barangay_id_requests
+        UNION ALL
+        SELECT first_name, 'Barangay Clearance' AS type, created_at AS date_requested FROM barangay_clearance
+        UNION ALL
+        SELECT first_name, 'Certificate of Indigency' AS type, created_at AS date_requested FROM certificate_of_indigency_requests
+        UNION ALL
+        SELECT first_name, 'Certificate of Residency' AS type, created_at AS date_requested FROM certificate_of_residency_requests
+        ORDER BY date_requested DESC
+        LIMIT 7
+    ");
+    $recent_requests = $stmt->fetchAll();
+} catch (PDOException $e) {
+    die("Error fetching recent requests: " . $e->getMessage());
 }
 ?>
 
@@ -123,6 +204,27 @@ try {
         window.location.href = 'admin_page.php?action=delete&entity=' + entity + '&id=' + id;
       }
     }
+
+    // Pass PHP data to JS for charts
+    const pieChartData = <?php echo json_encode([
+        'labels' => ['Barangay ID', 'Barangay Clearance', 'Certificate of Indigency', 'Certificate of Residency'],
+        'data' => [
+            (int)$counts['barangay_id_count'],
+            (int)$counts['clearance_count'],
+            (int)$counts['indigency_count'],
+            (int)$counts['residency_count']
+        ]
+    ]); ?>;
+
+    const requestsOverTimeData = <?php echo json_encode([
+        'labels' => $months,
+        'barangay_id' => $barangay_id_data,
+        'clearance' => $clearance_data,
+        'indigency' => $indigency_data,
+        'residency' => $residency_data
+    ]); ?>;
+
+    const recentRequests = <?php echo json_encode($recent_requests ?? []); ?>;
   </script>
 </head>
 <body class="sidebar-collapsed">
@@ -176,12 +278,17 @@ try {
                 Certificate of Residency Requests <span class="badge badge-info"><?php echo count($residency_requests); ?></span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-target="users">
-                Users <span class="badge badge-secondary"><?php echo count($users); ?></span>
-              </a>
-            </li>
-          </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-target="users">
+              Users <span class="badge badge-secondary"><?php echo count($users); ?></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-target="contact_inquiries">
+              Contact Inquiries <span class="badge badge-info"><?php echo count($contact_inquiries); ?></span>
+            </a>
+          </li>
+        </ul>
         </div>
         <div class="logout-link px-3 py-3 border-top">
           <a href="admin_page.php?action=logout" onclick="return confirm('Are you sure you want to log out?');" class="text-danger font-weight-bold">Logout</a>
@@ -221,28 +328,20 @@ try {
                         <th>Date Requested</th>
                       </tr>
                     </thead>
-                    <tbody>
+                  <tbody>
                       <?php
-                        // Placeholder random data for recent requests
-                        $names = ['Juan Dela Cruz', 'Maria Santos', 'Pedro Reyes', 'Anna Lopez', 'Carlos Garcia', 'Liza Fernandez', 'Mark Tan', 'Sophia Lim'];
-                        $types = ['Barangay ID', 'Barangay Clearance', 'Certificate of Indigency', 'Certificate of Residency'];
-                        $dates = [];
-
-                        // Generate last 30 days dates
-                        for ($i = 0; $i < 30; $i++) {
-                          $dates[] = date('Y-m-d', strtotime("-$i days"));
-                        }
-                        // Aicer Random Generator to di to actual na code ng db
-                        // Generate up to 7 random entries
-                        for ($i = 0; $i < 7; $i++) {
-                          $name = $names[array_rand($names)];
-                          $type = $types[array_rand($types)];
-                          $date = $dates[array_rand($dates)];
-                          echo "<tr>";
-                          echo "<td>" . htmlspecialchars($name) . "</td>";
-                          echo "<td>" . htmlspecialchars($type) . "</td>";
-                          echo "<td>" . htmlspecialchars($date) . "</td>";
-                          echo "</tr>";
+                        // Use actual recent requests data from database
+                        if (is_array($recent_requests) && !empty($recent_requests)) {
+                          foreach ($recent_requests as $req) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($req['first_name']) . "</td>";
+                            echo "<td>" . htmlspecialchars($req['type']) . "</td>";
+                      $date = new DateTime($req['date_requested']);
+                      echo "<td>" . htmlspecialchars($date->format('F j, Y, g:i a')) . "</td>";
+                            echo "</tr>";
+                          }
+                        } else {
+                          echo "<tr><td colspan='3'>No recent requests found.</td></tr>";
                         }
                       ?>
                     </tbody>
@@ -289,6 +388,7 @@ try {
             </div>
           </div>
         </div>
+        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
         
 
@@ -323,7 +423,7 @@ try {
                       <td><?php echo htmlspecialchars($req['middle_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['last_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['address']); ?></td>
-                      <td><?php echo htmlspecialchars($req['date_of_birth']); ?></td>
+                      <td><?php $date = new DateTime($req['date_of_birth']); echo htmlspecialchars($date->format('F j, Y')); ?></td>
                       <td><?php echo htmlspecialchars($req['gov_id']); ?></td>
                       <td><?php echo htmlspecialchars($req['email']); ?></td>
                       <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
@@ -377,7 +477,7 @@ try {
                       <td><?php echo htmlspecialchars($req['middle_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['last_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['complete_address']); ?></td>
-                      <td><?php echo htmlspecialchars($req['birth_date']); ?></td>
+                      <td><?php $date = new DateTime($req['birth_date']); echo htmlspecialchars($date->format('F j, Y')); ?></td>
                       <td><?php echo htmlspecialchars($req['age']); ?></td>
                       <td><?php echo htmlspecialchars($req['status']); ?></td>
                       <td><?php echo htmlspecialchars($req['mobile_number']); ?></td>
@@ -435,7 +535,7 @@ try {
                       <td><?php echo htmlspecialchars($req['first_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['middle_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['last_name']); ?></td>
-                      <td><?php echo htmlspecialchars($req['date_of_birth']); ?></td>
+                      <td><?php $date = new DateTime($req['date_of_birth']); echo htmlspecialchars($date->format('F j, Y')); ?></td>
                       <td><?php echo htmlspecialchars($req['civil_status']); ?></td>
                       <td><?php echo htmlspecialchars($req['occupation']); ?></td>
                       <td><?php echo htmlspecialchars($req['monthly_income']); ?></td>
@@ -489,7 +589,7 @@ try {
                       <td><?php echo htmlspecialchars($req['first_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['middle_name']); ?></td>
                       <td><?php echo htmlspecialchars($req['last_name']); ?></td>
-                      <td><?php echo htmlspecialchars($req['date_of_birth']); ?></td>
+                      <td><?php $date = new DateTime($req['date_of_birth']); echo htmlspecialchars($date->format('F j, Y')); ?></td>
                       <td><?php echo htmlspecialchars($req['gov_id']); ?></td>
                       <td><?php echo htmlspecialchars($req['complete_address']); ?></td>
                       <td><?php echo htmlspecialchars($req['proof_of_residency']); ?></td>
@@ -538,11 +638,52 @@ try {
                       <td><?php echo htmlspecialchars($user['address']); ?></td>
                       <td><?php echo htmlspecialchars($user['email']); ?></td>
                       <td><?php echo htmlspecialchars($user['username']); ?></td>
-                      <td><?php echo htmlspecialchars($user['created_at']); ?></td>
+                      <td><?php $date = new DateTime($user['created_at']); echo htmlspecialchars($date->format('F j, Y, g:i a')); ?></td>
                       <td>
                         <a href="edit.php?entity=users&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
                         <a href="admin_page.php?view=users&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
                         <button onclick="confirmDelete('users', <?php echo $user['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+          <?php endif; ?>
+        </div>
+
+        <div id="contact_inquiries" class="content-section" style="display:none;">
+          <h2>Contact Inquiries</h2>
+          <a href="create.php?entity=contact_inquiries" class="btn btn-primary mb-3">Add New Contact Inquiry</a>
+          <?php if (count($contact_inquiries) === 0): ?>
+            <p>No contact inquiries found.</p>
+          <?php else: ?>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Date Submitted</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($contact_inquiries as $inquiry): ?>
+                    <tr>
+                      <td><?php echo htmlspecialchars($inquiry['id']); ?></td>
+                      <td><?php echo htmlspecialchars($inquiry['name']); ?></td>
+                      <td><?php echo htmlspecialchars($inquiry['email']); ?></td>
+                      <td><?php echo htmlspecialchars($inquiry['subject']); ?></td>
+                      <td><?php echo nl2br(htmlspecialchars($inquiry['message'])); ?></td>
+                      <td><?php echo htmlspecialchars($inquiry['created_at']); ?></td>
+                      <td>
+                        <a href="edit.php?entity=contact_inquiries&id=<?php echo $inquiry['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                        <a href="admin_page.php?view=contact_inquiries&id=<?php echo $inquiry['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                        <button onclick="confirmDelete('contact_inquiries', <?php echo $inquiry['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -645,15 +786,17 @@ if (isset($_GET['view']) && isset($_GET['id'])) {
     $id = $_GET['id'];
 
     $valid_entities = [
-        'barangay_id_requests',
-        'barangay_clearance',
-        'certificate_of_indigency_requests',
-        'certificate_of_residency_requests',
-        'users'
+        'barangay_id_requests' => 'barangay_id_requests',
+        'barangay_clearance' => 'barangay_clearance',
+        'certificate_of_indigency_requests' => 'certificate_of_indigency_requests',
+        'certificate_of_residency_requests' => 'certificate_of_residency_requests',
+        'users' => 'users',
+        'contact_inquiries' => 'contact_inquiries'
     ];
 
-    if (in_array($entity, $valid_entities) && is_numeric($id)) {
-        $stmt = $pdo->prepare("SELECT * FROM $entity WHERE id = ?");
+    if (array_key_exists($entity, $valid_entities) && is_numeric($id)) {
+        $table = $valid_entities[$entity];
+        $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
         $stmt->execute([$id]);
         $record = $stmt->fetch();
 

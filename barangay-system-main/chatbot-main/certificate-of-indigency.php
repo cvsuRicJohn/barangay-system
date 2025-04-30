@@ -24,24 +24,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = trim($_POST['first_name'] ?? '');
     $middle_name = trim($_POST['middle_name'] ?? '');
     $last_name = trim($_POST['last_name'] ?? '');
-    $address = trim($_POST['address'] ?? '');
     $date_of_birth = trim($_POST['date_of_birth'] ?? '');
+    $civil_status = trim($_POST['civil_status'] ?? '');
+    $occupation = trim($_POST['occupation'] ?? '');
+    $monthly_income = trim($_POST['monthly_income'] ?? '');
+    $proof_of_residency = trim($_POST['proof_of_residency'] ?? '');
     $gov_id = trim($_POST['gov_id'] ?? '');
+    $spouse_name = trim($_POST['spouse_name'] ?? '');
+    $number_of_dependents = trim($_POST['number_of_dependents'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
-        empty($date_of_birth) || empty($gov_id) || empty($email) || empty($shipping_method)
+        empty($first_name) || empty($middle_name) || empty($last_name) || empty($date_of_birth) ||
+        empty($civil_status) || empty($occupation) || empty($monthly_income) || empty($proof_of_residency) ||
+        empty($gov_id) || empty($number_of_dependents) || empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
-                (first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO certificate_of_indigency_requests 
+                (first_name, middle_name, last_name, date_of_birth, civil_status, occupation, monthly_income, proof_of_residency, gov_id, spouse_name, number_of_dependents, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $address, $date_of_birth, $gov_id, $email, $shipping_method
+                $first_name, $middle_name, $last_name, $date_of_birth, $civil_status, $occupation, $monthly_income, $proof_of_residency, $gov_id, $spouse_name, $number_of_dependents, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -124,37 +130,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label>First Name *</label>
-                    <input type="text" name="first_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['first_name'] ?? ''); ?>">
+                    <input type="text" name="first_name" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['first_name'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-4">
                     <label>Middle Name *</label>
-                    <input type="text" name="middle_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['middle_name'] ?? ''); ?>">
+                    <input type="text" name="middle_name" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['middle_name'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-4">
                     <label>Last Name *</label>
-                    <input type="text" name="last_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['last_name'] ?? ''); ?>">
+                    <input type="text" name="last_name" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['last_name'] ?? ''); ?>">
                 </div>
 
-                <div class="form-group col-md-12">
-                    <label>Address *</label>
-                    <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($_POST['address'] ?? ''); ?>">
-                </div>
                 <div class="form-group col-md-6">
                     <label>Date of Birth *</label>
-                    <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? ''); ?>">
+                    <input type="date" name="date_of_birth" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['date_of_birth'] ?? ''); ?>">
                 </div>
+
+                <div class="form-group col-md-6">
+                    <label>Civil Status *</label>
+                    <select name="civil_status" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="single" <?php if ((!$success_message && ($_POST['civil_status'] ?? '') === 'single') || $success_message) echo 'selected'; ?>>Single</option>
+                        <option value="married" <?php if ((!$success_message && ($_POST['civil_status'] ?? '') === 'married')) echo 'selected'; ?>>Married</option>
+                        <option value="widowed" <?php if ((!$success_message && ($_POST['civil_status'] ?? '') === 'widowed')) echo 'selected'; ?>>Widowed</option>
+                        <option value="divorced" <?php if ((!$success_message && ($_POST['civil_status'] ?? '') === 'divorced')) echo 'selected'; ?>>Divorced</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Occupation *</label>
+                    <input type="text" name="occupation" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['occupation'] ?? ''); ?>">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Monthly Income *</label>
+                    <input type="number" step="0.01" name="monthly_income" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['monthly_income'] ?? ''); ?>">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Proof of Residency *</label>
+                    <input type="text" name="proof_of_residency" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['proof_of_residency'] ?? ''); ?>">
+                </div>
+
                 <div class="form-group col-md-6">
                     <label>Government-issued ID *</label>
-                    <input type="text" name="gov_id" class="form-control" required value="<?php echo htmlspecialchars($_POST['gov_id'] ?? ''); ?>">
+                    <input type="text" name="gov_id" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['gov_id'] ?? ''); ?>">
                 </div>
+
+                <div class="form-group col-md-6">
+                    <label>Spouse Name</label>
+                    <input type="text" name="spouse_name" class="form-control" value="<?php echo $success_message ? '' : htmlspecialchars($_POST['spouse_name'] ?? ''); ?>">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Number of Dependents *</label>
+                    <input type="number" name="number_of_dependents" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['number_of_dependents'] ?? ''); ?>">
+                </div>
+
                 <div class="form-group col-md-6">
                     <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+                    <input type="email" name="email" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['email'] ?? ''); ?>">
                 </div>
+
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>
                     <select name="shipping_method" class="form-control" required>
-                        <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
+                        <option value="PICK UP" <?php if ($success_message) echo 'selected'; ?>>PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
                 </div>
             </div>
