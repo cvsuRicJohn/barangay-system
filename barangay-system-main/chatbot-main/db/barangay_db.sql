@@ -36,7 +36,7 @@ CREATE TABLE `baptismal_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `baptismal_certification_requests`
@@ -70,7 +70,7 @@ CREATE TABLE `barangay_clearance` (
   `shipping_method` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `barangay_clearance`
@@ -105,7 +105,7 @@ CREATE TABLE `barangay_id_requests` (
   `shipping_method` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `barangay_id_requests`
@@ -130,7 +130,7 @@ CREATE TABLE `certificate_of_good_moral_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `certificate_of_good_moral_requests`
@@ -163,7 +163,7 @@ CREATE TABLE `certificate_of_indigency_requests` (
   `shipping_method` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `certificate_of_indigency_requests`
@@ -192,7 +192,7 @@ CREATE TABLE `certificate_of_residency_requests` (
   `shipping_method` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `certificate_of_residency_requests`
@@ -217,7 +217,7 @@ CREATE TABLE `cohabitation_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `cohabitation_certification_requests`
@@ -241,7 +241,7 @@ CREATE TABLE `construction_clearance_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `construction_clearance_requests`
@@ -263,7 +263,7 @@ CREATE TABLE `contact_inquiries` (
   `subject` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+)
 
 --
 -- Dumping data for table `contact_inquiries`
@@ -297,7 +297,7 @@ CREATE TABLE `first_time_job_seeker_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+)
 
 --
 -- Dumping data for table `first_time_job_seeker_requests`
@@ -328,7 +328,7 @@ CREATE TABLE `late_birth_registration_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `late_birth_registration_requests`
@@ -351,7 +351,7 @@ CREATE TABLE `non_residency_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `non_residency_certification_requests`
@@ -377,7 +377,7 @@ CREATE TABLE `no_income_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `no_income_certification_requests`
@@ -401,7 +401,7 @@ CREATE TABLE `out_of_school_youth_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+)
 
 --
 -- Dumping data for table `out_of_school_youth_requests`
@@ -426,7 +426,7 @@ CREATE TABLE `solo_parent_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `solo_parent_requests`
@@ -452,7 +452,7 @@ CREATE TABLE `unemployment_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `unemployment_certification_requests`
@@ -478,7 +478,7 @@ CREATE TABLE `users` (
   `is_admin` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
 --
 -- Dumping data for table `users`
