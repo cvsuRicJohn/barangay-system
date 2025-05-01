@@ -21,27 +21,26 @@ $success_message = "";
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = trim($_POST['first_name'] ?? '');
-    $middle_name = trim($_POST['middle_name'] ?? '');
-    $last_name = trim($_POST['last_name'] ?? '');
+    $full_name = trim($_POST['full_name'] ?? '');
+    $age = trim($_POST['age'] ?? '');
+    $civil_status = trim($_POST['civil_status'] ?? '');
     $address = trim($_POST['address'] ?? '');
-    $date_of_birth = trim($_POST['date_of_birth'] ?? '');
-    $gov_id = trim($_POST['gov_id'] ?? '');
+    $purpose = trim($_POST['purpose'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
-        empty($date_of_birth) || empty($gov_id) || empty($email) || empty($shipping_method)
+        empty($full_name) || empty($age) || empty($civil_status) || empty($address) ||
+        empty($purpose) || empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
-                (first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO certificate_of_good_moral_requests 
+                (full_name, age, civil_status, address, purpose, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $address, $date_of_birth, $gov_id, $email, $shipping_method
+                $full_name, $age, $civil_status, $address, $purpose, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {

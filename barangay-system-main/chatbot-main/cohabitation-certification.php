@@ -21,27 +21,26 @@ $success_message = "";
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = trim($_POST['first_name'] ?? '');
-    $middle_name = trim($_POST['middle_name'] ?? '');
-    $last_name = trim($_POST['last_name'] ?? '');
-    $address = trim($_POST['address'] ?? '');
-    $date_of_birth = trim($_POST['date_of_birth'] ?? '');
-    $gov_id = trim($_POST['gov_id'] ?? '');
+    $partner1_name = trim($_POST['partner1_name'] ?? '');
+    $partner2_name = trim($_POST['partner2_name'] ?? '');
+    $shared_address = trim($_POST['shared_address'] ?? '');
+    $cohabitation_duration = trim($_POST['cohabitation_duration'] ?? '');
+    $purpose = trim($_POST['purpose'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
-        empty($date_of_birth) || empty($gov_id) || empty($email) || empty($shipping_method)
+        empty($partner1_name) || empty($partner2_name) || empty($shared_address) || empty($cohabitation_duration) ||
+        empty($purpose) || empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
-                (first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO cohabitation_certification_requests 
+                (partner1_name, partner2_name, shared_address, cohabitation_duration, purpose, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $address, $date_of_birth, $gov_id, $email, $shipping_method
+                $partner1_name, $partner2_name, $shared_address, $cohabitation_duration, $purpose, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {

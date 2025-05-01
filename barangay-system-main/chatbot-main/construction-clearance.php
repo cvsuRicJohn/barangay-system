@@ -21,27 +21,25 @@ $success_message = "";
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = trim($_POST['first_name'] ?? '');
-    $middle_name = trim($_POST['middle_name'] ?? '');
-    $last_name = trim($_POST['last_name'] ?? '');
-    $address = trim($_POST['address'] ?? '');
-    $date_of_birth = trim($_POST['date_of_birth'] ?? '');
-    $gov_id = trim($_POST['gov_id'] ?? '');
+    $business_name = trim($_POST['business_name'] ?? '');
+    $business_location = trim($_POST['business_location'] ?? '');
+    $owner_name = trim($_POST['owner_name'] ?? '');
+    $owner_address = trim($_POST['owner_address'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
-        empty($date_of_birth) || empty($gov_id) || empty($email) || empty($shipping_method)
+        empty($business_name) || empty($business_location) || empty($owner_name) || empty($owner_address) ||
+        empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
-                (first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO construction_clearance_requests 
+                (business_name, business_location, owner_name, owner_address, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $address, $date_of_birth, $gov_id, $email, $shipping_method
+                $business_name, $business_location, $owner_name, $owner_address, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {

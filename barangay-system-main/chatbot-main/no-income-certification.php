@@ -21,27 +21,27 @@ $success_message = "";
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = trim($_POST['first_name'] ?? '');
-    $middle_name = trim($_POST['middle_name'] ?? '');
-    $last_name = trim($_POST['last_name'] ?? '');
-    $address = trim($_POST['address'] ?? '');
+    $full_name = trim($_POST['full_name'] ?? '');
     $date_of_birth = trim($_POST['date_of_birth'] ?? '');
-    $gov_id = trim($_POST['gov_id'] ?? '');
+    $civil_status = trim($_POST['civil_status'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    $no_income_statement = trim($_POST['no_income_statement'] ?? '');
+    $purpose = trim($_POST['purpose'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
-        empty($date_of_birth) || empty($gov_id) || empty($email) || empty($shipping_method)
+        empty($full_name) || empty($date_of_birth) || empty($civil_status) || empty($address) ||
+        empty($no_income_statement) || empty($purpose) || empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
-                (first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method)
+            $stmt = $pdo->prepare("INSERT INTO no_income_certification_requests 
+                (full_name, date_of_birth, civil_status, address, no_income_statement, purpose, email, shipping_method)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $address, $date_of_birth, $gov_id, $email, $shipping_method
+                $full_name, $date_of_birth, $civil_status, $address, $no_income_statement, $purpose, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -176,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         
 <!-- 12. No Income Certificate -->
-<form method="POST" action="no-income-certificate.php" id="noIncomeForm">
+<form method="POST" action="no-income-certification.php" id="noIncomeForm">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Full Name *</label>
