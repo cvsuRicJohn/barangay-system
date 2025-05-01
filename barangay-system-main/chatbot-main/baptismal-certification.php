@@ -21,27 +21,25 @@ $success_message = "";
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = trim($_POST['first_name'] ?? '');
-    $middle_name = trim($_POST['middle_name'] ?? '');
-    $last_name = trim($_POST['last_name'] ?? '');
+    $parent_name = trim($_POST['parent_name'] ?? '');
     $address = trim($_POST['address'] ?? '');
-    $date_of_birth = trim($_POST['date_of_birth'] ?? '');
-    $gov_id = trim($_POST['gov_id'] ?? '');
+    $child_name = trim($_POST['child_name'] ?? '');
+    $purpose = trim($_POST['purpose'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
-        empty($date_of_birth) || empty($gov_id) || empty($email) || empty($shipping_method)
+        empty($parent_name) || empty($address) || empty($child_name) || empty($purpose) ||
+        empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
-                (first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO baptismal_certification_requests 
+                (parent_name, address, child_name, purpose, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $address, $date_of_birth, $gov_id, $email, $shipping_method
+                $parent_name, $address, $child_name, $purpose, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -176,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         
 <!-- 16. Baptismal Certificate -->
-<form method="POST" action="baptismal-certificate.php" id="baptismalForm">
+<form method="POST" action="baptismal-certification.php" id="baptismalForm">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Full Name of Parent *</label>
