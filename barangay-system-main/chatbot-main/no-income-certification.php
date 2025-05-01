@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once 'session_check.php';
+check_user_session();
 
 // Database connection parameters
 $servername = "localhost";
