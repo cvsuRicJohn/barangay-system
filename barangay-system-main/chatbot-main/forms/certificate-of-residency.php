@@ -1,5 +1,10 @@
 <?php
 session_start();
+// Make sure user is logged in
+if (!isset($_SESSION['user_id'])) {
+  header("Location: login.php");
+  exit();
+}
 
 // Database connection parameters
 $servername = "localhost";
