@@ -21,25 +21,25 @@ $success_message = "";
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $parent_name = trim($_POST['parent_name'] ?? '');
-    $address = trim($_POST['address'] ?? '');
-    $child_name = trim($_POST['child_name'] ?? '');
-    $purpose = trim($_POST['purpose'] ?? '');
+    $business_name = trim($_POST['business_name'] ?? '');
+    $business_location = trim($_POST['business_location'] ?? '');
+    $owner_name = trim($_POST['owner_name'] ?? '');
+    $owner_address = trim($_POST['owner_address'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($parent_name) || empty($address) || empty($child_name) || empty($purpose) ||
+        empty($business_name) || empty($business_location) || empty($owner_name) || empty($owner_address) ||
         empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO baptismal_certification_requests 
-                (parent_name, address, child_name, purpose, email, shipping_method)
+            $stmt = $pdo->prepare("INSERT INTO construction_clearance_requests 
+                (business_name, business_location, owner_name, owner_address, email, shipping_method)
                 VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $parent_name, $address, $child_name, $purpose, $email, $shipping_method
+                $business_name, $business_location, $owner_name, $owner_address, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -55,12 +55,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Baptismal Certificate Form</title>
+    <title>Construction Clearance Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="image/imus-logo.png">
-    <link rel="stylesheet" href="css/contact.css" />
+    <link rel="icon" type="image/png" href="../image/imus-logo.png">
+    <link rel="stylesheet" href="../css/contact.css" />
 </head>
 
 <body>
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Navigation -->
 <nav>
-  <a href="index.php">Home</a>
+<a href="../index.php">Home</a>
 
   <div class="dropdown">
     <a href="#online-services-section" class="dropbtn">Services ▾</a>
@@ -152,18 +152,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <a href="contact.php">About</a>
-  <a href="faq.php">FAQs</a>
+  <a href="../contact.php">About</a>
+  <a href="../faq.php">FAQs</a>
 </nav>
 
     <!-- Cover Photo -->
     <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
-        <img src="image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
+    <img src="../image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center mb-4">Baptismal Certificate Form</h2>
+        <h2 class="text-center mb-4">Construction Clearance Form</h2>
 
         <?php if ($success_message): ?>
             <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
@@ -173,24 +173,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         
-<!-- 16. Baptismal Certificate -->
-<form method="POST" action="baptismal-certification.php" id="baptismalForm">
+        <form method="POST" action="construction-clearance.php" id="constructionClearanceForm">
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label>Full Name of Parent *</label>
-            <input type="text" name="parent_name" class="form-control" required>
+            <label>Business/Activity Name *</label>
+            <input type="text" name="business_name" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Address *</label>
-            <input type="text" name="address" class="form-control" required>
+            <label>Business Location *</label>
+            <input type="text" name="business_location" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Name of Child *</label>
-            <input type="text" name="child_name" class="form-control" required>
+            <label>Owner's Name *</label>
+            <input type="text" name="owner_name" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Purpose *</label>
-            <input type="text" name="purpose" class="form-control" required value="Baptismal">
+            <label>Owner's Address *</label>
+            <input type="text" name="owner_address" class="form-control" required>
         </div>
                 <div class="form-group col-md-6">
                     <label>Email *</label>
@@ -221,8 +220,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Footer Section -->
     <div class="footer">
         <div class="footer-content">
-            <img src="image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
-            <div class="footer-text">
+        <img src="../image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
+        <div class="footer-text">
                 <p>Copyright &copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
                 <p>Bucandala 1 Barangay Hall, Imus, Cavite, Philippines 4103.</p>
                 <p>Call Us Today: +46 40 256 14</p>
@@ -231,7 +230,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!-- Chatbot -->
-    <iframe src="chatbot.php" style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;"></iframe>
+    <iframe src="../chatbot.php"
+        style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
+    </iframe>
+    
     <script src="js/services.js"></script>
 
 </body>
