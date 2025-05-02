@@ -2,15 +2,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-session_start();
+require_once 'session_check.php';
+
+check_user_session();
 
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_destroy();
-    header("Location: login.php");
-    exit();
-}
-
-if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }

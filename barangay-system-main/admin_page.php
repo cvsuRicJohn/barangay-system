@@ -1,11 +1,7 @@
 <?php
-session_start();
+require_once 'chatbot-main/session_check.php';
 
-// Check if admin is logged in
-if (!isset($_SESSION['admin_id'])) {
-    header("Location: chatbot-main/login.php");
-    exit();
-}
+check_admin_session();
 
 // Handle logout
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
