@@ -1,8 +1,10 @@
 <?php
-require_once 'session_check.php';
-check_user_session();
-
-
+session_start();
+// Make sure user is logged in
+if (!isset($_SESSION['user_id'])) {
+  header("Location: login.php");
+  exit();
+}
 // Database connection parameters
 $servername = "localhost";
 $username_db = "root"; // Adjust if needed

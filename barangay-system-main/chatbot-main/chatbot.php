@@ -1,6 +1,13 @@
 <?php
-// chatbot.php
+session_start();
+
+// Make sure user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
 ?>
+
 
 <link rel="stylesheet" href="css/chatbot.css" />
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
