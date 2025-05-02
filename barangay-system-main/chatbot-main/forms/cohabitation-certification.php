@@ -22,27 +22,26 @@ $success_message = "";
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $full_name = trim($_POST['full_name'] ?? '');
-    $date_of_birth = trim($_POST['date_of_birth'] ?? '');
-    $civil_status = trim($_POST['civil_status'] ?? '');
-    $address = trim($_POST['address'] ?? '');
-    $no_income_statement = trim($_POST['no_income_statement'] ?? '');
+    $partner1_name = trim($_POST['partner1_name'] ?? '');
+    $partner2_name = trim($_POST['partner2_name'] ?? '');
+    $shared_address = trim($_POST['shared_address'] ?? '');
+    $cohabitation_duration = trim($_POST['cohabitation_duration'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($full_name) || empty($date_of_birth) || empty($civil_status) || empty($address) ||
-        empty($no_income_statement) || empty($purpose) || empty($email) || empty($shipping_method)
+        empty($partner1_name) || empty($partner2_name) || empty($shared_address) || empty($cohabitation_duration) ||
+        empty($purpose) || empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO no_income_certification_requests 
-                (full_name, date_of_birth, civil_status, address, no_income_statement, purpose, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO cohabitation_certification_requests 
+                (partner1_name, partner2_name, shared_address, cohabitation_duration, purpose, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $date_of_birth, $civil_status, $address, $no_income_statement, $purpose, $email, $shipping_method
+                $partner1_name, $partner2_name, $shared_address, $cohabitation_duration, $purpose, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -58,12 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>No Income Certificate Form</title>
+    <title>Cohabitation Certificate Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="image/imus-logo.png">
-    <link rel="stylesheet" href="css/contact.css" />
+    <link rel="icon" type="image/png" href="../image/imus-logo.png">
+    <link rel="stylesheet" href="../css/contact.css" />
 </head>
 
 <body>
@@ -84,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Navigation -->
 <nav>
-  <a href="index.php">Home</a>
+<a href="../index.php">Home</a>
 
   <div class="dropdown">
     <a href="#online-services-section" class="dropbtn">Services ▾</a>
@@ -155,18 +154,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <a href="contact.php">About</a>
-  <a href="faq.php">FAQs</a>
+  <a href="../contact.php">About</a>
+  <a href="../faq.php">FAQs</a>
 </nav>
 
     <!-- Cover Photo -->
     <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
-        <img src="image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
+    <img src="../image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center mb-4">No Income Certificate Form</h2>
+        <h2 class="text-center mb-4">Cohabitation Certificate Form</h2>
 
         <?php if ($success_message): ?>
             <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
@@ -176,28 +175,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         
-<!-- 12. No Income Certificate -->
-<form method="POST" action="no-income-certification.php" id="noIncomeForm">
+<!-- 14. Cohabitation Certificate -->
+<form method="POST" action="cohabitation-certification.php" id="cohabitationForm">
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label>Full Name *</label>
-            <input type="text" name="full_name" class="form-control" required>
+            <label>Partner 1 Full Name *</label>
+            <input type="text" name="partner1_name" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Date of Birth *</label>
-            <input type="date" name="date_of_birth" class="form-control" required>
+            <label>Partner 2 Full Name *</label>
+            <input type="text" name="partner2_name" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Civil Status *</label>
-            <input type="text" name="civil_status" class="form-control" required>
+            <label>Shared Address *</label>
+            <input type="text" name="shared_address" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Address *</label>
-            <input type="text" name="address" class="form-control" required>
-        </div>
-        <div class="form-group col-md-12">
-            <label>Statement of having no income *</label>
-            <input type="text" name="no_income_statement" class="form-control" required>
+            <label>Duration of Cohabitation *</label>
+            <input type="text" name="cohabitation_duration" class="form-control" required>
         </div>
         <div class="form-group col-md-12">
             <label>Purpose *</label>
@@ -232,8 +227,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Footer Section -->
     <div class="footer">
         <div class="footer-content">
-            <img src="image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
-            <div class="footer-text">
+        <img src="../image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
+        <div class="footer-text">
                 <p>Copyright &copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
                 <p>Bucandala 1 Barangay Hall, Imus, Cavite, Philippines 4103.</p>
                 <p>Call Us Today: +46 40 256 14</p>
@@ -242,7 +237,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!-- Chatbot -->
-    <iframe src="chatbot.php" style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;"></iframe>
+    <iframe src="../chatbot.php"
+        style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
+    </iframe>
+    
     <script src="js/services.js"></script>
 
 </body>

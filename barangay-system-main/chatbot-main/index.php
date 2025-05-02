@@ -97,16 +97,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
       <div class="dropdown-submenu">
         <a href="#">Barangay Clearance ▸</a>
         <div class="submenu-content">
-          <a href="barangay-clearance.php" title="Get your official barangay clearance for legal use">
+          <a href="forms/barangay-clearance.php" title="Get your official barangay clearance for legal use">
             <i class="fas fa-file-alt"></i> Barangay Clearance
           </a>
-          <a href="barangay-id.php" title="Apply for your official Barangay ID card">
+          <a href="forms/barangay-id.php" title="Apply for your official Barangay ID card">
             <i class="fas fa-id-card"></i> Barangay ID
           </a>
-          <a href="construction-clearance.php" title="Clearance for building or construction activities">
+          <a href="forms/construction-clearance.php" title="Clearance for building or construction activities">
             <i class="fas fa-tools"></i> Construction Clearance
           </a>
-          <a href="business-permit.php" title="Request for business operation permits">
+          <a href="forms/business-permit.php" title="Request for business operation permits">
             <i class="fas fa-store"></i> Business Permit
           </a>
         </div>
@@ -116,40 +116,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
       <div class="dropdown-submenu">
         <a href="#"> Barangay Certification ▸</a>
         <div class="submenu-content">
-          <a href="certificate-of-residency.php" title="Proof that you live in the barangay">
+          <a href="forms/certificate-of-residency.php" title="Proof that you live in the barangay">
             <i class="fas fa-home"></i> Residency
           </a>
-          <a href="certificate-of-indigency.php" title="Proof of financial need for assistance or benefits">
+          <a href="forms/certificate-of-indigency.php" title="Proof of financial need for assistance or benefits">
             <i class="fas fa-hand-holding-heart"></i> Indigency
           </a>
-          <a href="certificate-of-good-moral.php" title="Good moral standing for legal or school requirements">
+          <a href="forms/certificate-of-good-moral.php" title="Good moral standing for legal or school requirements">
             <i class="fas fa-shield-alt"></i> Good Moral 
           </a>
-          <a href="first-time-job-seeker.php" title="Certification for first-time job seekers">
+          <a href="forms/first-time-job-seeker.php" title="Certification for first-time job seekers">
             <i class="fas fa-briefcase"></i> First Time Job Seeker
 
-          <a href="solo-parent.php" title="Certification for solo or single parents">
+          <a href="forms/solo-parent.php" title="Certification for solo or single parents">
             <i class="fas fa-user-friends"></i> Solo Parent 
           </a>
-          <a href="out-of-school-youth.php" title="Declared as out-of-school youth">
+          <a href="forms/out-of-school-youth.php" title="Declared as out-of-school youth">
             <i class="fas fa-user-graduate"></i> Out of School Youth 
           </a>
-          <a href="unemployment-certification.php" title="Certification that the person is unemployed">
+          <a href="forms/unemployment-certification.php" title="Certification that the person is unemployed">
             <i class="fas fa-user-times"></i> Unemployment 
           </a>
-          <a href="no-income-certification.php" title="Declaration of no income">
+          <a href="forms/no-income-certification.php" title="Declaration of no income">
             <i class="fas fa-ban"></i> No Income 
           </a>
-          <a href="late-birth-registration.php" title="Support for late birth registration">
+          <a href="forms/late-birth-registration.php" title="Support for late birth registration">
             <i class="fas fa-baby"></i> Late Birth Registration 
           </a>
-          <a href="cohabitation-certification.php" title="Proof of cohabitation without marriage">
+          <a href="forms/cohabitation-certification.php" title="Proof of cohabitation without marriage">
             <i class="fas fa-users"></i> Cohabitation 
           </a>
-          <a href="non-residency-certification.php" title="Proof of not living in the barangay anymore">
+          <a href="forms/non-residency-certification.php" title="Proof of not living in the barangay anymore">
             <i class="fas fa-map-marker-alt"></i> Non-Residency 
           </a>
-          <a href="baptismal-certification.php" title="Permission for baptismal activity">
+          <a href="forms/baptismal-certification.php" title="Permission for baptismal activity">
             <i class="fas fa-church"></i> Baptismal 
           </a>
         </div>
@@ -213,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Clearance -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="barangay-clearance.php" style="text-decoration: none;">
+          <a href="forms/barangay-clearance.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/4ps.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-tasks fa-2x mb-2"></i>
               <h5>Clearance</h5>
@@ -223,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Good Moral -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="certificate-of-good-moral.php" style="text-decoration: none;">
+          <a href="forms/certificate-of-good-moral.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-shield fa-2x mb-2"></i>
               <h5>Good Moral</h5>
@@ -233,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Identification -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="barangay-id.php" style="text-decoration: none;">
+          <a href="forms/barangay-id.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/identification.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-id-card fa-2x mb-2"></i>
               <h5>Identification</h5>
@@ -243,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Indigency -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="certificate-of-indigency.php" style="text-decoration: none;">
+          <a href="forms/certificate-of-indigency.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/indigency.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-child fa-2x mb-2"></i>
               <h5>Indigency</h5>
@@ -253,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Solo Parent -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="solo-parent.php" style="text-decoration: none;">
+          <a href="forms/solo-parent.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/loan.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-user-friends fa-2x mb-2"></i>
               <h5>Solo Parent</h5>
@@ -263,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Business Permit -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="business-permit.php" style="text-decoration: none;">
+          <a href="forms/business-permit.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/medical.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-store fa-2x mb-2"></i>
               <h5>Business Permit</h5>
@@ -273,7 +273,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Residency -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="certificate-of-residency.php" style="text-decoration: none;">
+          <a href="forms/certificate-of-residency.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/residency.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-home fa-2x mb-2"></i>
               <h5>Residency</h5>
@@ -283,7 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
         <!-- Job Seeker -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-          <a href="first-time-job-seeker.php" style="text-decoration: none;">
+          <a href="forms/first-time-job-seeker.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/other.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
               <i class="fas fa-briefcase fa-2x mb-2"></i>
               <h5>Job Seeker</h5>

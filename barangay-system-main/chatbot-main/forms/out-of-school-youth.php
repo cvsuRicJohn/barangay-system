@@ -23,22 +23,23 @@ $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $full_name = trim($_POST['full_name'] ?? '');
-    $previous_address = trim($_POST['previous_address'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    $citizenship = trim($_POST['citizenship'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($full_name) || empty($previous_address) || empty($purpose) || empty($email) || empty($shipping_method)
+        empty($full_name) || empty($address) || empty($citizenship) || empty($purpose) || empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO non_residency_certification_requests 
-                (full_name, previous_address, purpose, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO out_of_school_youth_requests 
+                (full_name, address, citizenship, purpose, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $previous_address, $purpose, $email, $shipping_method
+                $full_name, $address, $citizenship, $purpose, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -54,12 +55,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Non-Residency Certificate Form</title>
+    <title>Out of School Youth Certification Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="image/imus-logo.png">
-    <link rel="stylesheet" href="css/contact.css" />
+    <link rel="icon" type="image/png" href="../image/imus-logo.png">
+    <link rel="stylesheet" href="../css/contact.css" />
 </head>
 
 <body>
@@ -80,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Navigation -->
 <nav>
-  <a href="index.php">Home</a>
+<a href="../index.php">Home</a>
 
   <div class="dropdown">
     <a href="#online-services-section" class="dropbtn">Services ▾</a>
@@ -151,18 +152,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <a href="contact.php">About</a>
-  <a href="faq.php">FAQs</a>
+  <a href="../contact.php">About</a>
+  <a href="../faq.php">FAQs</a>
 </nav>
 
     <!-- Cover Photo -->
     <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
-        <img src="image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
+    <img src="../image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center mb-4">Non-Residency Certificate Form</h2>
+        <h2 class="text-center mb-4">Out of School Youth Certification Form</h2>
 
         <?php if ($success_message): ?>
             <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
@@ -172,37 +173,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         
-<!-- 15. Non-Residency Certificate -->
-<form method="POST" action="non-residency-certification.php" id="nonResidencyForm">
+
+        <form method="POST" action="out-of-school-youth.php" id="outOfSchoolYouthForm">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Full Name *</label>
             <input type="text" name="full_name" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Previous Address *</label>
-            <input type="text" name="previous_address" class="form-control" required>
+            <label>Address *</label>
+            <input type="text" name="address" class="form-control" required>
         </div>
-        <div class="form-group col-md-12">
-            <label>Purpose *</label>
+        <div class="form-group col-md-6">
+            <label>Citizenship *</label>
+            <input type="text" name="citizenship" class="form-control" value="Filipino" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Purpose of Certification *</label>
             <input type="text" name="purpose" class="form-control" required>
         </div>
-                <div class="form-group col-md-6">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Shipping Method *</label>
-                    <select name="shipping_method" class="form-control" required>
-                        <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
-                    </select>
-                </div>
-            </div>
+        <div class="form-group col-md-6">
+            <label>Email *</label>
+            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Shipping Method *</label>
+            <select name="shipping_method" class="form-control" required>
+                <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am–5pm)</option>
+            </select>
+        </div>
+    </div>
 
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary px-5">Submit</button>
-            </div>
-        </form>
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary px-5">Submit</button>
+    </div>
+</form>
+
 
         <!-- Success Modal -->
         <div id="successModal" class="modal" style="display: none;">
@@ -216,8 +222,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Footer Section -->
     <div class="footer">
         <div class="footer-content">
-            <img src="image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
-            <div class="footer-text">
+        <img src="../image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
+        <div class="footer-text">
                 <p>Copyright &copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
                 <p>Bucandala 1 Barangay Hall, Imus, Cavite, Philippines 4103.</p>
                 <p>Call Us Today: +46 40 256 14</p>
@@ -226,7 +232,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!-- Chatbot -->
-    <iframe src="chatbot.php" style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;"></iframe>
+    <iframe src="../chatbot.php"
+        style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
+    </iframe>
+    
     <script src="js/services.js"></script>
 
 </body>

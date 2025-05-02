@@ -102,3 +102,10 @@
     font-style: italic;
     opacity: 0.6;
 }
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin: 0 8px;
+    object-fit: cover;
+}

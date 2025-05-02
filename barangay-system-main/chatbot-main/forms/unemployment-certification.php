@@ -22,25 +22,26 @@ $success_message = "";
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $business_name = trim($_POST['business_name'] ?? '');
-    $business_location = trim($_POST['business_location'] ?? '');
-    $owner_name = trim($_POST['owner_name'] ?? '');
-    $owner_address = trim($_POST['owner_address'] ?? '');
+    $full_name = trim($_POST['full_name'] ?? '');
+    $age = trim($_POST['age'] ?? '');
+    $birth_date = trim($_POST['birth_date'] ?? '');
+    $civil_status = trim($_POST['civil_status'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    $purpose = trim($_POST['purpose'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($business_name) || empty($business_location) || empty($owner_name) || empty($owner_address) ||
-        empty($email) || empty($shipping_method)
+        empty($full_name) || empty($age) || empty($birth_date) || empty($civil_status) || empty($address) || empty($purpose) || empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO construction_clearance_requests 
-                (business_name, business_location, owner_name, owner_address, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO unemployment_certification_requests 
+                (full_name, age, birth_date, civil_status, address, purpose, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $business_name, $business_location, $owner_name, $owner_address, $email, $shipping_method
+                $full_name, $age, $birth_date, $civil_status, $address, $purpose, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -56,12 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Construction Clearance Form</title>
+    <title> Certificate of Unemployment Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="image/imus-logo.png">
-    <link rel="stylesheet" href="css/contact.css" />
+    <link rel="icon" type="image/png" href="../image/imus-logo.png">
+    <link rel="stylesheet" href="../css/contact.css" />
 </head>
 
 <body>
@@ -71,18 +72,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div>
             <strong>GOVPH</strong> | The Official Website of Barangay Bucandala 1, Imus Cavite
         </div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <a href="#" style="color: white;"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" style="color: white;"><i class="fab fa-youtube"></i></a>
-            <a href="#" style="color: white;"><i class="fab fa-twitter"></i></a>
-            <a href="tel:+464025614" style="color: white;"><i class="fas fa-phone-alt"></i></a>
             <span id="dateTimePH"></span>
         </div>
     </div>
 
 <!-- Navigation -->
 <nav>
-  <a href="index.php">Home</a>
+<a href="../index.php">Home</a>
 
   <div class="dropdown">
     <a href="#online-services-section" class="dropbtn">Services ▾</a>
@@ -153,18 +149,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <a href="contact.php">About</a>
-  <a href="faq.php">FAQs</a>
+  <a href="../contact.php">About</a>
+  <a href="../faq.php">FAQs</a>
 </nav>
 
     <!-- Cover Photo -->
     <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
-        <img src="image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
+    <img src="../image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center mb-4">Construction Clearance Form</h2>
+        <h2 class="text-center mb-4"> Certificate of Unemployment  Form</h2>
 
         <?php if ($success_message): ?>
             <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
@@ -174,40 +170,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         
-        <form method="POST" action="construction-clearance.php" id="constructionClearanceForm">
+
+<form method="POST" action="unemployment-certification.php" id="unemployedForm">
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label>Business/Activity Name *</label>
-            <input type="text" name="business_name" class="form-control" required>
+            <label>Full Name *</label>
+            <input type="text" name="full_name" class="form-control" required>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Age *</label>
+            <input type="number" name="age" class="form-control" required>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Date of Birth *</label>
+            <input type="date" name="birth_date" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Business Location *</label>
-            <input type="text" name="business_location" class="form-control" required>
+            <label>Civil Status *</label>
+            <select name="civil_status" class="form-control" required>
+                <option value="">-- Select --</option>
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Separated">Separated</option>
+                <option value="Widow/Widower">Widow/Widower</option>
+            </select>
         </div>
         <div class="form-group col-md-6">
-            <label>Owner's Name *</label>
-            <input type="text" name="owner_name" class="form-control" required>
+            <label>Address *</label>
+            <input type="text" name="address" class="form-control" required>
+        </div>
+        <div class="form-group col-md-12">
+            <label>Purpose of Certification *</label>
+            <input type="text" name="purpose" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Owner's Address *</label>
-            <input type="text" name="owner_address" class="form-control" required>
+            <label>Email *</label>
+            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
         </div>
-                <div class="form-group col-md-6">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Shipping Method *</label>
-                    <select name="shipping_method" class="form-control" required>
-                        <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
-                    </select>
-                </div>
-            </div>
+        <div class="form-group col-md-6">
+            <label>Shipping Method *</label>
+            <select name="shipping_method" class="form-control" required>
+                <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am–5pm)</option>
+            </select>
+        </div>
+    </div>
 
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary px-5">Submit</button>
-            </div>
-        </form>
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary px-5">Submit</button>
+    </div>
+</form>
+
 
         <!-- Success Modal -->
         <div id="successModal" class="modal" style="display: none;">
@@ -221,7 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Footer Section -->
     <div class="footer">
         <div class="footer-content">
-            <img src="image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
+            <img src="../image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
             <div class="footer-text">
                 <p>Copyright &copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
                 <p>Bucandala 1 Barangay Hall, Imus, Cavite, Philippines 4103.</p>
@@ -231,8 +243,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!-- Chatbot -->
-    <iframe src="chatbot.php" style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;"></iframe>
-    <script src="js/services.js"></script>
+    <iframe src="../chatbot.php"
+        style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
+    </iframe>
+    
+    <script src="../js/services.js"></script>
 
 </body>
 

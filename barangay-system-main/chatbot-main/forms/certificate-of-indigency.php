@@ -69,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="image/imus-logo.png">
-    <link rel="stylesheet" href="css/contact.css" />
+    <link rel="icon" type="image/png" href="../image/imus-logo.png">
+    <link rel="stylesheet" href="../css/contact.css" />
 </head>
 
 <body>
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Navigation -->
 <nav>
-  <a href="index.php">Home</a>
+<a href="../index.php">Home</a>
 
   <div class="dropdown">
     <a href="#online-services-section" class="dropbtn">Services ▾</a>
@@ -162,13 +162,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <a href="contact.php">About</a>
-  <a href="faq.php">FAQs</a>
+  <a href="../contact.php">About</a>
+  <a href="../faq.php">FAQs</a>
 </nav>
 
     <!-- Cover Photo -->
     <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
-        <img src="image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
+    <img src="../image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 
     <!-- Form Section -->
@@ -273,8 +273,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Footer Section -->
     <div class="footer">
         <div class="footer-content">
-            <img src="image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
-            <div class="footer-text">
+        <img src="../image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
+        <div class="footer-text">
                 <p>Copyright &copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
                 <p>Bucandala 1 Barangay Hall, Imus, Cavite, Philippines 4103.</p>
                 <p>Call Us Today: +46 40 256 14</p>
@@ -283,7 +283,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!-- Chatbot -->
-    <iframe src="chatbot.php" style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;"></iframe>
+    <iframe src="../chatbot.php"
+        style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
+    </iframe>
+    
     <script src="js/services.js"></script>
 
 </body>

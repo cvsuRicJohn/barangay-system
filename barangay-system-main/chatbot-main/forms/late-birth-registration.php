@@ -22,26 +22,33 @@ $success_message = "";
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $full_name = trim($_POST['full_name'] ?? '');
-    $age = trim($_POST['age'] ?? '');
-    $civil_status = trim($_POST['civil_status'] ?? '');
+    $last_name = trim($_POST['last_name'] ?? '');
+    $first_name = trim($_POST['first_name'] ?? '');
+    $middle_name = trim($_POST['middle_name'] ?? '');
     $address = trim($_POST['address'] ?? '');
+    $marital_status = trim($_POST['marital_status'] ?? '');
+    $place_of_birth = trim($_POST['place_of_birth'] ?? '');
+    $date_of_birth = trim($_POST['date_of_birth'] ?? '');
+    $fathers_name = trim($_POST['fathers_name'] ?? '');
+    $mothers_name = trim($_POST['mothers_name'] ?? '');
+    $years_in_barangay = trim($_POST['years_in_barangay'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($full_name) || empty($age) || empty($civil_status) || empty($address) ||
-        empty($purpose) || empty($email) || empty($shipping_method)
+        empty($last_name) || empty($first_name) || empty($middle_name) || empty($address) ||
+        empty($marital_status) || empty($place_of_birth) || empty($date_of_birth) || empty($fathers_name) ||
+        empty($mothers_name) || empty($years_in_barangay) || empty($purpose) || empty($email) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO certificate_of_good_moral_requests 
-                (full_name, age, civil_status, address, purpose, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO late_birth_registration_requests 
+                (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, email, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $age, $civil_status, $address, $purpose, $email, $shipping_method
+                $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $email, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -57,12 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Certificate of Good Moral Form</title>
+    <title>Late Birth Registration Certificate Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="image/imus-logo.png">
-    <link rel="stylesheet" href="css/contact.css" />
+    <link rel="icon" type="image/png" href="../image/imus-logo.png">
+    <link rel="stylesheet" href="../css/contact.css" />
 </head>
 
 <body>
@@ -83,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Navigation -->
 <nav>
-  <a href="index.php">Home</a>
+<a href="../index.php">Home</a>
 
   <div class="dropdown">
     <a href="#online-services-section" class="dropbtn">Services ▾</a>
@@ -154,18 +161,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <a href="contact.php">About</a>
-  <a href="faq.php">FAQs</a>
+  <a href="../contact.php">About</a>
+  <a href="../faq.php">FAQs</a>
 </nav>
 
     <!-- Cover Photo -->
     <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
-        <img src="image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
+    <img src="../image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center mb-4">Certificate of Good Moral Form</h2>
+        <h2 class="text-center mb-4">Late Birth Registration Certificate Form</h2>
 
         <?php if ($success_message): ?>
             <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
@@ -174,28 +181,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
 
-    <!-- Certificate of Good Moral Form -->
-<form method="POST" action="certificate-of-good-moral.php" id="goodMoralForm">
+        
+<!-- Late Birth Registration Certificate -->
+<form method="POST" action="late-birth-registration.php" id="lateBirthForm">
     <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Full Name *</label>
-            <input type="text" name="full_name" class="form-control" required>
+        <div class="form-group col-md-4">
+            <label>Last Name *</label>
+            <input type="text" name="last_name" class="form-control" required>
         </div>
-        <div class="form-group col-md-3">
-            <label>Age *</label>
-            <input type="number" name="age" class="form-control" required>
+        <div class="form-group col-md-4">
+            <label>First Name *</label>
+            <input type="text" name="first_name" class="form-control" required>
         </div>
-        <div class="form-group col-md-3">
-            <label>Civil Status *</label>
-            <input type="text" name="civil_status" class="form-control" required>
+        <div class="form-group col-md-4">
+            <label>Middle Name *</label>
+            <input type="text" name="middle_name" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
             <label>Address *</label>
             <input type="text" name="address" class="form-control" required>
         </div>
         <div class="form-group col-md-6">
-            <label>Purpose (e.g., board exam) *</label>
-            <input type="text" name="purpose" class="form-control" required>
+            <label>Marital Status *</label>
+            <input type="text" name="marital_status" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Place of Birth *</label>
+            <input type="text" name="place_of_birth" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Date of Birth *</label>
+            <input type="date" name="date_of_birth" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Father's Name *</label>
+            <input type="text" name="fathers_name" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Mother's Name *</label>
+            <input type="text" name="mothers_name" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Years in Barangay *</label>
+            <input type="text" name="years_in_barangay" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Purpose *</label>
+            <input type="text" name="purpose" class="form-control" required value="Late Registration of Birth Certificate">
         </div>
                 <div class="form-group col-md-6">
                     <label>Email *</label>
@@ -226,8 +258,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Footer Section -->
     <div class="footer">
         <div class="footer-content">
-            <img src="image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
-            <div class="footer-text">
+        <img src="../image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
+        <div class="footer-text">
                 <p>Copyright &copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
                 <p>Bucandala 1 Barangay Hall, Imus, Cavite, Philippines 4103.</p>
                 <p>Call Us Today: +46 40 256 14</p>
@@ -236,7 +268,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!-- Chatbot -->
-    <iframe src="chatbot.php" style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;"></iframe>
+    <iframe src="../chatbot.php"
+        style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
+    </iframe>
+    
     <script src="js/services.js"></script>
 
 </body>
