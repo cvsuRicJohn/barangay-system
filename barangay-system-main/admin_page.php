@@ -40,7 +40,18 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
         'certificate_of_indigency_requests',
         'certificate_of_residency_requests',
         'users',
-        'contact_inquiries'
+        'contact_inquiries',
+        'baptismal_certification_requests',
+        'certificate_of_good_moral_requests',
+        'cohabitation_certification_requests',
+        'construction_clearance_requests',
+        'first_time_job_seeker_requests',
+        'late_birth_registration_requests',
+        'non_residency_certification_requests',
+        'no_income_certification_requests',
+        'out_of_school_youth_requests',
+        'solo_parent_requests',
+        'unemployment_certification_requests'
     ];
 
     if (!in_array($entity, $valid_entities)) {
@@ -74,6 +85,17 @@ $certificate_of_indigency_requests = fetchAll($pdo, 'certificate_of_indigency_re
 $certificate_of_residency_requests = fetchAll($pdo, 'certificate_of_residency_requests');
 $users = fetchAll($pdo, 'users');
 $contact_inquiries = fetchAll($pdo, 'contact_inquiries');
+$baptismal_certification_requests = fetchAll($pdo, 'baptismal_certification_requests');
+$certificate_of_good_moral_requests = fetchAll($pdo, 'certificate_of_good_moral_requests');
+$cohabitation_certification_requests = fetchAll($pdo, 'cohabitation_certification_requests');
+$construction_clearance_requests = fetchAll($pdo, 'construction_clearance_requests');
+$first_time_job_seeker_requests = fetchAll($pdo, 'first_time_job_seeker_requests');
+$late_birth_registration_requests = fetchAll($pdo, 'late_birth_registration_requests');
+$non_residency_certification_requests = fetchAll($pdo, 'non_residency_certification_requests');
+$no_income_certification_requests = fetchAll($pdo, 'no_income_certification_requests');
+$out_of_school_youth_requests = fetchAll($pdo, 'out_of_school_youth_requests');
+$solo_parent_requests = fetchAll($pdo, 'solo_parent_requests');
+$unemployment_certification_requests = fetchAll($pdo, 'unemployment_certification_requests');
 
 // Prepare counts for dashboard summary
 function countRows($pdo, $table) {
@@ -92,25 +114,60 @@ $counts = [
     'certificate_of_residency_requests' => countRows($pdo, 'certificate_of_residency_requests'),
     'users' => countRows($pdo, 'users'),
     'contact_inquiries' => countRows($pdo, 'contact_inquiries'),
+    'baptismal_certification_requests' => countRows($pdo, 'baptismal_certification_requests'),
+    'certificate_of_good_moral_requests' => countRows($pdo, 'certificate_of_good_moral_requests'),
+    'cohabitation_certification_requests' => countRows($pdo, 'cohabitation_certification_requests'),
+    'construction_clearance_requests' => countRows($pdo, 'construction_clearance_requests'),
+    'first_time_job_seeker_requests' => countRows($pdo, 'first_time_job_seeker_requests'),
+    'late_birth_registration_requests' => countRows($pdo, 'late_birth_registration_requests'),
+    'non_residency_certification_requests' => countRows($pdo, 'non_residency_certification_requests'),
+    'no_income_certification_requests' => countRows($pdo, 'no_income_certification_requests'),
+    'out_of_school_youth_requests' => countRows($pdo, 'out_of_school_youth_requests'),
+    'solo_parent_requests' => countRows($pdo, 'solo_parent_requests'),
+    'unemployment_certification_requests' => countRows($pdo, 'unemployment_certification_requests'),
 ];
 
-// Prepare recent requests (latest 7 from all request tables)
-try {
-    $stmt = $pdo->query("
-        SELECT first_name, 'Barangay ID' AS type, created_at AS date_requested FROM barangay_id_requests
-        UNION ALL
-        SELECT first_name, 'Barangay Clearance' AS type, created_at AS date_requested FROM barangay_clearance
-        UNION ALL
-        SELECT first_name, 'Certificate of Indigency' AS type, created_at AS date_requested FROM certificate_of_indigency_requests
-        UNION ALL
-        SELECT first_name, 'Certificate of Residency' AS type, created_at AS date_requested FROM certificate_of_residency_requests
-        ORDER BY date_requested DESC
-        LIMIT 7
-    ");
-    $recent_requests = $stmt->fetchAll();
-} catch (PDOException $e) {
-    die("Error fetching recent requests: " . $e->getMessage());
-}
+    // Prepare recent requests (latest 7 from all request tables)
+    try {
+        $stmt = $pdo->query("
+            SELECT first_name, 'Barangay ID' AS type, created_at AS date_requested FROM barangay_id_requests
+            UNION ALL
+            SELECT first_name, 'Barangay Clearance' AS type, created_at AS date_requested FROM barangay_clearance
+            UNION ALL
+            SELECT first_name, 'Certificate of Indigency' AS type, created_at AS date_requested FROM certificate_of_indigency_requests
+            UNION ALL
+            SELECT first_name, 'Certificate of Residency' AS type, created_at AS date_requested FROM certificate_of_residency_requests
+            UNION ALL
+            SELECT name AS first_name, 'Contact Inquiry' AS type, created_at AS date_requested FROM contact_inquiries
+            UNION ALL
+            SELECT parent_name AS first_name, 'Baptismal Certification' AS type, submitted_at AS date_requested FROM baptismal_certification_requests
+            UNION ALL
+            SELECT full_name AS first_name, 'Certificate of Good Moral' AS type, submitted_at AS date_requested FROM certificate_of_good_moral_requests
+            UNION ALL
+            SELECT partner1_name AS first_name, 'Cohabitation Certification' AS type, submitted_at AS date_requested FROM cohabitation_certification_requests
+            UNION ALL
+            SELECT business_name AS first_name, 'Construction Clearance' AS type, submitted_at AS date_requested FROM construction_clearance_requests
+            UNION ALL
+            SELECT full_name AS first_name, 'First Time Job Seeker' AS type, submitted_at AS date_requested FROM first_time_job_seeker_requests
+            UNION ALL
+            SELECT last_name AS first_name, 'Late Birth Registration' AS type, submitted_at AS date_requested FROM late_birth_registration_requests
+            UNION ALL
+            SELECT full_name AS first_name, 'Non Residency Certification' AS type, submitted_at AS date_requested FROM non_residency_certification_requests
+            UNION ALL
+            SELECT full_name AS first_name, 'No Income Certification' AS type, submitted_at AS date_requested FROM no_income_certification_requests
+            UNION ALL
+            SELECT full_name AS first_name, 'Out of School Youth' AS type, submitted_at AS date_requested FROM out_of_school_youth_requests
+            UNION ALL
+            SELECT full_name AS first_name, 'Solo Parent' AS type, submitted_at AS date_requested FROM solo_parent_requests
+            UNION ALL
+            SELECT full_name AS first_name, 'Unemployment Certification' AS type, submitted_at AS date_requested FROM unemployment_certification_requests
+            ORDER BY date_requested DESC
+            LIMIT 7
+        ");
+        $recent_requests = $stmt->fetchAll();
+    } catch (PDOException $e) {
+        die("Error fetching recent requests: " . $e->getMessage());
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -184,6 +241,39 @@ function confirmDelete(entity, id) {
     <li class="nav-item">
       <a href="#" class="nav-link" data-target="contact_inquiries">Contact Inquiries <span class="badge badge-info"><?php echo $counts['contact_inquiries']; ?></span></a>
     </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="baptismal_certification_requests">Baptismal Certification Requests <span class="badge badge-primary"><?php echo $counts['baptismal_certification_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="certificate_of_good_moral_requests">Certificate of Good Moral Requests <span class="badge badge-success"><?php echo $counts['certificate_of_good_moral_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="cohabitation_certification_requests">Cohabitation Certification Requests <span class="badge badge-warning"><?php echo $counts['cohabitation_certification_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="construction_clearance_requests">Construction Clearance Requests <span class="badge badge-info"><?php echo $counts['construction_clearance_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="first_time_job_seeker_requests">First Time Job Seeker Requests <span class="badge badge-secondary"><?php echo $counts['first_time_job_seeker_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="late_birth_registration_requests">Late Birth Registration Requests <span class="badge badge-info"><?php echo $counts['late_birth_registration_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="non_residency_certification_requests">Non Residency Certification Requests <span class="badge badge-primary"><?php echo $counts['non_residency_certification_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="no_income_certification_requests">No Income Certification Requests <span class="badge badge-success"><?php echo $counts['no_income_certification_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="out_of_school_youth_requests">Out of School Youth Requests <span class="badge badge-warning"><?php echo $counts['out_of_school_youth_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="solo_parent_requests">Solo Parent Requests <span class="badge badge-info"><?php echo $counts['solo_parent_requests']; ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link" data-target="unemployment_certification_requests">Unemployment Certification Requests <span class="badge badge-secondary"><?php echo $counts['unemployment_certification_requests']; ?></span></a>
+    </li>
     <li class="nav-item mt-3">
       <a href="admin_page.php?action=logout" class="btn btn-danger btn-block" onclick="return confirm('Are you sure you want to log out?');">Logout</a>
     </li>
@@ -205,54 +295,77 @@ function confirmDelete(entity, id) {
       <?php
       // Prepare data for pie chart
       $pieChartData = [
-          'labels' => ['Barangay ID', 'Barangay Clearance', 'Certificate of Indigency', 'Certificate of Residency'],
+          'labels' => [
+              'Barangay ID', 'Barangay Clearance', 'Certificate of Indigency', 'Certificate of Residency',
+              'Contact Inquiries', 'Baptismal Certification', 'Certificate of Good Moral', 'Cohabitation Certification',
+              'Construction Clearance', 'First Time Job Seeker', 'Late Birth Registration', 'Non Residency Certification',
+              'No Income Certification', 'Out of School Youth', 'Solo Parent', 'Unemployment Certification'
+          ],
           'data' => [
               $counts['barangay_id_requests'],
               $counts['barangay_clearance'],
               $counts['certificate_of_indigency_requests'],
-              $counts['certificate_of_residency_requests']
+              $counts['certificate_of_residency_requests'],
+              $counts['contact_inquiries'],
+              $counts['baptismal_certification_requests'],
+              $counts['certificate_of_good_moral_requests'],
+              $counts['cohabitation_certification_requests'],
+              $counts['construction_clearance_requests'],
+              $counts['first_time_job_seeker_requests'],
+              $counts['late_birth_registration_requests'],
+              $counts['non_residency_certification_requests'],
+              $counts['no_income_certification_requests'],
+              $counts['out_of_school_youth_requests'],
+              $counts['solo_parent_requests'],
+              $counts['unemployment_certification_requests']
           ]
       ];
 
       // Prepare data for requests over time chart
       // For simplicity, we will prepare monthly counts for the last 6 months for each service
       $months = [];
-      $barangay_id_counts = [];
-      $clearance_counts = [];
-      $indigency_counts = [];
-      $residency_counts = [];
+      $total_requests_counts = [];
 
       for ($i = 5; $i >= 0; $i--) {
           $month = date('Y-m', strtotime("-$i months"));
           $months[] = date('F Y', strtotime("-$i months"));
 
-          // Query counts per month for each service
-          $stmt = $pdo->prepare("SELECT COUNT(*) FROM barangay_id_requests WHERE DATE_FORMAT(created_at, '%Y-%m') = :month");
-          $stmt->execute(['month' => $month]);
-          $barangay_id_counts[] = (int)$stmt->fetchColumn();
+          $total_count = 0;
 
-          $stmt = $pdo->prepare("SELECT COUNT(*) FROM barangay_clearance WHERE DATE_FORMAT(created_at, '%Y-%m') = :month");
-          $stmt->execute(['month' => $month]);
-          $clearance_counts[] = (int)$stmt->fetchColumn();
+          // Sum counts for all services for the month
+          $tables = [
+              'barangay_id_requests' => 'created_at',
+              'barangay_clearance' => 'created_at',
+              'certificate_of_indigency_requests' => 'created_at',
+              'certificate_of_residency_requests' => 'created_at',
+              'contact_inquiries' => 'created_at',
+              'baptismal_certification_requests' => 'submitted_at',
+              'certificate_of_good_moral_requests' => 'submitted_at',
+              'cohabitation_certification_requests' => 'submitted_at',
+              'construction_clearance_requests' => 'submitted_at',
+              'first_time_job_seeker_requests' => 'submitted_at',
+              'late_birth_registration_requests' => 'submitted_at',
+              'non_residency_certification_requests' => 'submitted_at',
+              'no_income_certification_requests' => 'submitted_at',
+              'out_of_school_youth_requests' => 'submitted_at',
+              'solo_parent_requests' => 'submitted_at',
+              'unemployment_certification_requests' => 'submitted_at'
+          ];
 
-          $stmt = $pdo->prepare("SELECT COUNT(*) FROM certificate_of_indigency_requests WHERE DATE_FORMAT(created_at, '%Y-%m') = :month");
-          $stmt->execute(['month' => $month]);
-          $indigency_counts[] = (int)$stmt->fetchColumn();
+          foreach ($tables as $table => $date_field) {
+              $stmt = $pdo->prepare("SELECT COUNT(*) FROM $table WHERE DATE_FORMAT($date_field, '%Y-%m') = :month");
+              $stmt->execute(['month' => $month]);
+              $total_count += (int)$stmt->fetchColumn();
+          }
 
-          $stmt = $pdo->prepare("SELECT COUNT(*) FROM certificate_of_residency_requests WHERE DATE_FORMAT(created_at, '%Y-%m') = :month");
-          $stmt->execute(['month' => $month]);
-          $residency_counts[] = (int)$stmt->fetchColumn();
+          $total_requests_counts[] = $total_count;
       }
 
       $requestsOverTimeData = [
           'labels' => $months,
-          'barangay_id' => $barangay_id_counts,
-          'clearance' => $clearance_counts,
-          'indigency' => $indigency_counts,
-          'residency' => $residency_counts
+          'total_requests' => $total_requests_counts
       ];
       ?>
-
       <script>
         // Pass PHP data to JavaScript
         const pieChartData = <?php echo json_encode($pieChartData); ?>;
@@ -313,44 +426,52 @@ function confirmDelete(entity, id) {
               <td><?php echo $counts['certificate_of_residency_requests']; ?></td>
             </tr>
             <tr>
-              <td>Service 5 (Placeholder)</td>
-              <td>0</td>
+              <td>Contact Inquiries</td>
+              <td><?php echo $counts['contact_inquiries']; ?></td>
             </tr>
             <tr>
-              <td>Service 6 (Placeholder)</td>
-              <td>0</td>
+              <td>Baptismal Certification Requests</td>
+              <td><?php echo $counts['baptismal_certification_requests']; ?></td>
             </tr>
             <tr>
-              <td>Service 7 (Placeholder)</td>
-              <td>0</td>
+              <td>Certificate of Good Moral Requests</td>
+              <td><?php echo $counts['certificate_of_good_moral_requests']; ?></td>
             </tr>
             <tr>
-              <td>Service 8 (Placeholder)</td>
-              <td>0</td>
+              <td>Cohabitation Certification Requests</td>
+              <td><?php echo $counts['cohabitation_certification_requests']; ?></td>
             </tr>
             <tr>
-              <td>Service 9 (Placeholder)</td>
-              <td>0</td>
+              <td>Construction Clearance Requests</td>
+              <td><?php echo $counts['construction_clearance_requests']; ?></td>
             </tr>
             <tr>
-              <td>Service 10 (Placeholder)</td>
-              <td>0</td>
+              <td>First Time Job Seeker Requests</td>
+              <td><?php echo $counts['first_time_job_seeker_requests']; ?></td>
             </tr>
             <tr>
-              <td>Service 11 (Placeholder)</td>
-              <td>0</td>
+              <td>Late Birth Registration Requests</td>
+              <td><?php echo $counts['late_birth_registration_requests']; ?></td>
             </tr>
             <tr>
-              <td>Service 12 (Placeholder)</td>
-              <td>0</td>
+              <td>Non Residency Certification Requests</td>
+              <td><?php echo $counts['non_residency_certification_requests']; ?></td>
             </tr>
             <tr>
-              <td>Service 13 (Placeholder)</td>
-              <td>0</td>
+              <td>No Income Certification Requests</td>
+              <td><?php echo $counts['no_income_certification_requests']; ?></td>
             </tr>
             <tr>
-              <td>Service 14 (Placeholder)</td>
-              <td>0</td>
+              <td>Out of School Youth Requests</td>
+              <td><?php echo $counts['out_of_school_youth_requests']; ?></td>
+            </tr>
+            <tr>
+              <td>Solo Parent Requests</td>
+              <td><?php echo $counts['solo_parent_requests']; ?></td>
+            </tr>
+            <tr>
+              <td>Unemployment Certification Requests</td>
+              <td><?php echo $counts['unemployment_certification_requests']; ?></td>
             </tr>
           </tbody>
         </table>
@@ -720,11 +841,534 @@ function confirmDelete(entity, id) {
   </main>
 </div>
 
+<!-- New content sections for additional tables -->
+
+<section id="baptismal_certification_requests" class="content-section">
+  <h2>Baptismal Certification Requests</h2>
+  <a href="create.php?entity=baptismal_certification_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Parent Name</th>
+          <th>Address</th>
+          <th>Child Name</th>
+          <th>Purpose</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($baptismal_certification_requests)): ?>
+          <?php foreach ($baptismal_certification_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['parent_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['address']); ?></td>
+              <td><?php echo htmlspecialchars($req['child_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['purpose']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=baptismal_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=baptismal_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('baptismal_certification_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="9">No Baptismal Certification requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="certificate_of_good_moral_requests" class="content-section">
+  <h2>Certificate of Good Moral Requests</h2>
+  <a href="create.php?entity=certificate_of_good_moral_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Age</th>
+          <th>Civil Status</th>
+          <th>Address</th>
+          <th>Purpose</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($certificate_of_good_moral_requests)): ?>
+          <?php foreach ($certificate_of_good_moral_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['full_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['age']); ?></td>
+              <td><?php echo htmlspecialchars($req['civil_status']); ?></td>
+              <td><?php echo htmlspecialchars($req['address']); ?></td>
+              <td><?php echo htmlspecialchars($req['purpose']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=certificate_of_good_moral_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=certificate_of_good_moral_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('certificate_of_good_moral_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="10">No Certificate of Good Moral requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="cohabitation_certification_requests" class="content-section">
+  <h2>Cohabitation Certification Requests</h2>
+  <a href="create.php?entity=cohabitation_certification_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Partner 1 Name</th>
+          <th>Partner 2 Name</th>
+          <th>Shared Address</th>
+          <th>Cohabitation Duration</th>
+          <th>Purpose</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($cohabitation_certification_requests)): ?>
+          <?php foreach ($cohabitation_certification_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['partner1_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['partner2_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['shared_address']); ?></td>
+              <td><?php echo htmlspecialchars($req['cohabitation_duration']); ?></td>
+              <td><?php echo htmlspecialchars($req['purpose']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=cohabitation_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=cohabitation_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('cohabitation_certification_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="10">No Cohabitation Certification requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="construction_clearance_requests" class="content-section">
+  <h2>Construction Clearance Requests</h2>
+  <a href="create.php?entity=construction_clearance_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Business Name</th>
+          <th>Business Location</th>
+          <th>Owner Name</th>
+          <th>Owner Address</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($construction_clearance_requests)): ?>
+          <?php foreach ($construction_clearance_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['business_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['business_location']); ?></td>
+              <td><?php echo htmlspecialchars($req['owner_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['owner_address']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=construction_clearance_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=construction_clearance_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('construction_clearance_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="9">No Construction Clearance requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="first_time_job_seeker_requests" class="content-section">
+  <h2>First Time Job Seeker Requests</h2>
+  <a href="create.php?entity=first_time_job_seeker_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Address</th>
+          <th>Residency Length</th>
+          <th>Oath Acknowledged</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($first_time_job_seeker_requests)): ?>
+          <?php foreach ($first_time_job_seeker_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['full_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['address']); ?></td>
+              <td><?php echo htmlspecialchars($req['residency_length']); ?></td>
+              <td><?php echo htmlspecialchars($req['oath_acknowledged']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=first_time_job_seeker_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=first_time_job_seeker_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('first_time_job_seeker_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="9">No First Time Job Seeker requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="late_birth_registration_requests" class="content-section">
+  <h2>Late Birth Registration Requests</h2>
+  <a href="create.php?entity=late_birth_registration_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Middle Name</th>
+          <th>Address</th>
+          <th>Marital Status</th>
+          <th>Place of Birth</th>
+          <th>Date of Birth</th>
+          <th>Fathers Name</th>
+          <th>Mothers Name</th>
+          <th>Years in Barangay</th>
+          <th>Purpose</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($late_birth_registration_requests)): ?>
+          <?php foreach ($late_birth_registration_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['last_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['first_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['middle_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['address']); ?></td>
+              <td><?php echo htmlspecialchars($req['marital_status']); ?></td>
+              <td><?php echo htmlspecialchars($req['place_of_birth']); ?></td>
+              <td><?php $dt = new DateTime($req['date_of_birth']); echo htmlspecialchars($dt->format('F j, Y')); ?></td>
+              <td><?php echo htmlspecialchars($req['fathers_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['mothers_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['years_in_barangay']); ?></td>
+              <td><?php echo htmlspecialchars($req['purpose']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=late_birth_registration_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=late_birth_registration_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('late_birth_registration_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="16">No Late Birth Registration requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="non_residency_certification_requests" class="content-section">
+  <h2>Non Residency Certification Requests</h2>
+  <a href="create.php?entity=non_residency_certification_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Previous Address</th>
+          <th>Purpose</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($non_residency_certification_requests)): ?>
+          <?php foreach ($non_residency_certification_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['full_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['previous_address']); ?></td>
+              <td><?php echo htmlspecialchars($req['purpose']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=non_residency_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=non_residency_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('non_residency_certification_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="8">No Non Residency Certification requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="no_income_certification_requests" class="content-section">
+  <h2>No Income Certification Requests</h2>
+  <a href="create.php?entity=no_income_certification_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Date of Birth</th>
+          <th>Civil Status</th>
+          <th>Address</th>
+          <th>No Income Statement</th>
+          <th>Purpose</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($no_income_certification_requests)): ?>
+          <?php foreach ($no_income_certification_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['full_name']); ?></td>
+              <td><?php $dt = new DateTime($req['date_of_birth']); echo htmlspecialchars($dt->format('F j, Y')); ?></td>
+              <td><?php echo htmlspecialchars($req['civil_status']); ?></td>
+              <td><?php echo htmlspecialchars($req['address']); ?></td>
+              <td><?php echo nl2br(htmlspecialchars($req['no_income_statement'])); ?></td>
+              <td><?php echo htmlspecialchars($req['purpose']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=no_income_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=no_income_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('no_income_certification_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="11">No No Income Certification requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="out_of_school_youth_requests" class="content-section">
+  <h2>Out of School Youth Requests</h2>
+  <a href="create.php?entity=out_of_school_youth_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Address</th>
+          <th>Citizenship</th>
+          <th>Purpose</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($out_of_school_youth_requests)): ?>
+          <?php foreach ($out_of_school_youth_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['full_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['address']); ?></td>
+              <td><?php echo htmlspecialchars($req['citizenship']); ?></td>
+              <td><?php echo htmlspecialchars($req['purpose']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=out_of_school_youth_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=out_of_school_youth_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('out_of_school_youth_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="9">No Out of School Youth requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="solo_parent_requests" class="content-section">
+  <h2>Solo Parent Requests</h2>
+  <a href="create.php?entity=solo_parent_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Address</th>
+          <th>Solo Since</th>
+          <th>Child Count</th>
+          <th>Children Names</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($solo_parent_requests)): ?>
+          <?php foreach ($solo_parent_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['full_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['address']); ?></td>
+              <td><?php echo htmlspecialchars($req['solo_since']); ?></td>
+              <td><?php echo htmlspecialchars($req['child_count']); ?></td>
+              <td><?php echo nl2br(htmlspecialchars($req['children_names'])); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=solo_parent_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=solo_parent_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('solo_parent_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="10">No Solo Parent requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="unemployment_certification_requests" class="content-section">
+  <h2>Unemployment Certification Requests</h2>
+  <a href="create.php?entity=unemployment_certification_requests" class="btn btn-primary mb-3">Add New</a>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Age</th>
+          <th>Birth Date</th>
+          <th>Civil Status</th>
+          <th>Address</th>
+          <th>Purpose</th>
+          <th>Email</th>
+          <th>Shipping Method</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($unemployment_certification_requests)): ?>
+          <?php foreach ($unemployment_certification_requests as $req): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($req['id']); ?></td>
+              <td><?php echo htmlspecialchars($req['full_name']); ?></td>
+              <td><?php echo htmlspecialchars($req['age']); ?></td>
+              <td><?php $dt = new DateTime($req['birth_date']); echo htmlspecialchars($dt->format('F j, Y')); ?></td>
+              <td><?php echo htmlspecialchars($req['civil_status']); ?></td>
+              <td><?php echo htmlspecialchars($req['address']); ?></td>
+              <td><?php echo htmlspecialchars($req['purpose']); ?></td>
+              <td><?php echo htmlspecialchars($req['email']); ?></td>
+              <td><?php echo htmlspecialchars($req['shipping_method']); ?></td>
+              <td><?php $dt = new DateTime($req['submitted_at']); echo htmlspecialchars($dt->format('F j, Y, g:i a')); ?></td>
+              <td>
+                <a href="edit.php?entity=unemployment_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-warning action-btn">Edit</a>
+                <a href="admin_page.php?view=unemployment_certification_requests&id=<?php echo $req['id']; ?>" class="btn btn-sm btn-primary action-btn">View</a>
+                <button onclick="confirmDelete('unemployment_certification_requests', <?php echo $req['id']; ?>)" class="btn btn-sm btn-danger action-btn">Delete</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <tr><td colspan="11">No Unemployment Certification requests found.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="adminjs/dashboard_pie_chart.js"></script>
-<script src="adminjs/dashboard_requests_over_time.js"></script>
+<script src="adminjs/dashboard_requests_over_time.js?v=1"></script>
 <script>
 $(document).ready(function() {
     // Sidebar toggle
