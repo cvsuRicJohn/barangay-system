@@ -518,3 +518,52 @@ html {
   scroll-behavior: smooth;
 }
 
+.gad-section {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-top: 2px solid #ccc;
+}
+
+.gad-section h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.gender-stats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.stat-box.male {
+  border-left: 5px solid #007BFF;
+}
+
+.stat-box.female {
+  border-left: 5px solid #E83E8C;
+}
+
+.stat-box h3 {
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #444;
+}
+
+.stat-box p {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: bold;
+}
+

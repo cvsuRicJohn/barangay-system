@@ -1,10 +1,8 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+include('session_check.php');  // Include the session check
 
-require_once 'session_check.php';
-
-check_user_session();
+// Check if the user is logged in
+check_user_session();  // This ensures only logged-in users can access this page
 
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_destroy();
@@ -72,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
       <div>
         <strong>GOVPH</strong> | The Official Website of Barangay Bucandala 1, Imus Cavite
       </div>
-
         <span id="dateTimePH"></span>
         <a href="index.php?action=logout" class="logout-link" onclick="return confirm('Are you sure you want to log out?');">Logout</a>
         </div>
@@ -160,6 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
 
   <a href="contact.php">About</a>
   <a href="faq.php">FAQs</a>
+  <?php if (isset($_SESSION['username'])): ?>
+    <a href="profile.php">My Profile</a>
+<?php endif; ?>
 </nav>
 
 
@@ -307,6 +307,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
       </iframe>
     </div>
   </section>
+
+        <!--  GAD SECTION -->
+  <section id="gad" class="gad-section" data-aos="fade-up" data-aos-duration="1000">
+  <h2>Gender and Development (GAD)</h2>
+  <p>As part of our commitment to inclusive and data-driven governance, we present the gender distribution in Bucandala I:</p>
+
+  <div class="gender-stats">
+    <div class="stat-box male">
+      <h3>Male Population</h3>
+      <p>5,867</p>
+    </div>
+    <div class="stat-box female">
+      <h3>Female Population</h3>
+      <p>6,356</p>
+    </div>
+  </div>
+
+  <p>Total Population: <strong>12,223</strong></p>
+  <p>This gender profile helps guide our GAD programs and budget allocations, ensuring all genders are represented and supported in barangay services and initiatives.</p>
+</section>
 
       <!-- Contact Form -->
   <section class="contact-section"data-aos="fade-up" data-aos-duration="1000">

@@ -1,5 +1,5 @@
 <?php
-require_once 'session_check.php';
+require_once('../session_check.php');
 check_user_session();
 
 // Make sure user is logged in
