@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once('session_check.php');
+check_user_session();
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -76,13 +77,14 @@ try {
     <div class="profile-header">
         <div class="row">
             <div class="col-md-8">
-                <h3><?= htmlspecialchars($user['first_name'] . ' ' . $user['middle_name'] . ' ' . $user['last_name']) ?></h3>
+<h3><?= htmlspecialchars($user['first_name'] . ' ' . ($user['middle_name'] ?? '') . ' ' . $user['last_name']) ?></h3>
                 <div class="info-group">
                     <p><span class="info-title">Address:</span> <?= htmlspecialchars($user['address']) ?></p>
                     <p><span class="info-title">Email:</span> <?= htmlspecialchars($user['email']) ?></p>
                     <p><span class="info-title">Username:</span> <?= htmlspecialchars($user['username']) ?></p>
-                    <p><span class="info-title">Date of Birth:</span> <?= htmlspecialchars($user['dob']) ?></p>
-                    <p><span class="info-title">Gender:</span> <?= htmlspecialchars($user['gender']) ?></p>
+                    <p><span class="info-title">Role:</span> <?= !empty($user['is_admin']) && $user['is_admin'] == 1 ? 'Admin' : 'User' ?></p>
+<p><span class="info-title">Date of Birth:</span> <?= htmlspecialchars($user['dob'] ?? '') ?></p>
+<p><span class="info-title">Gender:</span> <?= htmlspecialchars($user['gender'] ?? '') ?></p>
                     <p><span class="info-title">Civil Status:</span> <?= htmlspecialchars($user['civil_status']) ?></p>
                     <p><span class="info-title">Government ID:</span> <?= htmlspecialchars($user['government_id']) ?></p>
                     <p><span class="info-title">ID Number:</span> <?= htmlspecialchars($user['id_number']) ?></p>
@@ -90,10 +92,11 @@ try {
                     <p><span class="info-title">Emergency Contact Number:</span> <?= htmlspecialchars($user['emergency_contact_number']) ?></p>
                 </div>
             </div>
-            <div class="col-md-4 text-right">
-                <a href="edit_profile.php" class="btn btn-outline-primary">Edit Profile</a>
-                <a href="login.php?action=logout" class="btn btn-danger ml-2">Logout</a>
-            </div>
+<div class="col-md-4 text-right">
+    <a href="index.php" class="btn btn-primary ml-2">Home</a>
+    <a href="edit_profile.php" class="btn btn-warning ml-2">Edit</a>
+    <a href="login.php?action=logout" class="btn btn-danger ml-2">Logout</a>
+</div>
         </div>
     </div>
 </div>
