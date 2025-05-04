@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2025 at 05:24 AM
+-- Generation Time: May 04, 2025 at 06:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,7 +36,7 @@ CREATE TABLE `baptismal_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `baptismal_certification_requests`
@@ -70,7 +70,7 @@ CREATE TABLE `barangay_clearance` (
   `shipping_method` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `barangay_clearance`
@@ -85,7 +85,9 @@ INSERT INTO `barangay_clearance` (`id`, `first_name`, `middle_name`, `last_name`
 (7, 'qwey', 'adsad', 'aafasfa', 'fawfawfawf', '0512-05-12', 12, 'qtqwf', '16511176771', '61', 'qwtqwtq', 'qyqeyeqyqe', 'qweqtqstgs', 'qtqstqs', 'sqqqs@gmail.com', 'PICK UP', '2025-04-29 06:38:04', NULL),
 (8, 'qweqweqw', 'eqweqw', 'eqweqwewq', 'ewqewqewqewqe', '1231-03-12', 11, 'qweqwe', '12341512511', '121', 'qwrqtrqt', 'qweqwrqr', 'qwrqwrtqwr', 'qwrqwrqwrqw', 'qsqqs@gmail.com', 'PICK UP', '2025-04-29 09:00:11', NULL),
 (9, 'qwtqwt', 'qwtqwtqwtqw', 'tqwtqwtqw', 'tqtqwtqwtqtq', '0011-02-11', 121, 'qweqweqwe', '12412512512', '122', 'qweqweqwe', 'qqweqwe', 'qweqweqwe', 'qeqweqw', 'aqqwdel@gmail.com', 'PICK UP', '2025-04-29 09:02:07', NULL),
-(10, 'sdfsdfsd', 'sdfsdfsdf', 'sdfsdfsdf', 'sdfsdf', '0000-00-00', 12, 'qweqsgrs', '16516171717', '121', 'qwdqwdq', 'dqwdqwd', 'qwdqwdq', 'wdqwdqwd', 'qwqweeqweqwe@gmail.com', 'PICK UP', '2025-04-29 09:06:09', NULL);
+(10, 'sdfsdfsd', 'sdfsdfsdf', 'sdfsdfsdf', 'sdfsdf', '0000-00-00', 12, 'qweqsgrs', '16516171717', '121', 'qwdqwdq', 'dqwdqwd', 'qwdqwdq', 'wdqwdqwd', 'qwqweeqweqwe@gmail.com', 'PICK UP', '2025-04-29 09:06:09', NULL),
+(11, 'xzvcsvc', 'svzxvzx', 'vzxvzvzv', 'zxvzxvzxvz', '0123-03-12', 21, 'asdasda', '12541252521', '21', 'qwewqeqwe', 'qweqweqwe', 'qweqweqw', 'qweqweqw', 'qas@gmail.com', 'PICK UP', '2025-05-01 06:49:03', NULL),
+(12, 'dfgdfgdf', 'ewqeqwe', 'dfgdfgdfgdf', 'gfdgdg', '0000-00-00', 21, 'asfsdgsdgh', '15321231161', '21', 'qehgwqhgw', 'wehwehwehw', 'wehwehwh', 'wehwehwe', 'sasqqqs@gmail.com', 'PICK UP', '2025-05-01 07:08:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -105,14 +107,14 @@ CREATE TABLE `barangay_id_requests` (
   `shipping_method` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `barangay_id_requests`
 --
 
 INSERT INTO `barangay_id_requests` (`id`, `first_name`, `middle_name`, `last_name`, `address`, `date_of_birth`, `gov_id`, `email`, `shipping_method`, `created_at`, `user_id`) VALUES
-(3, 'qweqwe', 'qweqwe', 'wqeqweqewq', 'ewqewqewqe', '0125-04-12', 'qweqweqwe', 'asd@gmail.com', 'PICK UP', '2025-04-29 09:33:34', NULL);
+(3, 'qweqweqwe', 'qweqwe', 'wqeqweqewq', 'ewqewqewqe', '0125-04-12', 'qweqweqwe', 'asd@gmail.com', 'PICK UP', '2025-04-29 09:33:34', 1);
 
 -- --------------------------------------------------------
 
@@ -130,7 +132,7 @@ CREATE TABLE `certificate_of_good_moral_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `certificate_of_good_moral_requests`
@@ -163,7 +165,7 @@ CREATE TABLE `certificate_of_indigency_requests` (
   `shipping_method` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `certificate_of_indigency_requests`
@@ -192,7 +194,7 @@ CREATE TABLE `certificate_of_residency_requests` (
   `shipping_method` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `certificate_of_residency_requests`
@@ -217,7 +219,7 @@ CREATE TABLE `cohabitation_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cohabitation_certification_requests`
@@ -241,7 +243,7 @@ CREATE TABLE `construction_clearance_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `construction_clearance_requests`
@@ -263,7 +265,7 @@ CREATE TABLE `contact_inquiries` (
   `subject` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `contact_inquiries`
@@ -297,7 +299,7 @@ CREATE TABLE `first_time_job_seeker_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `first_time_job_seeker_requests`
@@ -328,7 +330,7 @@ CREATE TABLE `late_birth_registration_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `late_birth_registration_requests`
@@ -351,7 +353,7 @@ CREATE TABLE `non_residency_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `non_residency_certification_requests`
@@ -377,7 +379,7 @@ CREATE TABLE `no_income_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `no_income_certification_requests`
@@ -401,7 +403,7 @@ CREATE TABLE `out_of_school_youth_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `out_of_school_youth_requests`
@@ -426,14 +428,15 @@ CREATE TABLE `solo_parent_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `solo_parent_requests`
 --
 
 INSERT INTO `solo_parent_requests` (`id`, `full_name`, `address`, `solo_since`, `child_count`, `children_names`, `email`, `shipping_method`, `submitted_at`) VALUES
-(1, 'qweqweqwe', 'wqeqwewq', '12312', 21, 'qweqweqwe', 'qweqweqqqwe@gmail.com', 'PICK UP', '2025-05-01 03:12:00');
+(1, 'qweqweqwe', 'wqeqwewq', '12312', 21, 'qweqweqwe', 'qweqweqqqwe@gmail.com', 'PICK UP', '2025-05-01 03:12:00'),
+(2, 'qwe', 'qwe', '123', 12, 'qweqwe', 'qweqweqqqwe@gmail.com', 'PICK UP', '2025-05-01 05:07:23');
 
 -- --------------------------------------------------------
 
@@ -452,7 +455,7 @@ CREATE TABLE `unemployment_certification_requests` (
   `email` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `unemployment_certification_requests`
@@ -477,17 +480,27 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `is_admin` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) 
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `middle_name` varchar(100) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `gender` enum('Male','Female','Other') DEFAULT NULL,
+  `civil_status` enum('Single','Married','Widowed','Divorced','Separated') DEFAULT NULL,
+  `government_id` varchar(100) DEFAULT NULL,
+  `id_number` varchar(100) DEFAULT NULL,
+  `emergency_contact_name` varchar(150) DEFAULT NULL,
+  `emergency_contact_number` varchar(50) DEFAULT NULL,
+  `profile_pic` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `address`, `email`, `username`, `password`, `is_admin`, `created_at`, `updated_at`) VALUES
-(1, 'qwe', 'qwe', 'qwe', 'qwe@gmail.com', 'qwe', '$2y$10$WjmWDv2Bnn92y1grSoAJjuVps0RK7x8a9N0v4.sgqGWfdhOF5O1t2', 0, '2025-04-25 03:55:36', '2025-04-25 03:55:36'),
-(2, 'try', 'try', '', 'try@gmail.com', 'try', '$2y$10$ZZJ5eCIZSF6QklkMeVXTN.i4Sdy/0jjH2RDjLxdarKSo473I0dKLe', 1, '2025-04-25 04:19:40', '2025-04-25 04:19:40'),
-(3, 'qwe', 'try', 'BUCANDALA 1', 'qweqqwewewq@gmail.com', 'zxc', '$2y$10$NunP1abnKFFEoXo9VHtoOOpQvh3fD/Qbzie2vDd8IjargYdXzqjv6', 0, '2025-04-29 06:39:44', '2025-04-29 06:56:03');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `address`, `email`, `username`, `password`, `is_admin`, `created_at`, `updated_at`, `middle_name`, `dob`, `gender`, `civil_status`, `government_id`, `id_number`, `emergency_contact_name`, `emergency_contact_number`, `profile_pic`) VALUES
+(1, 'qwe', 'qwe', 'qwe', 'qwe@gmail.com', 'qwe', '$2y$10$WjmWDv2Bnn92y1grSoAJjuVps0RK7x8a9N0v4.sgqGWfdhOF5O1t2', 0, '2025-04-25 03:55:36', '2025-04-25 03:55:36', 'qwe', '0000-00-00', '', '', 'qwe', 'qwe', 'qwe', 'qwe', 'qewqewq'),
+(2, 'try', 'try', '', 'try@gmail.com', 'try', '$2y$10$ZZJ5eCIZSF6QklkMeVXTN.i4Sdy/0jjH2RDjLxdarKSo473I0dKLe', 1, '2025-04-25 04:19:40', '2025-04-25 04:19:40', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 'qwe', 'try', 'BUCANDALA 1', 'qweqqwewewq@gmail.com', 'zxc', '$2y$10$NunP1abnKFFEoXo9VHtoOOpQvh3fD/Qbzie2vDd8IjargYdXzqjv6', 0, '2025-04-29 06:39:44', '2025-04-29 06:56:03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 'Aicer John', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', 'aicersantiaguel@gmail.com', 'Eyser', '$2y$10$a2JYzAZwHvbijBHnfsnF2eOBdEpk6ySL94i1ANVlYP1/zFHfS8Cri', 0, '2025-05-03 09:36:18', '2025-05-04 04:47:31', 'De Ocampo', '2001-02-02', 'Male', 'Single', 'qwe', '123', 'qwe', '123', 'qweas.jpg');
 
 --
 -- Indexes for dumped tables
@@ -611,7 +624,7 @@ ALTER TABLE `baptismal_certification_requests`
 -- AUTO_INCREMENT for table `barangay_clearance`
 --
 ALTER TABLE `barangay_clearance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `barangay_id_requests`
@@ -689,7 +702,7 @@ ALTER TABLE `out_of_school_youth_requests`
 -- AUTO_INCREMENT for table `solo_parent_requests`
 --
 ALTER TABLE `solo_parent_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `unemployment_certification_requests`
@@ -701,7 +714,7 @@ ALTER TABLE `unemployment_certification_requests`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
