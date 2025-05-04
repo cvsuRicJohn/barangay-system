@@ -24,6 +24,14 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+// Fetch logged-in user data for autofill
+$user = [];
+if (isset($_SESSION['user_id'])) {
+    $stmt_user = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt_user->execute([$_SESSION['user_id']]);
+    $user = $stmt_user->fetch();
+}
+
 $success_message = "";
 $error_message = "";
 
@@ -185,24 +193,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label>First Name *</label>
-                    <input type="text" name="first_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['first_name'] ?? ''); ?>">
+                    <input type="text" name="first_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['first_name'] ?? $user['first_name'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-4">
                     <label>Middle Name *</label>
-                    <input type="text" name="middle_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['middle_name'] ?? ''); ?>">
+                    <input type="text" name="middle_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['middle_name'] ?? $user['middle_name'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-4">
                     <label>Last Name *</label>
-                    <input type="text" name="last_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['last_name'] ?? ''); ?>">
+                    <input type="text" name="last_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['last_name'] ?? $user['last_name'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group col-md-12">
                     <label>Address *</label>
-                    <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($_POST['address'] ?? ''); ?>">
+                    <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($_POST['address'] ?? $user['address'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label>Date of Birth *</label>
-                    <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? ''); ?>">
+                    <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? $user['dob'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label>Government-issued ID *</label>
@@ -210,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group col-md-6">
                     <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? $user['email'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>
