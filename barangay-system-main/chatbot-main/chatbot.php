@@ -13,17 +13,44 @@ if (!isset($_SESSION['user_id'])) {
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <!-- Chatbot Button -->
-<div style="position: fixed; bottom: 20px; right: 20px;">
-    <button onclick="toggleChatbot()" 
-            style="background: #12c009; 
-                   color: white; 
-                   border: none; 
-                   padding: 20px;
-                   font-size: 20px;
-                   border-radius: 50%; 
-                   cursor: pointer;">
-        💬
-    </button>
+<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+  <div onclick="toggleChatbot()" style="
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid #e0e0e0;
+      ">
+    
+    <!-- Bot Icon -->
+    <div style="
+        width: 40px;
+        height: 40px;
+        background: #007bff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+      ">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" 
+           alt="Bot Icon" 
+           style="width: 24px; height: 24px;">
+    </div>
+
+    <!-- Text -->
+    <div style="display: flex; flex-direction: column;">
+      <span style="font-weight: 600; color: #333;">Barangay ChatBot</span>
+      <span style="font-size: 12px; color: #28a745; display: flex; align-items: center;">
+        <span style="width: 8px; height: 8px; background: #28a745; border-radius: 50%; margin-right: 5px;"></span>
+        Online
+      </span>
+    </div>
+  </div>
 </div>
 
 <!-- Chatbot Container -->

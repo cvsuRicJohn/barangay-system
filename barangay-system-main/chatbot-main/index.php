@@ -71,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
         <strong>GOVPH</strong> | The Official Website of Barangay Bucandala 1, Imus Cavite
       </div>
         <span id="dateTimePH"></span>
-        <a href="index.php?action=logout" class="logout-link" onclick="return confirm('Are you sure you want to log out?');">Logout</a>
         </div>
     </div>
 
@@ -82,6 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
       🔔 Latest Announcement: Barangay Assembly on April 10, 2025 | Free Medical Check-up on April 15, 2025 | Stay Updated with Barangay Bucandala 1!
     </marquee>
   </div>
+
+  <!-- Menu Bar -->
+  <?php include('sidebar.php'); ?>
 
   <nav>
   <a href="index.php">Home</a>
@@ -157,9 +159,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
 
   <a href="contact.php">About</a>
   <a href="faq.php">FAQs</a>
-  <?php if (isset($_SESSION['username'])): ?>
-    <a href="profile.php">My Profile</a>
-<?php endif; ?>
 </nav>
 
 

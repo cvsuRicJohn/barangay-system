@@ -22,6 +22,8 @@ if (!isset($_SESSION['user_id'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+    
+<?php include('sidebar.php'); ?>
 
     <div style="background-color: #0056b3; color: white; display: flex; justify-content: space-between; align-items: center; padding: 5px 20px; font-family: Arial, sans-serif; font-size: 14px;">
         <div>

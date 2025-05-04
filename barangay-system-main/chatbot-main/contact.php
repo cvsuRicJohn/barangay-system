@@ -26,6 +26,8 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="stylesheet" href="css/contact.css" />
 </head>
 <body>
+  
+<?php include('sidebar.php'); ?>
 
   <!-- Top Header -->
   <div style="background-color: #0056b3; color: white; display: flex; justify-content: space-between; align-items: center; padding: 5px 20px; font-family: Arial, sans-serif; font-size: 14px;">

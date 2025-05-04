@@ -28,78 +28,64 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>User Profile | Barangay Bucandala 1</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f5f6fa;
-        }
-        .cover-photo {
-            width: 100%;
-            height: 250px;
-            background: url('image/cover.jpg') center center no-repeat;
-            background-size: cover;
-            position: relative;
-        }
-        .profile-pic {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 5px solid #fff;
-            position: absolute;
-            bottom: -70px;
-            left: 30px;
-            background: #fff;
-            object-fit: cover;
-        }
-        .profile-header {
-            padding: 80px 30px 30px;
-            background-color: #fff;
-            border-radius: 8px;
-            margin-top: 80px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .info-group {
-            margin-top: 20px;
-        }
-        .info-title {
-            font-weight: bold;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/profile.css" />
 </head>
 <body>
-
-<div class="cover-photo">
-    <img src="<?= !empty($user['profile_pic']) ? 'uploads/' . htmlspecialchars($user['profile_pic']) : 'image/default-avatar.png'; ?>" class="profile-pic" alt="Profile Picture">
-</div>
-
-<div class="container">
-    <div class="profile-header">
-        <div class="row">
-            <div class="col-md-8">
-<h3><?= htmlspecialchars($user['first_name'] . ' ' . ($user['middle_name'] ?? '') . ' ' . $user['last_name']) ?></h3>
-                <div class="info-group">
-                    <p><span class="info-title">Address:</span> <?= htmlspecialchars($user['address']) ?></p>
-                    <p><span class="info-title">Email:</span> <?= htmlspecialchars($user['email']) ?></p>
-                    <p><span class="info-title">Username:</span> <?= htmlspecialchars($user['username']) ?></p>
-                    <p><span class="info-title">Role:</span> <?= !empty($user['is_admin']) && $user['is_admin'] == 1 ? 'Admin' : 'User' ?></p>
-<p><span class="info-title">Date of Birth:</span> <?= htmlspecialchars($user['dob'] ?? '') ?></p>
-<p><span class="info-title">Gender:</span> <?= htmlspecialchars($user['gender'] ?? '') ?></p>
-                    <p><span class="info-title">Civil Status:</span> <?= htmlspecialchars($user['civil_status']) ?></p>
-                    <p><span class="info-title">Government ID:</span> <?= htmlspecialchars($user['government_id']) ?></p>
-                    <p><span class="info-title">ID Number:</span> <?= htmlspecialchars($user['id_number']) ?></p>
-                    <p><span class="info-title">Emergency Contact Name:</span> <?= htmlspecialchars($user['emergency_contact_name']) ?></p>
-                    <p><span class="info-title">Emergency Contact Number:</span> <?= htmlspecialchars($user['emergency_contact_number']) ?></p>
+    
+    <!-- Footer Actions -->
+    <div class="text-center mt-4">
+        <a href="index.php" class="btn btn-primary me-2">🏠 Home</a>
+        <a href="login.php?action=logout" class="btn btn-danger">🔓 Logout</a>
+    </div>
+<div class="container mt-5">
+    <!-- Profile Card -->
+    <div class="profile-card">
+        <div class="d-flex justify-content-between align-items-center profile-header">
+            <div class="d-flex align-items-center gap-3">
+                <img src="<?= !empty($user['profile_pic']) ? 'uploads/' . htmlspecialchars($user['profile_pic']) : 'image/default-avatar.png'; ?>" class="profile-img" alt="Profile Picture">
+                <div>
+                    <h5 class="mb-1"><?= htmlspecialchars($user['first_name'] . ' ' . ($user['middle_name'] ?? '') . ' ' . $user['last_name']) ?></h5>
+                    <div class="text-muted"><?= htmlspecialchars($user['role'] ?? 'User') ?></div>
+                    <div class="text-muted small"><?= htmlspecialchars($user['address']) ?></div>
                 </div>
             </div>
-<div class="col-md-4 text-right">
-    <a href="index.php" class="btn btn-primary ml-2">Home</a>
-    <a href="edit_profile.php" class="btn btn-warning ml-2">Edit</a>
-    <a href="login.php?action=logout" class="btn btn-danger ml-2">Logout</a>
-</div>
+            <div class="text-end">
+                <a href="edit_profile.php" class="btn btn-outline-secondary btn-sm edit-btn">✏️ Edit</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Personal Information -->
+    <div class="profile-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="section-title">Personal Information</div>
+            <a href="edit_profile.php" class="btn btn-outline-secondary btn-sm edit-btn">✏️ Edit</a>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-2"><span class="info-label">Email address</span><br><span class="info-value"><?= htmlspecialchars($user['email']) ?></span></div>
+            <div class="col-md-6 mb-2"><span class="info-label">Username</span><br><span class="info-value"><?= htmlspecialchars($user['username']) ?></span></div>
+            <div class="col-md-6 mb-2"><span class="info-label">Date of Birth</span><br><span class="info-value"><?= htmlspecialchars($user['dob'] ?? '') ?></span></div>
+            <div class="col-md-6 mb-2"><span class="info-label">Gender</span><br><span class="info-value"><?= htmlspecialchars($user['gender'] ?? '') ?></span></div>
+            <div class="col-md-6 mb-2"><span class="info-label">Civil Status</span><br><span class="info-value"><?= htmlspecialchars($user['civil_status']) ?></span></div>
+            <div class="col-md-6 mb-2"><span class="info-label">Gov’t ID Type</span><br><span class="info-value"><?= htmlspecialchars($user['government_id']) ?></span></div>
+            <div class="col-md-6 mb-2"><span class="info-label">ID Number</span><br><span class="info-value"><?= htmlspecialchars($user['id_number']) ?></span></div>
+        </div>
+    </div>
+
+    <!-- Address & Emergency Contact -->
+    <div class="profile-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="section-title">Address & Emergency Contact</div>
+            <a href="edit_profile.php" class="btn btn-outline-secondary btn-sm edit-btn">✏️ Edit</a>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-2"><span class="info-label">Address</span><br><span class="info-value"><?= htmlspecialchars($user['address']) ?></span></div>
+            <div class="col-md-6 mb-2"><span class="info-label">Emergency Contact Name</span><br><span class="info-value"><?= htmlspecialchars($user['emergency_contact_name']) ?></span></div>
+            <div class="col-md-6 mb-2"><span class="info-label">Emergency Contact Number</span><br><span class="info-value"><?= htmlspecialchars($user['emergency_contact_number']) ?></span></div>
         </div>
     </div>
 </div>
-
 </body>
 </html>
