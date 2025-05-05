@@ -293,6 +293,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
     </iframe>
 
-    <script src="../js/services-management-forms.js"></script>
+    <script src="../js/services.js"></script>
 </body>
 </html>
