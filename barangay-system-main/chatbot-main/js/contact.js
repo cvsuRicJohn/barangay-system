@@ -30,3 +30,11 @@ window.addEventListener("scroll", function () {
   nav.classList.toggle("scrolled", window.scrollY > 50);
 });
 
+
+
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mainNav = document.getElementById('mainNav');
+
+hamburgerBtn.addEventListener('click', () => {
+  mainNav.classList.toggle('show');
+});

@@ -103,7 +103,7 @@ header {
   height: 180px;
   object-fit: cover;
   filter: brightness(70%);
-  z-index: 2;
+  z-index: 1;
 }
 
 .hero-image {
@@ -294,7 +294,7 @@ nav a {
 
 nav.scrolled {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   animation: slideDown 0.6s ease-in-out forwards;
 }
 
@@ -350,23 +350,58 @@ nav a:hover {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-/* Submenu */
+
+/* Submenu base styles */
 .dropdown-submenu {
-position: relative;
+  position: relative;
 }
 
 .dropdown-submenu .submenu-content {
-display: none;
-position: absolute;
-left: 100%;
-top: 0;
-background-color: #f1f1f1;
-min-width: 300px;
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #f1f1f1;
+  min-width: 220px;
 }
 
-.dropdown-submenu:hover .submenu-content {
-display: block;
+/* Show submenu on hover (desktop only) */
+@media (min-width: 769px) {
+  .dropdown-submenu:hover .submenu-content {
+    display: block;
+  }
 }
+
+/* Mobile-friendly styles */
+@media (max-width: 768px) {
+  .dropdown-content {
+    position: static;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .dropdown-submenu {
+    position: static;
+  }
+
+  .dropdown-submenu .submenu-content {
+    position: static;
+    display: none;
+    background-color: #003974;
+    padding-left: 10px;
+  }
+
+  .dropdown-submenu.open .submenu-content {
+    display: block;
+  }
+
+  .dropdown-submenu > a {
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+  }
+}
+
 .learn-more {
   transition: transform 0.3s ease;
 }
@@ -540,7 +575,7 @@ html {
   flex: 1;
   min-width: 200px;
   padding: 15px;
-  background-color: #fff;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   text-align: center;
   border-radius: 8px;
@@ -567,6 +602,165 @@ html {
   font-weight: bold;
 }
 
+/* General layout */
+.logo-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap; /* prevent wrapping unless screen is very small */
+  margin-right: auto;
+}
 
+/* Image styling */
+.logo-img {
+  height: 60px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
 
+/* Text styling */
+.logo-text {
+  line-height: 1.2;
+  white-space: nowrap; /* prevents wrapping text like "Bucandala 1" */
+}
 
+.barangay-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0047BB;
+}
+
+.barangay-location {
+  font-size: 18px;
+  color: #0047BB;
+}
+
+/* Ensure it stays visible and responsive on smaller devices */
+@media (max-width: 576px) {
+  .logo-container {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap; /* allow wrap if screen too small */
+  }
+@media screen and (max-width: 768px) {
+  nav > *:not(.keep-on-mobile) {
+    display: none !important;
+  }
+}
+  .logo-img {
+    height: 50px;
+    margin-bottom: 5px;
+  }
+
+  .barangay-name {
+    font-size: 20px;
+  }
+
+  .barangay-location {
+    font-size: 16px;
+  }
+}
+
+/* Desktop nav default */
+.main-nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Hamburger button hidden by default */
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 26px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1100;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    background-color: #003974;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 250px;
+    padding: 20px;
+    z-index: 1099;
+  }
+
+  .main-nav.show {
+    display: flex;
+  }
+
+  .hamburger-btn {
+    display: block;
+    color: #003974;
+  }
+
+  .main-nav a {
+    color: white;
+    padding: 10px 0;
+  }
+
+  .dropdown:hover .dropdown-content,
+  .dropdown-submenu:hover .submenu-content {
+    display: block;
+  }
+}
+
+.header-bar {
+  background-color: #0047AB;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 8px 20px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.left-section {
+  font-weight: bold;
+}
+
+.left-section span {
+  font-weight: normal;
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.social-icons a {
+  color: white;
+  text-decoration: none;
+}
+
+.time-section {
+  text-align: right;
+}
+
+/* --- MOBILE STYLES --- */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .time-section {
+    text-align: center;
+  }
+}

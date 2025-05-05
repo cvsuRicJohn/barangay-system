@@ -61,30 +61,10 @@ window.addEventListener("scroll", function () {
   nav.classList.toggle("scrolled", window.scrollY > 50);
 });
 
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('sidebarOverlay');
-const openBtn = document.getElementById('openSidebar');
-const closeBtn = document.getElementById('closeSidebar');
 
-// Open the sidebar
-openBtn.addEventListener('click', () => {
-  sidebar.classList.add('active');
-  overlay.classList.add('active');
-  openBtn.classList.add('hide'); // Hide the menu button when the sidebar is open
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mainNav = document.getElementById('mainNav');
+
+hamburgerBtn.addEventListener('click', () => {
+  mainNav.classList.toggle('show');
 });
-
-// Close the sidebar
-closeBtn.addEventListener('click', () => {
-  sidebar.classList.remove('active');
-  overlay.classList.remove('active');
-  openBtn.classList.remove('hide'); // Show the menu button when the sidebar is closed
-});
-
-// Close the sidebar when clicking the overlay
-overlay.addEventListener('click', () => {
-  sidebar.classList.remove('active');
-  overlay.classList.remove('active');
-  openBtn.classList.remove('hide'); // Show the menu button when the sidebar is closed
-});
-
-

@@ -60,107 +60,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="image/imus-logo.png">
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/index.css" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
-  <div style="background-color: #0056b3; color: white; display: flex; justify-content: space-between; align-items: center; padding: 5px 20px; font-family: Arial, sans-serif; font-size: 14px;">
-      <div>
-        <strong>GOVPH</strong> | The Official Website of Barangay Bucandala 1, Imus Cavite
-      </div>
-        <span id="dateTimePH"></span>
-        </div>
+
+<div class="header-bar">
+  <div class="header-container">
+    
+    <!-- Left section -->
+    <div class="left-section">
+      GOVPH
+      <span>| The Official Website of Barangay Bucandala 1, Imus, Cavite</span>
     </div>
 
+    <!-- Social Media Icons -->
+    <div class="social-icons">
+      <a href="https://www.facebook.com/profile.php?id=100085126650282"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fas fa-phone-alt"></i></a>
+    </div>
 
+    <!-- Right section: Philippine Time -->
+    <div class="time-section">
+      <div>Philippine Standard Time:</div>
+      <div id="dateTimePH">Loading time...</div>
+    </div>
 
-<div style="background-color: #12c009; color: black; font-weight: bold; height: 40px; overflow: hidden; display: flex; align-items: center;">
-    <marquee behavior="scroll" direction="left" scrollamount="5" style="width: 100%;">
-      🔔 Latest Announcement: Barangay Assembly on April 10, 2025 | Free Medical Check-up on April 15, 2025 | Stay Updated with Barangay Bucandala 1!
-    </marquee>
   </div>
+</div>
 
-  <!-- Menu Bar -->
-  <?php include('sidebar.php'); ?>
+  <nav style="display: flex; align-items: center; padding: 10px;">
+  <!-- Logo and Title -->
+  <div class="logo-container keep-on-mobile">
+  <img src="image/imus-logo.png" alt="Barangay Logo" class="logo-img">
+  <div class="logo-text">
+    <span class="barangay-name">Bucandala 1</span><br>
+    <span class="barangay-location">Imus, Cavite</span>
+  </div>
+</div>
+<!-- Hamburger Button (mobile only) -->
+<button id="hamburgerBtn" class="hamburger-btn">
+  <i class="fas fa-bars"></i>
+</button>
 
-  <nav>
+<!-- MAIN NAVIGATION -->
+<nav class="main-nav" id="mainNav">
   <a href="index.php">Home</a>
 
   <div class="dropdown">
     <a href="#online-services-section" class="dropbtn">Services ▾</a>
     <div class="dropdown-content">
-      
-      <!-- Barangay Clearance submenu -->
+      <!-- Barangay Clearance -->
       <div class="dropdown-submenu">
         <a href="#">Barangay Clearance ▸</a>
         <div class="submenu-content">
-          <a href="forms/barangay-clearance.php" title="Get your official barangay clearance for legal use">
-            <i class="fas fa-file-alt"></i> Barangay Clearance
-          </a>
-          <a href="forms/barangay-id.php" title="Apply for your official Barangay ID card">
-            <i class="fas fa-id-card"></i> Barangay ID
-          </a>
-          <a href="forms/construction-clearance.php" title="Clearance for building or construction activities">
-            <i class="fas fa-tools"></i> Construction Clearance
-          </a>
-          <a href="forms/business-permit.php" title="Request for business operation permits">
-            <i class="fas fa-store"></i> Business Permit
-          </a>
+          <a href="forms/barangay-clearance.php"><i class="fas fa-file-alt"></i> Barangay Clearance</a>
+          <a href="forms/barangay-id.php"><i class="fas fa-id-card"></i> Barangay ID</a>
+          <a href="forms/construction-clearance.php"><i class="fas fa-tools"></i> Construction Clearance</a>
         </div>
       </div>
 
-      <!-- Barangay Certification submenu -->
+      <!-- Barangay Certification -->
       <div class="dropdown-submenu">
-        <a href="#"> Barangay Certification ▸</a>
+        <a href="#">Barangay Certification ▸</a>
         <div class="submenu-content">
-          <a href="forms/certificate-of-residency.php" title="Proof that you live in the barangay">
-            <i class="fas fa-home"></i> Residency
-          </a>
-          <a href="forms/certificate-of-indigency.php" title="Proof of financial need for assistance or benefits">
-            <i class="fas fa-hand-holding-heart"></i> Indigency
-          </a>
-          <a href="forms/certificate-of-good-moral.php" title="Good moral standing for legal or school requirements">
-            <i class="fas fa-shield-alt"></i> Good Moral 
-          </a>
-          <a href="forms/first-time-job-seeker.php" title="Certification for first-time job seekers">
-            <i class="fas fa-briefcase"></i> First Time Job Seeker
-
-          <a href="forms/solo-parent.php" title="Certification for solo or single parents">
-            <i class="fas fa-user-friends"></i> Solo Parent 
-          </a>
-          <a href="forms/out-of-school-youth.php" title="Declared as out-of-school youth">
-            <i class="fas fa-user-graduate"></i> Out of School Youth 
-          </a>
-          <a href="forms/unemployment-certification.php" title="Certification that the person is unemployed">
-            <i class="fas fa-user-times"></i> Unemployment 
-          </a>
-          <a href="forms/no-income-certification.php" title="Declaration of no income">
-            <i class="fas fa-ban"></i> No Income 
-          </a>
-          <a href="forms/late-birth-registration.php" title="Support for late birth registration">
-            <i class="fas fa-baby"></i> Late Birth Registration 
-          </a>
-          <a href="forms/cohabitation-certification.php" title="Proof of cohabitation without marriage">
-            <i class="fas fa-users"></i> Cohabitation 
-          </a>
-          <a href="forms/non-residency-certification.php" title="Proof of not living in the barangay anymore">
-            <i class="fas fa-map-marker-alt"></i> Non-Residency 
-          </a>
-          <a href="forms/baptismal-certification.php" title="Permission for baptismal activity">
-            <i class="fas fa-church"></i> Baptismal 
-          </a>
+        <a href="forms/certificate-of-residency.php"><i class="fas fa-home"></i> Residency</a>
+        <a href="forms/certificate-of-indigency.php"><i class="fas fa-hand-holding-heart"></i> Indigency</a>
+        <a href="forms/certificate-of-good-moral.php"><i class="fas fa-shield-alt"></i> Good Moral</a>
+        <a href="forms/first-time-job-seeker.php"><i class="fas fa-briefcase"></i> First Time Job Seeker</a>
+        <a href="forms/solo-parent.php"><i class="fas fa-user-friends"></i> Solo Parent</a>
+        <a href="forms/out-of-school-youth.php"><i class="fas fa-user-graduate"></i> Out of School Youth</a>
+        <a href="forms/unemployment-certification.php"><i class="fas fa-user-times"></i> Unemployment</a>
+        <a href="forms/no-income-certification.php"><i class="fas fa-ban"></i> No Income</a>
+        <a href="forms/late-birth-registration.php"><i class="fas fa-baby"></i> Late Birth Registration</a>
+        <a href="forms/cohabitation-certification.php"><i class="fas fa-users"></i> Cohabitation</a>
+        <a href="forms/non-residency-certification.php"><i class="fas fa-map-marker-alt"></i> Non-Residency</a>
+        <a href="forms/baptismal-certification.php"><i class="fas fa-church"></i> Baptismal</a>
         </div>
       </div>
-
     </div>
   </div>
 
   <a href="contact.php">About</a>
   <a href="faq.php">FAQs</a>
+  <a href="profile.php"><i class="fas fa-user"></i> My Profile</a>
 </nav>
-
+</nav>
 
   <div class="hero-section">
     <img src="image/imus-logo.png" alt="" class="hero-image">
@@ -352,7 +341,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
       <h2 class="contact-highlight">Contact Information</h2>
       <h4><strong>Barangay Bucandala 1, Imus, Cavite</strong></h4>
       <p>📍 Barangay Hall, Barangay Bucandala 1, Imus, Cavite Philippines 4103</p>
-      <p>✉️ <a href="mailto:secretariat@barangay17cagayandeoro.ph">barangaybucana1@gmail.com</a></p>
+      <p>✉️ <a href="mailto:barangaybucandala1@gov.ph">barangaybucana1@gmail.com</a></p>
     </div>
   </section>
   

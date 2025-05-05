@@ -10,3 +10,10 @@
           setInterval(updateDateTimePH, 1000);
           updateDateTimePH();
 
+
+          const hamburgerBtn = document.getElementById('hamburgerBtn');
+          const mainNav = document.getElementById('mainNav');
+          
+          hamburgerBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('show');
+          });
