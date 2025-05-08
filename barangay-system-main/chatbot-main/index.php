@@ -249,12 +249,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
           </a>
         </div>
   
-        <!-- Business Permit -->
+        <!-- Non Residency -->
         <div class="col-md-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="forms/business-permit.php" style="text-decoration: none;">
+          <a href="forms/non-residency-certification.php" style="text-decoration: none;">
             <div class="service-box" style="background: url('image/medical.jpg') center/cover; padding: 60px 20px; border-radius: 10px; color: white;">
-              <i class="fas fa-store fa-2x mb-2"></i>
-              <h5>Business Permit</h5>
+              <i class="fas fa-map-marker-alt fa-2x mb-2"></i>
+              <h5>Non Residency</h5>
             </div>
           </a>
         </div>
