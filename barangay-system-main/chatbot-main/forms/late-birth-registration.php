@@ -22,6 +22,18 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+// Fetch user data for autofill
+$user_data = null;
+if (isset($_SESSION['user_id'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user_data = $stmt->fetch();
+    } catch (PDOException $e) {
+        $user_data = null;
+    }
+}
+
 $success_message = "";
 $error_message = "";
 
@@ -174,43 +186,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>Last Name *</label>
-            <input type="text" name="last_name" class="form-control" required>
+            <input type="text" name="last_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['last_name'] ?? ($user_data['last_name'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-4">
             <label>First Name *</label>
-            <input type="text" name="first_name" class="form-control" required>
+            <input type="text" name="first_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['first_name'] ?? ($user_data['first_name'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-4">
             <label>Middle Name *</label>
-            <input type="text" name="middle_name" class="form-control" required>
+            <input type="text" name="middle_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['middle_name'] ?? ($user_data['middle_name'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Address *</label>
-            <input type="text" name="address" class="form-control" required>
+            <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Marital Status *</label>
-            <input type="text" name="marital_status" class="form-control" required>
+            <input type="text" name="marital_status" class="form-control" required value="<?php echo htmlspecialchars($_POST['marital_status'] ?? ($user_data['civil_status'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Place of Birth *</label>
-            <input type="text" name="place_of_birth" class="form-control" required>
+            <input type="text" name="place_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['place_of_birth'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Date of Birth *</label>
-            <input type="date" name="date_of_birth" class="form-control" required>
+            <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Father's Name *</label>
-            <input type="text" name="fathers_name" class="form-control" required>
+            <input type="text" name="fathers_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['fathers_name'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Mother's Name *</label>
-            <input type="text" name="mothers_name" class="form-control" required>
+            <input type="text" name="mothers_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['mothers_name'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Years in Barangay *</label>
-            <input type="text" name="years_in_barangay" class="form-control" required>
+            <input type="text" name="years_in_barangay" class="form-control" required value="<?php echo htmlspecialchars($_POST['years_in_barangay'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Purpose *</label>
@@ -218,7 +230,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
                 <div class="form-group col-md-6">
                     <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>

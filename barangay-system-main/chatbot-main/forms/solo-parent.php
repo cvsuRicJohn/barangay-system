@@ -25,6 +25,18 @@ try {
 $success_message = "";
 $error_message = "";
 
+// Fetch user data for autofill
+$user_data = null;
+if (isset($_SESSION['user_id'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user_data = $stmt->fetch();
+    } catch (PDOException $e) {
+        $user_data = null;
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $full_name = trim($_POST['full_name'] ?? '');
     $address = trim($_POST['address'] ?? '');
@@ -166,27 +178,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Full Name *</label>
-            <input type="text" name="full_name" class="form-control" required>
+            <input type="text" name="full_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['full_name'] ?? ($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Address *</label>
-            <input type="text" name="address" class="form-control" required>
+            <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Solo Since (Year) *</label>
-            <input type="text" name="solo_since" class="form-control" placeholder="e.g. 2019" required>
+            <input type="text" name="solo_since" class="form-control" placeholder="e.g. 2019" required value="<?php echo htmlspecialchars($_POST['solo_since'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Number of Children *</label>
-            <input type="number" name="child_count" class="form-control" required>
+            <input type="number" name="child_count" class="form-control" required value="<?php echo htmlspecialchars($_POST['child_count'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-12">
             <label>Names of Children *</label>
-            <textarea name="children_names" class="form-control" rows="2" required placeholder="List full names of children here"></textarea>
+            <textarea name="children_names" class="form-control" rows="2" required placeholder="List full names of children here"><?php echo htmlspecialchars($_POST['children_names'] ?? ''); ?></textarea>
         </div>
         <div class="form-group col-md-6">
             <label>Email *</label>
-            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Shipping Method *</label>

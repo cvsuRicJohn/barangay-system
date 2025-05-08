@@ -21,6 +21,18 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+// Fetch user data for autofill
+$user_data = null;
+if (isset($_SESSION['user_id'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user_data = $stmt->fetch();
+    } catch (PDOException $e) {
+        $user_data = null;
+    }
+}
+
 $success_message = "";
 $error_message = "";
 
@@ -167,71 +179,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
 
-        <form method="POST" action="certificate-of-indigency.php" id="myForm">
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label>First Name *</label>
-                    <input type="text" name="first_name" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['first_name'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Middle Name *</label>
-                    <input type="text" name="middle_name" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['middle_name'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Last Name *</label>
-                    <input type="text" name="last_name" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['last_name'] ?? ''); ?>">
-                </div>
+<form method="POST" action="certificate-of-indigency.php" id="myForm">
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>First Name *</label>
+            <input type="text" name="first_name" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['first_name'] ?? ($user_data['first_name'] ?? '')); ?>">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Middle Name *</label>
+            <input type="text" name="middle_name" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['middle_name'] ?? ($user_data['middle_name'] ?? '')); ?>">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Last Name *</label>
+            <input type="text" name="last_name" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['last_name'] ?? ($user_data['last_name'] ?? '')); ?>">
+        </div>
 
-                <div class="form-group col-md-6">
-                    <label>Date of Birth *</label>
-                    <input type="date" name="date_of_birth" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['date_of_birth'] ?? ''); ?>">
-                </div>
+        <div class="form-group col-md-6">
+            <label>Date of Birth *</label>
+            <input type="date" name="date_of_birth" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['date_of_birth'] ?? ($user_data['dob'] ?? '')); ?>">
+        </div>
 
-                <div class="form-group col-md-6">
-                    <label>Civil Status *</label>
-                    <select name="civil_status" class="form-control" required>
-                        <option value="">Select</option>
-                        <option value="single" <?php if ((!$success_message && ($_POST['civil_status'] ?? '') === 'single') || $success_message) echo 'selected'; ?>>Single</option>
-                        <option value="married" <?php if ((!$success_message && ($_POST['civil_status'] ?? '') === 'married')) echo 'selected'; ?>>Married</option>
-                        <option value="widowed" <?php if ((!$success_message && ($_POST['civil_status'] ?? '') === 'widowed')) echo 'selected'; ?>>Widowed</option>
-                        <option value="divorced" <?php if ((!$success_message && ($_POST['civil_status'] ?? '') === 'divorced')) echo 'selected'; ?>>Divorced</option>
-                    </select>
-                </div>
+        <div class="form-group col-md-6">
+            <label>Civil Status *</label>
+            <select name="civil_status" class="form-control" required>
+                <option value="">Select</option>
+                <option value="single" <?php if ((!$success_message && (($_POST['civil_status'] ?? '') === 'single' || ($user_data['civil_status'] ?? '') === 'single')) || $success_message) echo 'selected'; ?>>Single</option>
+                <option value="married" <?php if ((!$success_message && (($_POST['civil_status'] ?? '') === 'married' || ($user_data['civil_status'] ?? '') === 'married'))) echo 'selected'; ?>>Married</option>
+                <option value="widowed" <?php if ((!$success_message && (($_POST['civil_status'] ?? '') === 'widowed' || ($user_data['civil_status'] ?? '') === 'widowed'))) echo 'selected'; ?>>Widowed</option>
+                <option value="divorced" <?php if ((!$success_message && (($_POST['civil_status'] ?? '') === 'divorced' || ($user_data['civil_status'] ?? '') === 'divorced'))) echo 'selected'; ?>>Divorced</option>
+            </select>
+        </div>
 
-                <div class="form-group col-md-6">
-                    <label>Occupation *</label>
-                    <input type="text" name="occupation" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['occupation'] ?? ''); ?>">
-                </div>
+        <div class="form-group col-md-6">
+            <label>Occupation *</label>
+            <input type="text" name="occupation" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['occupation'] ?? ''); ?>">
+        </div>
 
-                <div class="form-group col-md-6">
-                    <label>Monthly Income *</label>
-                    <input type="number" step="0.01" name="monthly_income" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['monthly_income'] ?? ''); ?>">
-                </div>
+        <div class="form-group col-md-6">
+            <label>Monthly Income *</label>
+            <input type="number" step="0.01" name="monthly_income" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['monthly_income'] ?? ''); ?>">
+        </div>
 
-                <div class="form-group col-md-6">
-                    <label>Proof of Residency *</label>
-                    <input type="text" name="proof_of_residency" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['proof_of_residency'] ?? ''); ?>">
-                </div>
+        <div class="form-group col-md-6">
+            <label>Proof of Residency *</label>
+            <input type="text" name="proof_of_residency" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['proof_of_residency'] ?? ''); ?>">
+        </div>
 
-                <div class="form-group col-md-6">
-                    <label>Government-issued ID *</label>
-                    <input type="text" name="gov_id" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['gov_id'] ?? ''); ?>">
-                </div>
+        <div class="form-group col-md-6">
+            <label>Government-issued ID *</label>
+            <input type="text" name="gov_id" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['gov_id'] ?? ''); ?>">
+        </div>
 
-                <div class="form-group col-md-6">
-                    <label>Spouse Name</label>
-                    <input type="text" name="spouse_name" class="form-control" value="<?php echo $success_message ? '' : htmlspecialchars($_POST['spouse_name'] ?? ''); ?>">
-                </div>
+        <div class="form-group col-md-6">
+            <label>Spouse Name</label>
+            <input type="text" name="spouse_name" class="form-control" value="<?php echo $success_message ? '' : htmlspecialchars($_POST['spouse_name'] ?? ''); ?>">
+        </div>
 
-                <div class="form-group col-md-6">
-                    <label>Number of Dependents *</label>
-                    <input type="number" name="number_of_dependents" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['number_of_dependents'] ?? ''); ?>">
-                </div>
+        <div class="form-group col-md-6">
+            <label>Number of Dependents *</label>
+            <input type="number" name="number_of_dependents" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['number_of_dependents'] ?? ''); ?>">
+        </div>
 
-                <div class="form-group col-md-6">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['email'] ?? ''); ?>">
-                </div>
+        <div class="form-group col-md-6">
+            <label>Email *</label>
+            <input type="email" name="email" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
+        </div>
 
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>

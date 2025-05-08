@@ -29,6 +29,18 @@ try {
 $success_message = "";
 $error_message = "";
 
+// Fetch user data for autofill
+$user_data = null;
+if (isset($_SESSION['user_id'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user_data = $stmt->fetch();
+    } catch (PDOException $e) {
+        $user_data = null;
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $full_name = trim($_POST['full_name'] ?? '');
     $age = trim($_POST['age'] ?? '');
@@ -166,37 +178,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Full Name *</label>
-            <input type="text" name="full_name" class="form-control" required>
+            <input type="text" name="full_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['full_name'] ?? ($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : '')); ?>">
         </div>
         <div class="form-group col-md-3">
             <label>Age *</label>
-            <input type="number" name="age" class="form-control" required>
+            <input type="number" name="age" class="form-control" required value="<?php echo htmlspecialchars($_POST['age'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-3">
             <label>Date of Birth *</label>
-            <input type="date" name="birth_date" class="form-control" required>
+            <input type="date" name="birth_date" class="form-control" required value="<?php echo htmlspecialchars($_POST['birth_date'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Civil Status *</label>
             <select name="civil_status" class="form-control" required>
                 <option value="">-- Select --</option>
-                <option value="Single">Single</option>
-                <option value="Married">Married</option>
-                <option value="Separated">Separated</option>
-                <option value="Widow/Widower">Widow/Widower</option>
+                <option value="Single" <?php echo (($_POST['civil_status'] ?? '') === 'Single') ? 'selected' : ''; ?>>Single</option>
+                <option value="Married" <?php echo (($_POST['civil_status'] ?? '') === 'Married') ? 'selected' : ''; ?>>Married</option>
+                <option value="Separated" <?php echo (($_POST['civil_status'] ?? '') === 'Separated') ? 'selected' : ''; ?>>Separated</option>
+                <option value="Widow/Widower" <?php echo (($_POST['civil_status'] ?? '') === 'Widow/Widower') ? 'selected' : ''; ?>>Widow/Widower</option>
             </select>
         </div>
         <div class="form-group col-md-6">
             <label>Address *</label>
-            <input type="text" name="address" class="form-control" required>
+            <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-12">
             <label>Purpose of Certification *</label>
-            <input type="text" name="purpose" class="form-control" required>
+            <input type="text" name="purpose" class="form-control" required value="<?php echo htmlspecialchars($_POST['purpose'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Email *</label>
-            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Shipping Method *</label>

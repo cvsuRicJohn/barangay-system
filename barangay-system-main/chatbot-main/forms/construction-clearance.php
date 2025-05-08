@@ -22,6 +22,18 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+// Fetch user data for autofill
+$user_data = null;
+if (isset($_SESSION['user_id'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user_data = $stmt->fetch();
+    } catch (PDOException $e) {
+        $user_data = null;
+    }
+}
+
 $success_message = "";
 $error_message = "";
 
@@ -161,27 +173,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         
-        <form method="POST" action="construction-clearance.php" id="constructionClearanceForm">
+<form method="POST" action="construction-clearance.php" id="constructionClearanceForm">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Business/Activity Name *</label>
-            <input type="text" name="business_name" class="form-control" required>
+            <input type="text" name="business_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['business_name'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Business Location *</label>
-            <input type="text" name="business_location" class="form-control" required>
+            <input type="text" name="business_location" class="form-control" required value="<?php echo htmlspecialchars($_POST['business_location'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Owner's Name *</label>
-            <input type="text" name="owner_name" class="form-control" required>
+            <input type="text" name="owner_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['owner_name'] ?? ($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Owner's Address *</label>
-            <input type="text" name="owner_address" class="form-control" required>
+            <input type="text" name="owner_address" class="form-control" required value="<?php echo htmlspecialchars($_POST['owner_address'] ?? ($user_data['address'] ?? '')); ?>">
         </div>
                 <div class="form-group col-md-6">
                     <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>
