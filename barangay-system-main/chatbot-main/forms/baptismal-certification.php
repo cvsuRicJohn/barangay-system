@@ -24,6 +24,19 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+// Fetch user data for autofill
+$user_data = null;
+if (isset($_SESSION['user_id'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user_data = $stmt->fetch();
+    } catch (PDOException $e) {
+        // Handle error silently or log
+        $user_data = null;
+    }
+}
+
 $success_message = "";
 $error_message = "";
 
@@ -185,15 +198,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Full Name of Parent *</label>
-            <input type="text" name="parent_name" class="form-control" required>
+            <input type="text" name="parent_name" class="form-control" required value="<?php echo htmlspecialchars($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Address *</label>
-            <input type="text" name="address" class="form-control" required>
+            <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($user_data['address'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Name of Child *</label>
-            <input type="text" name="child_name" class="form-control" required>
+            <input type="text" name="child_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['child_name'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Purpose *</label>
@@ -201,7 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
                 <div class="form-group col-md-6">
                     <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($user_data['email'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>

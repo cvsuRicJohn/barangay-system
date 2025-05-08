@@ -22,6 +22,18 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+// Fetch user data for autofill
+$user_data = null;
+if (isset($_SESSION['user_id'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user_data = $stmt->fetch();
+    } catch (PDOException $e) {
+        $user_data = null;
+    }
+}
+
 $success_message = "";
 $error_message = "";
 
@@ -183,31 +195,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Full Name *</label>
-            <input type="text" name="full_name" class="form-control" required>
+            <input type="text" name="full_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['full_name'] ?? ($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : '')); ?>">
         </div>
 
         <div class="form-group col-md-6">
             <label>Address *</label>
-            <input type="text" name="address" class="form-control" required>
+            <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
         </div>
 
         <div class="form-group col-md-6">
             <label>Length of Residency (e.g., 2 years, 6 months) *</label>
-            <input type="text" name="residency_length" class="form-control" required>
+            <input type="text" name="residency_length" class="form-control" required value="<?php echo htmlspecialchars($_POST['residency_length'] ?? ''); ?>">
         </div>
 
         <div class="form-group col-md-6">
             <label>Has taken Oath of Undertaking? *</label>
             <select name="oath_acknowledged" class="form-control" required>
-                <option value="">-- Select --</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
+                <option value="" <?php if (!isset($_POST['oath_acknowledged'])) echo 'selected'; ?>>-- Select --</option>
+                <option value="Yes" <?php if (isset($_POST['oath_acknowledged']) && $_POST['oath_acknowledged'] === 'Yes') echo 'selected'; ?>>Yes</option>
+                <option value="No" <?php if (isset($_POST['oath_acknowledged']) && $_POST['oath_acknowledged'] === 'No') echo 'selected'; ?>>No</option>
             </select>
         </div>
 
         <div class="form-group col-md-6">
             <label>Email *</label>
-            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
         </div>
 
         <div class="form-group col-md-6">

@@ -22,6 +22,18 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+// Fetch user data for autofill
+$user_data = null;
+if (isset($_SESSION['user_id'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $user_data = $stmt->fetch();
+    } catch (PDOException $e) {
+        $user_data = null;
+    }
+}
+
 $success_message = "";
 $error_message = "";
 
@@ -184,27 +196,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Partner 1 Full Name *</label>
-            <input type="text" name="partner1_name" class="form-control" required>
+            <input type="text" name="partner1_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['partner1_name'] ?? ($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Partner 2 Full Name *</label>
-            <input type="text" name="partner2_name" class="form-control" required>
+            <input type="text" name="partner2_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['partner2_name'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Shared Address *</label>
-            <input type="text" name="shared_address" class="form-control" required>
+            <input type="text" name="shared_address" class="form-control" required value="<?php echo htmlspecialchars($_POST['shared_address'] ?? ($user_data['address'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Duration of Cohabitation *</label>
-            <input type="text" name="cohabitation_duration" class="form-control" required>
+            <input type="text" name="cohabitation_duration" class="form-control" required value="<?php echo htmlspecialchars($_POST['cohabitation_duration'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-12">
             <label>Purpose *</label>
-            <input type="text" name="purpose" class="form-control" required>
+            <input type="text" name="purpose" class="form-control" required value="<?php echo htmlspecialchars($_POST['purpose'] ?? ''); ?>">
         </div>
                 <div class="form-group col-md-6">
                     <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>
