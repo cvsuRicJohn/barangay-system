@@ -209,7 +209,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group col-md-4">
                     <label>Status *</label>
-                    <input type="text" name="status" class="form-control" required value="<?php echo htmlspecialchars($_POST['status'] ?? ''); ?>">
+                    <select name="status" class="form-control" required>
+                        <?php
+                        $statuses = ['Single', 'Married', 'Widowed', 'Divorced'];
+                        $current_status = $_POST['status'] ?? $user['status'] ?? '';
+                        foreach ($statuses as $status_option) {
+                            $selected = ($current_status === $status_option) ? 'selected' : '';
+                            echo "<option value=\"" . htmlspecialchars($status_option) . "\" $selected>" . htmlspecialchars($status_option) . "</option>";
+                        }
+                        ?>
+                    </select>
                 </div>
 
                 <div class="form-group col-md-4">
