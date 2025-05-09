@@ -130,13 +130,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
         }
 
         .register-card h3 {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: center;
         }
 
         .form-control {
             border-radius: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             font-size: 15px;
         }
 
@@ -186,43 +186,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
             <?php endif; ?>
 
             <form method="POST" action="register.php" enctype="multipart/form-data">
-                <div class="form-row">
-                    <div class="col-md-4"><input type="text" name="firstName" class="form-control" placeholder="First Name" required></div>
-                    <div class="col-md-4"><input type="text" name="middleName" class="form-control" placeholder="Middle Name" required></div>
-                    <div class="col-md-4"><input type="text" name="lastName" class="form-control" placeholder="Last Name" required></div>
-                </div>
+    <!-- Name Fields -->
+    <div class="form-row">
+        <div class="col-md-4"><input type="text" name="firstName" class="form-control" style="width: 100%;" placeholder="First Name" required></div>
+        <div class="col-md-4"><input type="text" name="middleName" class="form-control" style="width: 100%;" placeholder="Middle Name" required></div>
+        <div class="col-md-4"><input type="text" name="lastName" class="form-control" style="width: 100%;" placeholder="Last Name" required></div>
+    </div>
 
-                <input type="date" name="dob" class="form-control" required>
-                <input type="text" name="address" class="form-control" placeholder="Address" required>
-                <input type="email" name="email" class="form-control" placeholder="Email" required>
-                <input type="text" name="usernameReg" class="form-control" placeholder="Username" required>
+    <!-- Date, Address, and Login Info -->
+    <div class="form-row mt-2">
+        <div class="col-md-4"><input type="date" name="dob" class="form-control" style="width: 100%;" required></div>
+        <div class="col-md-8"><input type="text" name="address" class="form-control" style="width: 100%;" placeholder="Address" required></div>
+    </div>
+    <div class="form-row mt-2">
+        <div class="col-md-6"><input type="email" name="email" class="form-control" style="width: 100%;" placeholder="Email" required></div>
+        <div class="col-md-6"><input type="text" name="usernameReg" class="form-control" style="width: 100%;" placeholder="Username" required></div>
+    </div>
 
-                <div class="form-row">
-                    <div class="col-md-6"><input type="password" name="passwordReg" class="form-control" placeholder="Password" required></div>
-                    <div class="col-md-6"><input type="password" name="confirmPassword" class="form-control" placeholder="Confirm Password" required></div>
-                </div>
+    <div class="form-row mt-2">
+        <div class="col-md-4"><input type="password" name="passwordReg" class="form-control" style="width: 100%;" placeholder="Password" required></div>
+        <div class="col-md-4"><input type="password" name="confirmPassword" class="form-control" style="width: 100%;" placeholder="Confirm Password" required></div>
+        <div class="form-group col-md-4">
+            <select name="gender" class="form-control form-control-sm" style="width: 100%;" required>
+                <option value="">Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+    </div>
 
-                <select name="gender" class="form-control" required>
-                    <option value="">Select Gender</option>
-                    <option>Male</option>
-                    <option>Female</option>
-                </select>
+        <div class="form-group col-md-4">
+            <select name="civilStatus" class="form-control form-control-sm" style="width: 100%;" required>
+                <option value="">Civil Status</option>
+                <option>Single</option>
+                <option>Married</option>
+                <option>Widowed</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <select name="governmentId" class="form-control" style="width: 100%;" required>
+                <option value="" disabled selected>Government ID</option>
+                <option value="Philippine National ID">National ID</option>
+                <option value="UMID">UMID</option>
+                <option value="Driver’s License">Driver’s License</option>
+                <option value="Passport">Passport</option>
+                <option value="Voter’s ID">Voter’s ID</option>
+                <option value="PhilHealth ID">PhilHealth ID</option>
+                <option value="Postal ID">Postal ID</option>
+                <option value="Senior Citizen ID">Senior Citizen ID</option>
+                <option value="PWD ID">PWD ID</option>
+                <option value="SSS ID">SSS ID</option>
+                <option value="Pag-IBIG Loyalty Card">Pag-IBIG </option>
+                <option value="Barangay ID">Barangay ID</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <input type="text" name="idNumber" class="form-control mt-md-0 mt-2" style="width: 100%;" placeholder="ID Number" required>
+        </div>
+    </div>
 
-                <select name="civilStatus" class="form-control" required>
-                    <option value="">Civil Status</option>
-                    <option>Single</option>
-                    <option>Married</option>
-                    <option>Widowed</option>
-                </select>
-
-                <input type="text" name="governmentId" class="form-control" placeholder="Government ID" required>
-                <input type="text" name="idNumber" class="form-control" placeholder="ID Number" required>
-
-                <div class="form-row">
-                    <div class="col-md-6"><input type="text" name="emergencyContactName" class="form-control" placeholder="Emergency Contact Name" required></div>
-                    <div class="col-md-6"><input type="text" name="emergencyContactNumber" class="form-control" placeholder="Emergency Contact Number" required></div>
-                </div>
-
+    <!-- Emergency Contact -->
+    <div class="form-row mt-2">
+        <div class="col-md-6"><input type="text" name="emergencyContactName" class="form-control" style="width: 100%;" placeholder="Emergency Contact Name" required></div>
+        <div class="col-md-6"><input type="text" name="emergencyContactNumber" class="form-control" style="width: 100%;" placeholder="Emergency Contact Number" required></div>
+    </div>
+</form>
                 <div class="form-group">
                     <label for="profilePic">Profile Picture (optional)</label>
                     <input type="file" name="profilePic" class="form-control-file">
