@@ -45,21 +45,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $civil_status = trim($_POST['civil_status'] ?? '');
     $address = trim($_POST['address'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
-    $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
         empty($full_name) || empty($age) || empty($civil_status) || empty($address) ||
-        empty($purpose) || empty($email) || empty($shipping_method)
+        empty($purpose) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO certificate_of_good_moral_requests 
-                (full_name, age, civil_status, address, purpose, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?)");
+                (full_name, age, civil_status, address, purpose, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $age, $civil_status, $address, $purpose, $email, $shipping_method
+                $full_name, $age, $civil_status, $address, $purpose, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -183,6 +182,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" name="full_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['full_name'] ?? ($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : '')); ?>">
         </div>
         <div class="form-group col-md-3">
+            <label>Date of Birth *</label>
+            <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? ($user_data['dob'] ?? '')); ?>">
+        </div>
+        <div class="form-group col-md-3">
             <label>Age *</label>
             <input type="number" name="age" class="form-control" required value="<?php echo htmlspecialchars($_POST['age'] ?? ''); ?>">
         </div>
@@ -198,10 +201,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label>Purpose (e.g., board exam) *</label>
             <input type="text" name="purpose" class="form-control" required value="<?php echo htmlspecialchars($_POST['purpose'] ?? ''); ?>">
         </div>
-                <div class="form-group col-md-6">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
-                </div>
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>
                     <select name="shipping_method" class="form-control" required>
@@ -242,6 +241,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </iframe>
     
     <script src="../js/services.js"></script>
+    <script>
+        // Function to calculate age from birthdate string (YYYY-MM-DD)
+        function calculateAge(birthDateString) {
+            const today = new Date();
+            const birthDate = new Date(birthDateString);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        // Event listener to update age when date_of_birth changes
+        document.addEventListener('DOMContentLoaded', function () {
+            const birthDateInput = document.querySelector('input[name="date_of_birth"]');
+            const ageInput = document.querySelector('input[name="age"]');
+
+            if (birthDateInput && ageInput) {
+                birthDateInput.addEventListener('change', function () {
+                    const birthDateValue = birthDateInput.value;
+                    if (birthDateValue) {
+                        const age = calculateAge(birthDateValue);
+                        if (!isNaN(age) && age >= 0) {
+                            ageInput.value = age;
+                        } else {
+                            ageInput.value = '';
+                        }
+                    } else {
+                        ageInput.value = '';
+                    }
+                });
+
+                // Optionally, trigger change event on page load if date_of_birth has a value
+                if (birthDateInput.value) {
+                    const event = new Event('change');
+                    birthDateInput.dispatchEvent(event);
+                }
+            }
+        });
+    </script>
 
 </body>
 

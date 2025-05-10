@@ -45,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 
     if (empty($firstName) || empty($lastName) || empty($address) || empty($email) || empty($usernameReg) || empty($passwordReg) || empty($confirmPassword)) {
         $register_error = "All fields are required.";
+    } elseif (!preg_match('/^(?=.*[A-Z]).{8,}$/', $passwordReg)) {
+        $register_error = "Password must be at least 8 characters long and contain at least one uppercase letter.";
     } elseif ($passwordReg !== $confirmPassword) {
         $register_error = "Passwords do not match.";
     } else {

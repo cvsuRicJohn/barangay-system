@@ -42,21 +42,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $business_location = trim($_POST['business_location'] ?? '');
     $owner_name = trim($_POST['owner_name'] ?? '');
     $owner_address = trim($_POST['owner_address'] ?? '');
-    $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
         empty($business_name) || empty($business_location) || empty($owner_name) || empty($owner_address) ||
-        empty($email) || empty($shipping_method)
+        empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO construction_clearance_requests 
-                (business_name, business_location, owner_name, owner_address, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?)");
+                (business_name, business_location, owner_name, owner_address, shipping_method)
+                VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([
-                $business_name, $business_location, $owner_name, $owner_address, $email, $shipping_method
+                $business_name, $business_location, $owner_name, $owner_address, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -191,10 +190,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label>Owner's Address *</label>
             <input type="text" name="owner_address" class="form-control" required value="<?php echo htmlspecialchars($_POST['owner_address'] ?? ($user_data['address'] ?? '')); ?>">
         </div>
-                <div class="form-group col-md-6">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
-                </div>
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>
                     <select name="shipping_method" class="form-control" required>
