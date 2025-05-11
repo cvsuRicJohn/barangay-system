@@ -50,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $student_patient_name = trim($_POST['student_patient_name'] ?? '');
     $student_patient_address = trim($_POST['student_patient_address'] ?? '');
     $relationship = trim($_POST['relationship'] ?? '');
-    $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     // Basic validation for required fields
@@ -58,18 +57,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         empty($first_name) || empty($middle_name) || empty($last_name) || empty($complete_address) ||
         empty($birth_date) || empty($age) || empty($status) || empty($mobile_number) ||
         empty($purpose) || empty($student_patient_name) || empty($student_patient_address) ||
-        empty($relationship) || empty($email) || empty($shipping_method)
+        empty($relationship) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         // Insert into database
         try {
             $stmt = $pdo->prepare("INSERT INTO barangay_clearance 
-                (first_name, middle_name, last_name, complete_address, birth_date, age, status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                (first_name, middle_name, last_name, complete_address, birth_date, age, status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $first_name, $middle_name, $last_name, $complete_address, $birth_date, $age, $status, $mobile_number,
-                $years_of_stay, $purpose, $student_patient_name, $student_patient_address, $relationship, $email, $shipping_method
+                $years_of_stay, $purpose, $student_patient_name, $student_patient_address, $relationship, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -249,16 +248,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? $user['email'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-6">
                     <label>Shipping Method *</label>
                     <select name="shipping_method" class="form-control" required>
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
-                </div>
-            </div>
 
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary px-5">Submit</button>
@@ -285,5 +278,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </iframe>
 
     <script src="../js/services.js"></script>
+    <script>
+        // Function to calculate age from birthdate string (YYYY-MM-DD)
+        function calculateAge(birthDateString) {
+            const today = new Date();
+            const birthDate = new Date(birthDateString);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        // Event listener to update age when birth_date changes
+        document.addEventListener('DOMContentLoaded', function () {
+            const birthDateInput = document.querySelector('input[name="birth_date"]');
+            const ageInput = document.querySelector('input[name="age"]');
+
+            if (birthDateInput && ageInput) {
+                birthDateInput.addEventListener('change', function () {
+                    const birthDateValue = birthDateInput.value;
+                    if (birthDateValue) {
+                        const age = calculateAge(birthDateValue);
+                        if (!isNaN(age) && age >= 0) {
+                            ageInput.value = age;
+                        } else {
+                            ageInput.value = '';
+                        }
+                    } else {
+                        ageInput.value = '';
+                    }
+                });
+
+                // Optionally, trigger change event on page load if birth_date has a value
+                if (birthDateInput.value) {
+                    const event = new Event('change');
+                    birthDateInput.dispatchEvent(event);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

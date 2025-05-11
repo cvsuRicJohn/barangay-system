@@ -42,21 +42,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = trim($_POST['address'] ?? '');
     $residency_length = trim($_POST['residency_length'] ?? '');
     $oath_acknowledged = trim($_POST['oath_acknowledged'] ?? '');
-    $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
         empty($full_name) || empty($address) || empty($residency_length) || empty($oath_acknowledged) ||
-        empty($email) || empty($shipping_method)
+        empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO first_time_job_seeker_requests 
-                (full_name, address, residency_length, oath_acknowledged, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?)");
+                (full_name, address, residency_length, oath_acknowledged, shipping_method)
+                VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $address, $residency_length, $oath_acknowledged, $email, $shipping_method
+                $full_name, $address, $residency_length, $oath_acknowledged, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -198,11 +197,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="Yes" <?php if (isset($_POST['oath_acknowledged']) && $_POST['oath_acknowledged'] === 'Yes') echo 'selected'; ?>>Yes</option>
                 <option value="No" <?php if (isset($_POST['oath_acknowledged']) && $_POST['oath_acknowledged'] === 'No') echo 'selected'; ?>>No</option>
             </select>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label>Email *</label>
-            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
         </div>
 
         <div class="form-group col-md-6">

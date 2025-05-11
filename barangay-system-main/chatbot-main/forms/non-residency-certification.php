@@ -41,20 +41,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $full_name = trim($_POST['full_name'] ?? '');
     $previous_address = trim($_POST['previous_address'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
-    $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($full_name) || empty($previous_address) || empty($purpose) || empty($email) || empty($shipping_method)
+        empty($full_name) || empty($previous_address) || empty($purpose) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO non_residency_certification_requests 
-                (full_name, previous_address, purpose, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?)");
+                (full_name, previous_address, purpose, shipping_method)
+                VALUES (?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $previous_address, $purpose, $email, $shipping_method
+                $full_name, $previous_address, $purpose, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -186,10 +185,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label>Purpose *</label>
             <input type="text" name="purpose" class="form-control" required value="<?php echo htmlspecialchars($_POST['purpose'] ?? ''); ?>">
         </div>
-                <div class="form-group col-md-6">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
-                </div>
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>
                     <select name="shipping_method" class="form-control" required>

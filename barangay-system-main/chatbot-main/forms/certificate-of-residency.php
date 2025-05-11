@@ -43,22 +43,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $complete_address = trim($_POST['complete_address'] ?? '');
     $proof_of_residency = trim($_POST['proof_of_residency'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
-    $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
         empty($first_name) || empty($middle_name) || empty($last_name) || empty($date_of_birth) ||
         empty($gov_id) || empty($complete_address) || empty($proof_of_residency) || empty($purpose) ||
-        empty($email) || empty($shipping_method)
+        empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO certificate_of_residency_requests 
-                (first_name, middle_name, last_name, date_of_birth, gov_id, complete_address, proof_of_residency, purpose, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                (first_name, middle_name, last_name, date_of_birth, gov_id, complete_address, proof_of_residency, purpose, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $date_of_birth, $gov_id, $complete_address, $proof_of_residency, $purpose, $email, $shipping_method
+                $first_name, $middle_name, $last_name, $date_of_birth, $gov_id, $complete_address, $proof_of_residency, $purpose, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -209,10 +208,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" name="purpose" class="form-control" required value="<?php echo htmlspecialchars($_POST['purpose'] ?? ''); ?>">
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label>Email *</label>
-                    <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? $user['email'] ?? ''); ?>">
-                </div>
                 <div class="form-group col-md-6">
                     <label>Shipping Method *</label>
                     <select name="shipping_method" class="form-control" required>

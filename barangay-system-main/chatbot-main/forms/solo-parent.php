@@ -43,20 +43,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $solo_since = trim($_POST['solo_since'] ?? '');
     $child_count = trim($_POST['child_count'] ?? '');
     $children_names = trim($_POST['children_names'] ?? '');
-    $email = trim($_POST['email'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
     if (
-        empty($full_name) || empty($address) || empty($solo_since) || empty($child_count) || empty($children_names) || empty($email) || empty($shipping_method)
+        empty($full_name) || empty($address) || empty($solo_since) || empty($child_count) || empty($children_names) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO solo_parent_requests 
-                (full_name, address, solo_since, child_count, children_names, email, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?)");
+                (full_name, address, solo_since, child_count, children_names, shipping_method)
+                VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $address, $solo_since, $child_count, $children_names, $email, $shipping_method
+                $full_name, $address, $solo_since, $child_count, $children_names, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -195,10 +194,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-group col-md-12">
             <label>Names of Children *</label>
             <textarea name="children_names" class="form-control" rows="2" required placeholder="List full names of children here"><?php echo htmlspecialchars($_POST['children_names'] ?? ''); ?></textarea>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Email *</label>
-            <input type="email" name="email" class="form-control" required value="<?php echo htmlspecialchars($_POST['email'] ?? ($user_data['email'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Shipping Method *</label>
