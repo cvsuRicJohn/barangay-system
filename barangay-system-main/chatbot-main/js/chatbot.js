@@ -126,58 +126,53 @@ This website allows residents to inquire and apply in the services tab to access
 
 Always be polite, helpful, and clear. Respond in the same Philippine language the user used.
 
-+46 40 256 14 is the official contact number for the barangay office.
+📞 +46 40 256 14 is the official contact number for the barangay office.
 
-provide examples of the requirements for each form in the website.
+Provide examples of the requirements for each form in the website.
 
-if the user ask for a specific form, provide te instruction for that form.
+If the user asks for a specific form, provide the instructions and link for that form.
 
-If the user asks for a form that is not available, politely ask them to use the website or the barangay office.
+If the user asks for a form that is not available, politely ask them to use the website or visit the barangay office.
 
-The forms are available in services navigation bar or they can get in barangay office, Guide them that they can access the forms there and submit it.
-${getWebsiteData()}
+The forms are available in the services section or by direct links such as Barangay Clearance. When a user asks for a specific document, respond with the requirements and a clickable link to the corresponding form inside the forms/ folder
 
 You are located at the bottom-right corner of every page and are here to help visitors find information, answer questions, and assist with navigation.
 
-Below is a list of available services and the required fields for each form:
-
+Below is a list of available services and the required fields for each form do not give this to user as a link:
+Provide the proper link for each form use only the "Click here to apply" for specific forms.
 ---
+📄 <a href="forms/baptismal-certificate.php" target="_blank"><strong>Baptismal Certificate</strong></a><br>
+Used to request a baptismal certificate.<br>
+Fields: parent_name, address, child_name, purpose, email, shipping_method<br><br>
 
-📄 **Baptismal Certificate**
-Used to request a baptismal certificate.
-- Fields: parent_name, address, child_name, purpose, email, shipping_method
+📄 <a href="forms/barangay-clearance.php" target="_blank"><strong>Barangay Clearance</strong></a><br>
+Used for employment, travel, or legal requirements.<br>
+Fields: first_name, middle_name, last_name, complete_address, birth_date, age, status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, email, shipping_method<br><br>
 
-📄 **Barangay Clearance**
-Used for employment, travel, or legal requirements.
-- Fields: first_name, middle_name, last_name, complete_address, birth_date, age, status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, email, shipping_method
+📄 <a href="forms/barangay-id.php" target="_blank"><strong>Barangay ID</strong></a><br>
+Official ID issued by the Barangay.<br>
+Fields: first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method<br><br>
 
-📄 **Barangay ID**
-Official ID issued by the Barangay.
-- Fields: first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method
+📄 <a href="forms/good-moral.php" target="_blank"><strong>Certificate of Good Moral</strong></a><br>
+Certifies that a resident has good moral standing.<br>
+Fields: full_name, age, civil_status, address, purpose, email, shipping_method<br><br>
 
-📄 **Business Permit**
-Required for registering and operating a business in the barangay.
-- Fields: business_name, business_location, owner_name, owner_address, email, shipping_method
+📄 <a href="forms/indigency.php" target="_blank"><strong>Certificate of Indigency</strong></a><br>
+Confirms a resident’s indigent status.<br>
+Fields: full_name, address, age, email, shipping_method<br><br>
 
-📄 **Certificate of Good Moral**
-Certifies that a resident has good moral standing.
-- Fields: full_name, age, civil_status, address, purpose, email, shipping_method
+📄 <a href="forms/late-registration.php" target="_blank"><strong>Late Registration</strong></a><br>
+Used for late birth or document registration.<br>
+Fields: full_name, birthdate, birthplace, mother_name, father_name, reason, email, shipping_method<br><br>
 
-📄 **Certificate of Indigency**
-Confirms a resident’s indigent status.
-- Fields: full_name, address, age, email, shipping_method
+📄 <a href="forms/solo-parent.php" target="_blank"><strong>Solo Parent Certificate</strong></a><br>
+Applies for certification as a solo parent.<br>
+Fields: full_name, address, number_of_children, reason, email, shipping_method<br><br>
 
-📄 **Late Registration**
-Used for late birth or document registration.
-- Fields: full_name, birthdate, birthplace, mother_name, father_name, reason, email, shipping_method
+📄 <a href="forms/voters-certification.php" target="_blank"><strong>Voter’s Certification</strong></a><br>
+Certifies a person is a registered voter in the barangay.<br>
+Fields: voter_name, precinct_number, address, purpose, email, shipping_method<br><br>
 
-📄 **Solo Parent Certificate**
-Applies for certification as a solo parent.
-- Fields: full_name, address, number_of_children, reason, email, shipping_method
-
-📄 **Voter’s Certification**
-Certifies a person is a registered voter in the barangay.
-- Fields: voter_name, precinct_number, address, purpose, email, shipping_method
 
 ---
 
@@ -197,7 +192,7 @@ Always answer politely, clearly, and in the same language the user uses. Be help
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer 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",
+        "Authorization": "Bearer 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",
         "HTTP-Referer": "https://www.multilingualchatbot",
         "X-Title": "multilingualchatbot",
         "Content-Type": "application/json"
@@ -211,22 +206,53 @@ Always answer politely, clearly, and in the same language the user uses. Be help
     const data = await response.json();
     chatBody.removeChild(typingIndicator);
 
-    const responseText = data.choices?.[0]?.message?.content || 'No response received.';
+// Modify the bot's response to include the HTML link for Barangay Clearance
+let responseText = data.choices?.[0]?.message?.content || 'No response received.';
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'chat-message-wrapper bot';
+// Example of manually inserting the HTML link for Barangay Clearance
+const lowerText = userText.toLowerCase();
 
-    const avatar = document.createElement('img');
-    avatar.src = 'image/avatar.png';
-    avatar.className = 'avatar';
+if (lowerText.includes('barangay clearance')) {
+  responseText += '<br><a href="forms/barangay-clearance.php" target="_blank">Click here to apply for Barangay Clearance</a>';
+}
+if (lowerText.includes('baptismal certificate')) {
+  responseText += '<br><a href="forms/baptismal-certificate.php" target="_blank">Click here to apply for Baptismal Certificate</a>';
+}
+if (lowerText.includes('barangay id')) {
+  responseText += '<br><a href="forms/barangay-id.php" target="_blank">Click here to apply for Barangay ID</a>';
+}
+if (lowerText.includes('good moral')) {
+  responseText += '<br><a href="forms/good-moral.php" target="_blank">Click here to apply for Certificate of Good Moral</a>';
+}
+if (lowerText.includes('indigency')) {
+  responseText += '<br><a href="forms/certificate-of-indigency.php" target="_blank">Click here to apply for Certificate of Indigency</a>';
+}
+if (lowerText.includes('late registration')) {
+  responseText += '<br><a href="forms/late-registration.php" target="_blank">Click here to apply for Late Registration</a>';
+}
+if (lowerText.includes('solo parent')) {
+  responseText += '<br><a href="forms/solo-parent.php" target="_blank">Click here to apply for Solo Parent Certificate</a>';
+}
+if (lowerText.includes("voter's certification") || lowerText.includes("voters certification")) {
+  responseText += '<br><a href="forms/voters-certification.php" target="_blank">Click here to apply for Voter’s Certification</a>';
+}
 
-    const botMessage = document.createElement('div');
-    botMessage.className = 'chat-message bot-message';
-    botMessage.innerHTML = marked.parse(responseText);
 
-    wrapper.appendChild(avatar);
-    wrapper.appendChild(botMessage);
-    chatBody.appendChild(wrapper);
+const wrapper = document.createElement('div');
+wrapper.className = 'chat-message-wrapper bot';
+
+const avatar = document.createElement('img');
+avatar.src = 'image/avatar.png';
+avatar.className = 'avatar';
+
+const botMessage = document.createElement('div');
+botMessage.className = 'chat-message bot-message';
+botMessage.innerHTML = marked.parse(responseText);  // Ensure the responseText now includes HTML
+
+wrapper.appendChild(avatar);
+wrapper.appendChild(botMessage);
+chatBody.appendChild(wrapper);
+
 
     saveMessageToStorage('bot', marked.parse(responseText));
     chatBody.scrollTop = chatBody.scrollHeight;
