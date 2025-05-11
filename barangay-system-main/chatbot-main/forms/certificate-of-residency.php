@@ -81,21 +81,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../css/contact.css" />
 </head>
 <body>
-    <!-- Keep existing body content from certificate-of-residency.html up to the form -->
 
-    <div style="background-color: #0056b3; color: white; display: flex; justify-content: space-between; align-items: center; padding: 5px 20px; font-family: Arial, sans-serif; font-size: 14px;">
-        <div>
-            <strong>GOVPH</strong> | The Official Website of Barangay Bucandala 1, Imus Cavite
-        </div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <a href="#" style="color: white;"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" style="color: white;"><i class="fab fa-youtube"></i></a>
-            <a href="#" style="color: white;"><i class="fab fa-twitter"></i></a>
-            <a href="tel:+464025614" style="color: white;"><i class="fas fa-phone-alt"></i></a>
-            <span id="dateTimePH"></span>
-        </div>
+    <div class="header-bar">
+  <div class="header-container">
+    
+    <!-- Left section -->
+    <div class="left-section">
+      GOVPH
+      <span>| The Official Website of Barangay Bucandala 1, Imus, Cavite</span>
     </div>
 
+    <!-- Social Media Icons -->
+    <div class="social-icons">
+      <a href="https://www.facebook.com/profile.php?id=100085126650282"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fas fa-phone-alt"></i></a>
+    </div>
+
+    <!-- Right section: Philippine Time -->
+    <div class="time-section">
+      <div>Philippine Standard Time:</div>
+      <div id="dateTimePH">Loading time...</div>
+    </div>
+
+  </div>
+</div>
 
 <!-- Navigation -->
 <nav style="display: flex; align-items: center; padding: 10px;">
@@ -156,13 +167,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 </nav>
 
-    <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
-        <img src="../image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
+    <!-- Cover Photo -->
+    <div style="
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #4b6cb7, #182848); /* Blue gradient */
+    color: white;
+    text-align: center;
+    font-size: 48px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);">
+    Barangay Certificate of Residency Form
     </div>
 
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center mb-4">Barangay Certificate of Residency Form</h2>
-
         <?php if ($success_message): ?>
             <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
         <?php endif; ?>
@@ -174,20 +198,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label>First Name *</label>
-                    <input type="text" name="first_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['first_name'] ?? $user['first_name'] ?? ''); ?>">
+                    <input type="text" name="first_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['first_name'] ?? $user['first_name'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-4">
                     <label>Middle Name *</label>
-                    <input type="text" name="middle_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['middle_name'] ?? $user['middle_name'] ?? ''); ?>">
+                    <input type="text" name="middle_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['middle_name'] ?? $user['middle_name'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-4">
                     <label>Last Name *</label>
-                    <input type="text" name="last_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['last_name'] ?? $user['last_name'] ?? ''); ?>">
+                    <input type="text" name="last_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['last_name'] ?? $user['last_name'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label>Date of Birth *</label>
-                    <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? $user['dob'] ?? ''); ?>">
+                    <input type="date" name="date_of_birth" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? $user['dob'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label>Government-issued ID *</label>
@@ -196,7 +220,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group col-md-12">
                     <label>Complete Address *</label>
-                    <input type="text" name="complete_address" class="form-control" required value="<?php echo htmlspecialchars($_POST['complete_address'] ?? $user['address'] ?? ''); ?>">
+                    <input type="text" name="complete_address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['complete_address'] ?? $user['address'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group col-md-6">

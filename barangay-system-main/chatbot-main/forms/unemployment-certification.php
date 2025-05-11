@@ -87,13 +87,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <!-- Header and Navigation -->
-    <div style="background-color: #0056b3; color: white; display: flex; justify-content: space-between; align-items: center; padding: 5px 20px; font-family: Arial, sans-serif; font-size: 14px;">
-        <div>
-            <strong>GOVPH</strong> | The Official Website of Barangay Bucandala 1, Imus Cavite
-        </div>
-            <span id="dateTimePH"></span>
-        </div>
+    <div class="header-bar">
+  <div class="header-container">
+    
+    <!-- Left section -->
+    <div class="left-section">
+      GOVPH
+      <span>| The Official Website of Barangay Bucandala 1, Imus, Cavite</span>
     </div>
+
+    <!-- Social Media Icons -->
+    <div class="social-icons">
+      <a href="https://www.facebook.com/profile.php?id=100085126650282"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fas fa-phone-alt"></i></a>
+    </div>
+
+    <!-- Right section: Philippine Time -->
+    <div class="time-section">
+      <div>Philippine Standard Time:</div>
+      <div id="dateTimePH">Loading time...</div>
+    </div>
+
+  </div>
+</div>
 
 
 <!-- Navigation -->
@@ -156,14 +174,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 
     <!-- Cover Photo -->
-    <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
-    <img src="../image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
+    <div style="
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #4b6cb7, #182848); /* Blue gradient */
+    color: white;
+    text-align: center;
+    font-size: 48px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);">
+    Certificate of Unemployment  Form
     </div>
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center mb-4"> Certificate of Unemployment  Form</h2>
-
         <?php if ($success_message): ?>
             <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
         <?php endif; ?>
@@ -177,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Full Name *</label>
-            <input type="text" name="full_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['full_name'] ?? ($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : '')); ?>">
+            <input type="text" name="full_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['full_name'] ?? ($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : '')); ?>">
         </div>
         <div class="form-group col-md-3">
             <label>Age *</label>
@@ -191,14 +221,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $age_value = $today->diff($dob)->y;
                 }
             ?>
-            <input type="number" name="age" class="form-control" required value="<?php echo htmlspecialchars($age_value); ?>">
+            <input type="number" name="age" class="form-control" required readonly value="<?php echo htmlspecialchars($age_value); ?>">
         </div>
         <div class="form-group col-md-3">
             <label>Date of Birth *</label>
             <?php
                 $dob_value = $_POST['birth_date'] ?? ($user_data['dob'] ?? '');
             ?>
-            <input type="date" name="birth_date" class="form-control" required value="<?php echo htmlspecialchars($dob_value); ?>">
+            <input type="date" name="birth_date" class="form-control" required readonly value="<?php echo htmlspecialchars($dob_value); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Civil Status *</label>
@@ -212,7 +242,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="form-group col-md-6">
             <label>Address *</label>
-            <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
+            <input type="text" name="address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-12">
             <label>Purpose of Certification *</label>

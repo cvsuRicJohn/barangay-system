@@ -85,105 +85,112 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <!-- Header and Navigation -->
-    <div style="background-color: #0056b3; color: white; display: flex; justify-content: space-between; align-items: center; padding: 5px 20px; font-family: Arial, sans-serif; font-size: 14px;">
-        <div>
-            <strong>GOVPH</strong> | The Official Website of Barangay Bucandala 1, Imus Cavite
-        </div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <a href="#" style="color: white;"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" style="color: white;"><i class="fab fa-youtube"></i></a>
-            <a href="#" style="color: white;"><i class="fab fa-twitter"></i></a>
-            <a href="tel:+464025614" style="color: white;"><i class="fas fa-phone-alt"></i></a>
-            <span id="dateTimePH"></span>
-        </div>
+    <div class="header-bar">
+  <div class="header-container">
+    
+    <!-- Left section -->
+    <div class="left-section">
+      GOVPH
+      <span>| The Official Website of Barangay Bucandala 1, Imus, Cavite</span>
     </div>
 
+    <!-- Social Media Icons -->
+    <div class="social-icons">
+      <a href="https://www.facebook.com/profile.php?id=100085126650282"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fas fa-phone-alt"></i></a>
+    </div>
+
+    <!-- Right section: Philippine Time -->
+    <div class="time-section">
+      <div>Philippine Standard Time:</div>
+      <div id="dateTimePH">Loading time...</div>
+    </div>
+
+  </div>
+</div>
+
 <!-- Navigation -->
-<nav>
+<nav style="display: flex; align-items: center; padding: 10px;">
+  <!-- Logo and Title -->
+  <div class="logo-container keep-on-mobile">
+  <img src="../image/imus-logo.png" alt="Barangay Logo" class="logo-img">
+  <div class="logo-text">
+    <span class="barangay-name">Bucandala 1</span><br>
+    <span class="barangay-location">Imus, Cavite</span>
+  </div>
+</div>
+<!-- Hamburger Button (mobile only) -->
+<button id="hamburgerBtn" class="hamburger-btn">
+  <i class="fas fa-bars"></i>
+</button>
+
+<!-- MAIN NAVIGATION -->
+<nav class="main-nav" id="mainNav">
   <a href="../index.php">Home</a>
 
   <div class="dropdown">
     <a href="#online-services-section" class="dropbtn">Services ▾</a>
     <div class="dropdown-content">
-      
-      <!-- Barangay Clearance submenu -->
+      <!-- Barangay Clearance -->
       <div class="dropdown-submenu">
         <a href="#">Barangay Clearance ▸</a>
         <div class="submenu-content">
-          <a href="barangay-clearance.php" title="Get your official barangay clearance for legal use">
-            <i class="fas fa-file-alt"></i> Barangay Clearance
-          </a>
-          <a href="barangay-id.php" title="Apply for your official Barangay ID card">
-            <i class="fas fa-id-card"></i> Barangay ID
-          </a>
-          <a href="construction-clearance.php" title="Clearance for building or construction activities">
-            <i class="fas fa-tools"></i> Construction Clearance
-          </a>
-          <a href="business-permit.php" title="Request for business operation permits">
-            <i class="fas fa-store"></i> Business Permit
-          </a>
+          <a href="barangay-clearance.php"><i class="fas fa-file-alt"></i> Barangay Clearance</a>
+          <a href="barangay-id.php"><i class="fas fa-id-card"></i> Barangay ID</a>
+          <a href="construction-clearance.php"><i class="fas fa-tools"></i> Construction Clearance</a>
         </div>
       </div>
 
-      <!-- Barangay Certification submenu -->
+      <!-- Barangay Certification -->
       <div class="dropdown-submenu">
-        <a href="#"> Barangay Certification ▸</a>
+        <a href="#">Barangay Certification ▸</a>
         <div class="submenu-content">
-          <a href="certificate-of-residency.php" title="Proof that you live in the barangay">
-            <i class="fas fa-home"></i> Residency
-          </a>
-          <a href="certificate-of-indigency.php" title="Proof of financial need for assistance or benefits">
-            <i class="fas fa-hand-holding-heart"></i> Indigency
-          </a>
-          <a href="certificate-of-good-moral.php" title="Good moral standing for legal or school requirements">
-            <i class="fas fa-shield-alt"></i> Good Moral 
-          </a>
-          <a href="first-time-job-seeker.php" title="Certification for first-time job seekers">
-            <i class="fas fa-briefcase"></i> First Time Job Seeker
-
-          <a href="solo-parent.php" title="Certification for solo or single parents">
-            <i class="fas fa-user-friends"></i> Solo Parent 
-          </a>
-          <a href="out-of-school-youth.php" title="Declared as out-of-school youth">
-            <i class="fas fa-user-graduate"></i> Out of School Youth 
-          </a>
-          <a href="unemployment-certification.php" title="Certification that the person is unemployed">
-            <i class="fas fa-user-times"></i> Unemployment 
-          </a>
-          <a href="no-income-certification.php" title="Declaration of no income">
-            <i class="fas fa-ban"></i> No Income 
-          </a>
-          <a href="late-birth-registration.php" title="Support for late birth registration">
-            <i class="fas fa-baby"></i> Late Birth Registration 
-          </a>
-          <a href="cohabitation-certification.php" title="Proof of cohabitation without marriage">
-            <i class="fas fa-users"></i> Cohabitation 
-          </a>
-          <a href="non-residency-certification.php" title="Proof of not living in the barangay anymore">
-            <i class="fas fa-map-marker-alt"></i> Non-Residency 
-          </a>
-          <a href="baptismal-certification.php" title="Permission for baptismal activity">
-            <i class="fas fa-church"></i> Baptismal 
-          </a>
+        <a href="certificate-of-residency.php"><i class="fas fa-home"></i> Residency</a>
+        <a href="certificate-of-indigency.php"><i class="fas fa-hand-holding-heart"></i> Indigency</a>
+        <a href="certificate-of-good-moral.php"><i class="fas fa-shield-alt"></i> Good Moral</a>
+        <a href="first-time-job-seeker.php"><i class="fas fa-briefcase"></i> First Time Job Seeker</a>
+        <a href="solo-parent.php"><i class="fas fa-user-friends"></i> Solo Parent</a>
+        <a href="out-of-school-youth.php"><i class="fas fa-user-graduate"></i> Out of School Youth</a>
+        <a href="unemployment-certification.php"><i class="fas fa-user-times"></i> Unemployment</a>
+        <a href="no-income-certification.php"><i class="fas fa-ban"></i> No Income</a>
+        <a href="late-birth-registration.php"><i class="fas fa-baby"></i> Late Birth Registration</a>
+        <a href="cohabitation-certification.php"><i class="fas fa-users"></i> Cohabitation</a>
+        <a href="non-residency-certification.php"><i class="fas fa-map-marker-alt"></i> Non-Residency</a>
+        <a href="baptismal-certification.php"><i class="fas fa-church"></i> Baptismal</a>
         </div>
       </div>
-
     </div>
   </div>
 
   <a href="../contact.php">About</a>
   <a href="../faq.php">FAQs</a>
+  <a href="../profile.php"><i class="fas fa-user"></i> My Profile</a>
+</nav>
 </nav>
 
     <!-- Cover Photo -->
-    <div style="width: 100%; height: 300px; overflow: hidden; opacity: 0.6;">
-        <img src="../image/duduy.jpg" alt="Cover Photo" style="width: 100%; height: 100%; object-fit: cover;">
+    <div style="
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #4b6cb7, #182848); /* Blue gradient */
+    color: white;
+    text-align: center;
+    font-size: 48px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);">
+    Baptismal Certificate Form
     </div>
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <h2 class="text-center mb-4">Baptismal Certificate Form</h2>
-
         <?php if ($success_message): ?>
             <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
         <?php endif; ?>
@@ -197,11 +204,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Full Name of Parent *</label>
-            <input type="text" name="parent_name" class="form-control" required value="<?php echo htmlspecialchars($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : ''); ?>">
+            <input type="text" name="parent_name" class="form-control" required readonly value="<?php echo htmlspecialchars($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Address *</label>
-            <input type="text" name="address" class="form-control" required value="<?php echo htmlspecialchars($user_data['address'] ?? ''); ?>">
+            <input type="text" name="address" class="form-control" required readonly value="<?php echo htmlspecialchars($user_data['address'] ?? ''); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Name of Child *</label>
