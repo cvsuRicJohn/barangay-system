@@ -168,209 +168,13 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Admin Management System - Full Certification Management</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- Bootstrap 4 and FontAwesome for styles -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-<style>
-  html, body {
-    height: 100%;
-  }
-  body {
-    overflow: hidden;
-    background: #f1f5f9;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
-  #app {
-    display: flex;
-    height: 100vh;
-  }
-  #sidebar {
-    width: 250px;
-    background: linear-gradient(180deg, #4a90e2, #357abd);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    padding-top: 1.5rem;
-    user-select: none;
-    overflow-y: auto;
-  }
-  #sidebar h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 700;
-    font-size: 1.6rem;
-    letter-spacing: 1px;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-  }
-  #sidebar nav {
-    flex-grow: 1;
-  }
-  #sidebar nav a {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    cursor: pointer;
-    color: white;
-    text-decoration: none;
-    border-left: 4px solid transparent;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-  }
-  #sidebar nav a.active, #sidebar nav a:hover {
-    background-color: rgba(255,255,255,0.15);
-    border-left-color: #ffca28;
-  }
-  #top-right-status {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: #4a90e2;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-weight: 600;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    z-index: 1000;
-  }
-  #sidebar nav a .badge {
-    min-width: 24px;
-    font-size: 0.75rem;
-    padding: 0.25em 0.5em;
-  }
-  #logout-btn {
-    margin: 1rem 1.5rem;
-    background: #e3342f;
-    border: none;
-    padding: 0.6rem 1rem;
-    color: white;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  #logout-btn:hover {
-    background: #b1221c;
-  }
-  #main-content {
-    flex-grow: 1;
-    padding: 1.5rem 2rem;
-    overflow-y: auto;
-    background: white;
-  }
-  h3.page-title {
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #2c3e50;
-  }
-  /* Table styling */
-  .entity-table {
-    max-width: 100%;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  .entity-table th,
-  .entity-table td {
-    padding: 0.65rem 1rem;
-    border: 1px solid #d1d5db;
-    vertical-align: middle;
-    font-size: 0.9rem;
-  }
-  .entity-table thead th {
-    background-color: #4a90e2;
-    color: white;
-    font-weight: 600;
-  }
-  .action-btns button, .action-btns a {
-    margin-right: 0.35rem;
-  }
-  .action-btns a, .action-btns button {
-    font-size: 0.85rem;
-  }
-  /* Scrollable table */
-  .table-wrapper {
-    max-height: 500px;
-    overflow-y: auto;
-    margin-bottom: 2rem;
-    border: 1px solid #cbd5e1;
-    border-radius: 0.5rem;
-  }
-  /* Tab contents */
-  .tab-content-section {
-    display: none;
-  }
-  .tab-content-section.active {
-    display: block;
-  }
-  /* Responsive adjustments */
-  @media(max-width: 768px) {
-    #sidebar {
-      width: 60px;
-      padding-top: 1rem;
-    }
-    #sidebar h2 {
-      display: none;
-    }
-    #sidebar nav a {
-      justify-content: center;
-      padding: 0.5rem;
-      border-left: none;
-      border-bottom: 4px solid transparent;
-      flex-direction: column;
-      font-size: 0;
-    }
-    #sidebar nav a span.badge {
-      margin-top: 3px;
-    }
-    #sidebar nav a i {
-      font-size: 1.3rem;
-      color: white;
-    }
-    #main-content {
-      padding: 1rem;
-    }
-  }
-</style>
+<link rel="stylesheet" href="admincss/admin_page.css" />
 
-<script>
-function confirmDelete(entity, id) {
-    if (confirm('Are you sure you want to delete this ' + entity.replace(/_/g, ' ') + ' with ID ' + id + '?')) {
-        window.location.href = 'admin_page.php?action=delete&entity=' + entity + '&id=' + id;
-    }
-}
-// Tab navigation
-document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('#sidebar nav a');
-    const contents = document.querySelectorAll('.tab-content-section');
-
-    function setActiveTab(tabName) {
-        // Show content section
-        for (const content of contents) {
-            content.classList.toggle('active', content.id === tabName);
-        }
-        // Highlight nav
-        for (const tab of tabs) {
-            tab.classList.toggle('active', tab.dataset.target === tabName);
-        }
-        // Update URL query param without reload
-        if (history.pushState) {
-          const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab=' + tabName;
-          window.history.replaceState({path:newurl}, '', newurl);
-        }
-    }
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', e => {
-            e.preventDefault();
-            setActiveTab(tab.dataset.target);
-        });
-    });
-
-    // Set initial active tab from PHP var or default dashboard
-    setActiveTab(<?= json_encode($currentTab) ?>);
-});
-</script>
 </head>
 <body>
 <div id="app" class="d-flex">
@@ -401,73 +205,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
   <main id="main-content" role="main" tabindex="0">
     <!-- Removed user approval form as per request -->
+<button id="hamburger-toggle" class="hamburger">&#9776;</button>
 
-    <section id="dashboard" class="tab-content-section active" aria-labelledby="dashboard-header">
-      <h3 id="dashboard-header" class="page-title">Dashboard Overview</h3>
-      <div class="table-wrapper">
-        <table class="entity-table" aria-describedby="dashboard-summary-desc">
-          <caption id="dashboard-summary-desc">This table shows totals for each certification request and entities</caption>
-          <thead>
-            <tr>
-              <th>Certification / Entity</th>
-              <th>Total Requests / Items</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($counts as $entity => $total): ?>
-              <tr>
-                <td><?= e(str_replace('_', ' ', ucwords($entity))) ?></td>
-                <td><?= e($total) ?></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-      <h3 class="page-title">Recent Requests Overview</h3>
-      <div class="table-wrapper">
-        <table class="entity-table" aria-describedby="recent-requests-desc">
-          <caption id="recent-requests-desc">This table shows the most recent requests from all entities</caption>
-          <thead>
-            <tr>
-              <th>Entity</th>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Date Submitted</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            // Collect recent requests from all entities
-            $recentRequests = [];
-            foreach ($entities as $entityKey => $items) {
-                foreach ($items as $item) {
-                    $recentRequests[] = [
-                        'entity' => $entityKey,
-                        'id' => $item['id'] ?? '',
-                        'name' => $item['first_name'] ?? ($item['full_name'] ?? ($item['name'] ?? '')),
-                        'date' => $item['submitted_at'] ?? ($item['created_at'] ?? '')
-                    ];
-                }
+<section id="dashboard" class="tab-content-section active" aria-labelledby="dashboard-header">
+  <h3 id="dashboard-header" class="page-title">Dashboard Overview</h3>
+
+<div class="chart-container">
+    <div class="pie-chart-box">
+        <canvas id="pieChart"></canvas>
+    </div>
+    <div class="line-chart-box">
+        <canvas id="lineChart"></canvas>
+    </div>
+</div>
+
+  <!-- Table 1 -->
+  <div class="table-wrapper">
+    <table class="entity-table" aria-describedby="dashboard-summary-desc">
+      <caption id="dashboard-summary-desc">This table shows totals for each certification request and entities</caption>
+      <thead>
+        <tr>
+          <th class="collapsible-header">Certification / Entity</th>
+          <th>Total Requests / Items</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($counts as $entity => $total): ?>
+          <tr class="collapsible-row">
+            <td><?= e(str_replace('_', ' ', ucwords($entity))) ?></td>
+            <td><?= e($total) ?></td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Table 2 -->
+  <h3 class="page-title">Recent Requests Overview</h3>
+  <div class="table-wrapper">
+    <table class="entity-table" aria-describedby="recent-requests-desc">
+      <caption id="recent-requests-desc">This table shows the most recent requests from all entities</caption>
+      <thead>
+        <tr>
+          <th class="collapsible-header">Entity</th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Date Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        $recentRequests = [];
+        foreach ($entities as $entityKey => $items) {
+            foreach ($items as $item) {
+                $recentRequests[] = [
+                    'entity' => $entityKey,
+                    'id' => $item['id'] ?? '',
+                    'name' => $item['first_name'] ?? ($item['full_name'] ?? ($item['name'] ?? '')),
+                    'date' => $item['submitted_at'] ?? ($item['created_at'] ?? '')
+                ];
             }
-            // Sort by date descending
-            usort($recentRequests, function($a, $b) {
-                return strtotime($b['date']) <=> strtotime($a['date']);
-            });
-            // Limit to 10 most recent
-            $recentRequests = array_slice($recentRequests, 0, 10);
-            foreach ($recentRequests as $request):
-            ?>
-            <tr>
-              <td><?= e(str_replace('_', ' ', ucwords($request['entity']))) ?></td>
-              <td><?= e($request['id']) ?></td>
-              <td><?= e($request['name']) ?></td>
-              <td><?= e($request['date']) ?></td>
-            </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-    </section>
+        }
+        usort($recentRequests, function($a, $b) {
+            return strtotime($b['date']) <=> strtotime($a['date']);
+        });
+        $recentRequests = array_slice($recentRequests, 0, 10);
+        foreach ($recentRequests as $request):
+        ?>
+        <tr class="collapsible-row">
+          <td><?= e(str_replace('_', ' ', ucwords($request['entity']))) ?></td>
+          <td><?= e($request['id']) ?></td>
+          <td><?= e($request['name']) ?></td>
+          <td><?= e($request['date']) ?></td>
+        </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+</section>
 
     <?php
     // Helper function to output entities' tables dynamically
@@ -851,5 +666,73 @@ if (($entityKey === 'certificate_of_indigency_requests' || $entityKey === 'users
 <!-- Bootstrap JS bundle -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="adminjs/admin_page.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const pieCtx = document.getElementById('pieChart').getContext('2d');
+
+  const pieChart = new Chart(pieCtx, {
+    type: 'pie',
+    data: {
+      labels: <?= json_encode(array_map(function($key) {
+          return ucwords(str_replace('_', ' ', $key));
+      }, array_keys($counts))) ?>,
+      datasets: [{
+        data: <?= json_encode(array_values($counts)) ?>,
+        backgroundColor: [
+          '#FF6384', '#36A2EB', '#FFCE56', '#8E44AD', '#2ECC71', '#E74C3C',
+          '#3498DB', '#F1C40F', '#1ABC9C', '#9B59B6', '#34495E', '#95A5A6',
+          '#F39C12', '#D35400', '#7F8C8D', '#27AE60', '#2980B9'
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' },
+        title: {
+          display: true,
+          text: 'Request Distribution by Entity'
+        }
+      }
+    }
+  });
+</script>
+<script>
+const ctxLine = document.getElementById('lineChart').getContext('2d');
+
+// Example labels and data (replace with dynamic PHP data if needed)
+const lineLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+const lineData = [5, 8, 3, 10, 6];
+
+const lineChart = new Chart(ctxLine, {
+    type: 'line',
+    data: {
+        labels: lineLabels,
+        datasets: [{
+            label: 'Monthly Requests',
+            data: lineData,
+            fill: false,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.3
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Request Trends'
+            }
+        }
+    }
+});
+</script>
+<script>
+  document.getElementById('hamburger-toggle').addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('active');
+  });
+</script>
 </body>
 </html>
