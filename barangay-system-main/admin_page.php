@@ -2,6 +2,7 @@
 require_once 'chatbot-main/session_check.php';
 
 check_admin_session();
+check_user_status(); // Add this to block rejected users from accessing admin page
 
 // Handle logout
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
@@ -93,8 +94,9 @@ if (isset($_GET['action'])) {
             $stmt->bindParam(':status', $status, PDO::PARAM_STR);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
+            // Instead of redirecting immediately, reload the page without exiting to preserve session
             header("Location: admin_page.php?tab=$entity");
-            exit();
+            // Do not call exit() here to prevent session loss
         } catch (PDOException $e) {
             die("Error updating status: " . $e->getMessage());
         }
@@ -772,11 +774,22 @@ foreach ($columns as $key => $colHeader) {
                 $idEsc = isset($row['id']) ? e($row['id']) : '';
                 $entityEsc = e($entityKey);
         echo '<td class="action-btns">';
-        echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a> ';
+echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'&tab='.$entityEsc.'" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a> ';
         echo '<a href="admin_page.php?view='.$entityEsc.'&id='.$idEsc.'" class="btn btn-sm btn-primary" title="View"><i class="fas fa-eye"></i></a> ';
-if (($entityKey === 'certificate_of_indigency_requests' || $entityKey === 'users') && isset($row['status']) && $row['status'] === 'pending') {
-    echo '<a href="admin_page.php?action=update_status&entity='.$entityEsc.'&id='.$idEsc.'&status=approved" class="btn btn-sm btn-success" title="Approve" onclick="return confirm(\'Are you sure you want to approve this request?\');"><i class="fas fa-check"></i></a> ';
-    echo '<a href="admin_page.php?action=update_status&entity='.$entityEsc.'&id='.$idEsc.'&status=rejected" class="btn btn-sm btn-danger" title="Reject" onclick="return confirm(\'Are you sure you want to reject this request?\');"><i class="fas fa-times"></i></a> ';
+if (($entityKey === 'certificate_of_indigency_requests' || $entityKey === 'users') && isset($row['status'])) {
+    echo '<div class="btn-group">';
+    echo '<button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+    echo ucfirst($row['status']);
+    echo '</button>';
+    echo '<div class="dropdown-menu">';
+    $statuses = ['approved' => 'Done', 'pending' => 'In Progress', 'rejected' => 'Not Yet'];
+    foreach ($statuses as $statusKey => $statusLabel) {
+        if ($row['status'] !== $statusKey) {
+            echo '<a class="dropdown-item" href="admin_page.php?action=update_status&entity='.$entityEsc.'&id='.$idEsc.'&status='.$statusKey.'" onclick="return confirm(\'Are you sure you want to change status to '.$statusLabel.'?\');">'.$statusLabel.'</a>';
+        }
+    }
+    echo '</div>';
+    echo '</div>';
 }
 
         echo '<button onclick="confirmDelete(\''.$entityEsc.'\', '.$idEsc.')" class="btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash-alt"></i></button>';

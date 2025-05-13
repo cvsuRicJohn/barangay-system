@@ -26,22 +26,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     if (empty($username) || empty($password)) {
         $login_error = "Username and password are required.";
     } else {
-        $stmt = $pdo->prepare("SELECT id, username, password, is_admin FROM users WHERE username = ? OR email = ?");
+        $stmt = $pdo->prepare("SELECT id, username, password, is_admin, status FROM users WHERE username = ? OR email = ?");
         $stmt->execute([$username, $username]); // allow login via username OR email
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
+            if (strtolower($user['status']) === 'pending') {
+                $login_error = "Your account is pending approval by the admin.";
+            } elseif (strtolower($user['status']) === 'rejected') {
+                $login_error = "Your account has been rejected. Please contact the administrator.";
+            } else {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
 
-            if (!empty($user['is_admin']) && $user['is_admin'] == 1) {
-                $_SESSION['admin_id'] = $user['id'];
-                header("Location: ../admin_page.php");
+                if (!empty($user['is_admin']) && $user['is_admin'] == 1) {
+                    $_SESSION['admin_id'] = $user['id'];
+                    header("Location: ../admin_page.php");
+                    exit();
+                }
+
+                header("Location: index.php");
                 exit();
             }
-
-            header("Location: index.php");
-            exit();
         } else {
             $login_error = "Invalid username or password.";
         }

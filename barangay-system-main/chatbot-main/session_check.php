@@ -30,4 +30,39 @@ function check_session_timeout($timeout = 1800) {  // Default timeout: 30 minute
     }
     $_SESSION['last_activity'] = time(); // Update last activity timestamp
 }
+
+// New function to check if user is rejected and block access
+function check_user_status() {
+    if (isset($_SESSION['user_id'])) {
+        // Connect to DB
+        $servername = "localhost";
+        $username_db = "root";
+        $password_db = "";
+        $dbname = "barangay_db";
+
+        try {
+            $dsn = "mysql:host=$servername;dbname=$dbname;charset=utf8mb4";
+            $pdo = new PDO($dsn, $username_db, $password_db, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]);
+        } catch (PDOException $e) {
+            die("Connection failed: " . $e->getMessage());
+        }
+
+        // Check user status
+        $stmt = $pdo->prepare("SELECT status FROM users WHERE id = :id");
+        $stmt->bindParam(':id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->execute();
+        $user = $stmt->fetch();
+
+        if ($user && strtolower($user['status']) === 'rejected') {
+            // Destroy session and redirect to login with error
+            session_unset();
+            session_destroy();
+            header("Location: chatbot-main/login.php?error=access_denied");
+            exit();
+        }
+    }
+}
 ?>
