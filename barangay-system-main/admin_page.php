@@ -104,7 +104,12 @@ if (isset($_GET['action'])) {
 // Fetch data for all entities with a helper
 function fetchAll($pdo, $table) {
     try {
-        $stmt = $pdo->query("SELECT * FROM $table ORDER BY id DESC");
+        // Include submitted_at column explicitly for barangay_id_requests, certificate_of_indigency_requests, and certificate_of_residency_requests
+        if ($table === 'barangay_id_requests' || $table === 'certificate_of_indigency_requests' || $table === 'certificate_of_residency_requests') {
+            $stmt = $pdo->query("SELECT *, submitted_at FROM $table ORDER BY id DESC");
+        } else {
+            $stmt = $pdo->query("SELECT * FROM $table ORDER BY id DESC");
+        }
         return $stmt->fetchAll();
     } catch (PDOException $e) {
         die("Error fetching $table: " . $e->getMessage());
@@ -214,6 +219,18 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
   #sidebar nav a.active, #sidebar nav a:hover {
     background-color: rgba(255,255,255,0.15);
     border-left-color: #ffca28;
+  }
+  #top-right-status {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #4a90e2;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
   }
   #sidebar nav a .badge {
     min-width: 24px;
@@ -453,6 +470,25 @@ document.addEventListener('DOMContentLoaded', () => {
     <?php
     // Helper function to output entities' tables dynamically
     function renderEntityTable($entityKey, $items) {
+        // Define certification entities for email removal
+        static $certificationEntities = [
+            'certificate_of_indigency_requests',
+            'barangay_clearance',
+            'certificate_of_residency_requests',
+            'baptismal_certification_requests',
+            'certificate_of_good_moral_requests',
+            'cohabitation_certification_requests',
+            'construction_clearance_requests',
+            'first_time_job_seeker_requests',
+            'late_birth_registration_requests',
+            'non_residency_certification_requests',
+            'no_income_certification_requests',
+            'out_of_school_youth_requests',
+            'solo_parent_requests',
+            'unemployment_certification_requests',
+            'barangay_id_requests' // Added barangay_id_requests to remove email column
+        ];
+
         // Column layouts for each entity - define key columns and headers for illustration
         $columnsMap = [
             'barangay_id_requests' => [
@@ -463,6 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'address' => 'Address',
                 'date_of_birth' => 'Date of Birth',
                 'gov_id' => 'Gov ID',
+                'submitted_at' => 'Submitted At',
                 'email' => 'Email',
                 'shipping_method' => 'Shipping Method'
             ],
@@ -478,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'mobile_number' => 'Mobile Number',
                 'years_of_stay' => 'Years of Stay',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
+                'submitted_at' => 'Submitted At',
                 'shipping_method' => 'Shipping Method'
             ],
             'certificate_of_indigency_requests' => [
@@ -494,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'gov_id' => 'Gov ID',
                 'spouse_name' => 'Spouse Name',
                 'number_of_dependents' => 'Dependents',
-                'email' => 'Email',
+                'submitted_at' => 'Submitted At',
                 'shipping_method' => 'Shipping Method'
             ],
             'certificate_of_residency_requests' => [
@@ -506,8 +543,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'gov_id' => 'Gov ID',
                 'complete_address' => 'Complete Address',
                 'proof_of_residency' => 'Proof of Residency',
+                'submitted_at' => 'Submitted At',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method'
             ],
             'users' => [
@@ -534,7 +571,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'address' => 'Address',
                 'child_name' => 'Child Name',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -545,7 +581,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'civil_status' => 'Civil Status',
                 'address' => 'Address',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -556,7 +591,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'shared_address' => 'Shared Address',
                 'cohabitation_duration' => 'Duration',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -566,7 +600,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'business_location' => 'Business Location',
                 'owner_name' => 'Owner Name',
                 'owner_address' => 'Owner Address',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -576,7 +609,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'address' => 'Address',
                 'residency_length' => 'Residency Length',
                 'oath_acknowledged' => 'Oath Acknowledged',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -593,7 +625,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'mothers_name' => 'Mother\'s Name',
                 'years_in_barangay' => 'Years in Barangay',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -602,7 +633,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'full_name' => 'Full Name',
                 'previous_address' => 'Previous Address',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -614,7 +644,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'address' => 'Address',
                 'no_income_statement' => 'No Income Statement',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -624,7 +653,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'address' => 'Address',
                 'citizenship' => 'Citizenship',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -635,7 +663,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'solo_since' => 'Solo Since',
                 'child_count' => 'Child Count',
                 'children_names' => 'Children Names',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
@@ -647,7 +674,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'civil_status' => 'Civil Status',
                 'address' => 'Address',
                 'purpose' => 'Purpose',
-                'email' => 'Email',
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ]
@@ -673,6 +699,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Table headers
         echo '<thead><tr>';
         foreach ($columns as $colName) {
+            // Skip email column for all certification entities as per user request
+            if ($colName === 'Email' && in_array($entityKey, $certificationEntities)) {
+                continue;
+            }
             echo '<th>'.e($colName).'</th>';
         }
         echo '<th>Actions</th>';
@@ -682,32 +712,73 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             foreach ($items as $row) {
                 echo '<tr>';
-                foreach ($columns as $key => $colHeader) {
-                    // Adjust key for associative arrays (could be numeric keyed)
-                    $keyToUse = is_int($key) ? $colHeader : $key;
-                    $val = isset($row[$keyToUse]) ? $row[$keyToUse] : '';
-                    // Format date fields
-                    if (strpos($keyToUse, 'date') !== false || strpos($keyToUse, 'created_at') !== false || strpos($keyToUse, 'submitted_at') !== false || strpos($keyToUse, 'birth_date') !== false) {
-                        if ($val) {
-                            try {
-                                $dt = new DateTime($val);
-                                $val = $dt->format('F j, Y, g:i a');
-                            } catch (Exception $ex) {
-                                // ignore format error
-                            }
-                        }
-                    }
-                    echo '<td>'.nl2br(e($val)).'</td>';
-                }
-                $entityEsc = e($entityKey);
+foreach ($columns as $key => $colHeader) {
+    // Adjust key for associative arrays (could be numeric keyed)
+    $keyToUse = is_int($key) ? $colHeader : $key;
+    // Skip email column for all certification entities as per user request
+    if ($keyToUse === 'email' && in_array($entityKey, $certificationEntities)) {
+        continue;
+    }
+    $val = isset($row[$keyToUse]) ? $row[$keyToUse] : '';
+
+    // For certification entities, map status values to user-friendly labels
+    $certificationEntitiesWithStatus = [
+        'certificate_of_indigency_requests',
+        'barangay_clearance',
+        'certificate_of_residency_requests',
+        'baptismal_certification_requests',
+        'certificate_of_good_moral_requests',
+        'cohabitation_certification_requests',
+        'construction_clearance_requests',
+        'first_time_job_seeker_requests',
+        'late_birth_registration_requests',
+        'non_residency_certification_requests',
+        'no_income_certification_requests',
+        'out_of_school_youth_requests',
+        'solo_parent_requests',
+        'unemployment_certification_requests'
+    ];
+
+    if ($keyToUse === 'status' && in_array($entityKey, $certificationEntitiesWithStatus)) {
+        switch (strtolower($val)) {
+            case 'approved':
+                $val = 'Done';
+                break;
+            case 'pending':
+                $val = 'In Progress';
+                break;
+            case 'rejected':
+                $val = 'Not Yet';
+                break;
+            default:
+                $val = ucfirst($val);
+                break;
+        }
+    }
+
+    // Format date fields
+    if (strpos($keyToUse, 'date') !== false || strpos($keyToUse, 'created_at') !== false || strpos($keyToUse, 'submitted_at') !== false || strpos($keyToUse, 'birth_date') !== false) {
+        if ($val) {
+            try {
+                $dt = new DateTime($val);
+                $val = $dt->format('F j, Y, g:i a');
+            } catch (Exception $ex) {
+                // ignore format error
+            }
+        }
+    }
+    echo '<td>'.nl2br(e($val)).'</td>';
+}
                 $idEsc = isset($row['id']) ? e($row['id']) : '';
+                $entityEsc = e($entityKey);
         echo '<td class="action-btns">';
         echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a> ';
         echo '<a href="admin_page.php?view='.$entityEsc.'&id='.$idEsc.'" class="btn btn-sm btn-primary" title="View"><i class="fas fa-eye"></i></a> ';
-        if (($entityKey === 'certificate_of_indigency_requests' || $entityKey === 'users') && isset($row['status']) && $row['status'] === 'pending') {
-            echo '<a href="admin_page.php?action=update_status&entity='.$entityEsc.'&id='.$idEsc.'&status=approved" class="btn btn-sm btn-success" title="Approve" onclick="return confirm(\'Are you sure you want to approve this request?\');"><i class="fas fa-check"></i></a> ';
-            echo '<a href="admin_page.php?action=update_status&entity='.$entityEsc.'&id='.$idEsc.'&status=rejected" class="btn btn-sm btn-danger" title="Reject" onclick="return confirm(\'Are you sure you want to reject this request?\');"><i class="fas fa-times"></i></a> ';
-        }
+if (($entityKey === 'certificate_of_indigency_requests' || $entityKey === 'users') && isset($row['status']) && $row['status'] === 'pending') {
+    echo '<a href="admin_page.php?action=update_status&entity='.$entityEsc.'&id='.$idEsc.'&status=approved" class="btn btn-sm btn-success" title="Approve" onclick="return confirm(\'Are you sure you want to approve this request?\');"><i class="fas fa-check"></i></a> ';
+    echo '<a href="admin_page.php?action=update_status&entity='.$entityEsc.'&id='.$idEsc.'&status=rejected" class="btn btn-sm btn-danger" title="Reject" onclick="return confirm(\'Are you sure you want to reject this request?\');"><i class="fas fa-times"></i></a> ';
+}
+
         echo '<button onclick="confirmDelete(\''.$entityEsc.'\', '.$idEsc.')" class="btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash-alt"></i></button>';
         echo '</td>';
 

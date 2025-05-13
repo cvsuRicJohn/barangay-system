@@ -50,17 +50,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
-        try {
-            $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
-                (first_name, middle_name, last_name, address, date_of_birth, gov_id, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $first_name, $middle_name, $last_name, $address, $date_of_birth, $gov_id, $shipping_method
-            ]);
-            $success_message = "Form successfully submitted!";
-        } catch (PDOException $e) {
-            $error_message = "Error submitting form: " . $e->getMessage();
-        }
+            try {
+                $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
+                    (first_name, middle_name, last_name, address, date_of_birth, gov_id, shipping_method, submitted_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+                $stmt->execute([
+                    $first_name, $middle_name, $last_name, $address, $date_of_birth, $gov_id, $shipping_method
+                ]);
+                $success_message = "Form successfully submitted!";
+            } catch (PDOException $e) {
+                $error_message = "Error submitting form: " . $e->getMessage();
+            }
     }
 }
 ?>

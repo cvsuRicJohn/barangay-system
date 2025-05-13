@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 
             if (move_uploaded_file($_FILES["profilePic"]["tmp_name"], $targetFile) || empty($profilePic)) {
                 $hashed_password = password_hash($passwordReg, PASSWORD_DEFAULT);
-                $stmt_insert = $pdo->prepare("INSERT INTO users (first_name, middle_name, last_name, address, email, username, password, dob, gender, civil_status, government_id, id_number, emergency_contact_name, emergency_contact_number, profile_pic, dependents) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt_insert = $pdo->prepare("INSERT INTO users (first_name, middle_name, last_name, address, email, username, password, dob, gender, civil_status, government_id, id_number, emergency_contact_name, emergency_contact_number, profile_pic, dependents, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved')");
                 if ($stmt_insert->execute([$firstName, $middleName, $lastName, $address, $email, $usernameReg, $hashed_password, $dob, $gender, $civilStatus, $governmentId, $idNumber, $emergencyContactName, $emergencyContactNumber, $profilePic, $dependents])) {
                     $register_success = "Account created successfully! You can now login.";
                     echo '<script>
