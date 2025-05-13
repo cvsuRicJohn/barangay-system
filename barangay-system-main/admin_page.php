@@ -778,7 +778,20 @@ echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'&tab='.$entityEsc.'" 
         echo '<a href="admin_page.php?view='.$entityEsc.'&id='.$idEsc.'" class="btn btn-sm btn-primary" title="View"><i class="fas fa-eye"></i></a> ';
 if (($entityKey === 'certificate_of_indigency_requests' || $entityKey === 'users') && isset($row['status'])) {
     echo '<div class="btn-group">';
-    echo '<button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+    // Use Bootstrap button colors for status
+    $btnClass = 'btn-secondary';
+    switch (strtolower($row['status'])) {
+        case 'approved':
+            $btnClass = 'btn-success';
+            break;
+        case 'pending':
+            $btnClass = 'btn-warning';
+            break;
+        case 'rejected':
+            $btnClass = 'btn-danger';
+            break;
+    }
+    echo '<button type="button" class="btn btn-sm ' . $btnClass . ' dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
     echo ucfirst($row['status']);
     echo '</button>';
     echo '<div class="dropdown-menu">';
