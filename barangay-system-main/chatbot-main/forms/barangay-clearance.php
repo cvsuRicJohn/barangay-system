@@ -178,23 +178,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 
     <!-- Cover Photo -->
-    <div style="
-    width: 100%;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to right, #4b6cb7, #182848); /* Blue gradient */
-    color: white;
-    text-align: center;
-    font-size: 48px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);">
-    Barangay Clearance Form
-    </div>
+    <div class="header-banner">Barangay Clearance Form</div>
 
     <div class="container-fluid px-5 py-4">
         <?php if ($success_message): ?>
@@ -280,19 +264,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="shipping_method" class="form-control" required>
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
-
+                </div>
+            </div>   
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary px-5">Submit</button>
             </div>
         </form>
-
     </div>    
 
     <!-- Footer -->
     <div class="footer">
         <div class="footer-content">
-        <img src="../image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
-        <div class="footer-text">
+            <img src="../image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
+            <div class="footer-text">
                 <p>Copyright &copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
                 <p>Bucandala 1 Barangay Hall, Imus, Cavite, Philippines 4103.</p>
                 <p>Call Us Today: +46 40 256 14</p>

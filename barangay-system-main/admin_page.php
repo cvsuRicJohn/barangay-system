@@ -282,6 +282,96 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
       </tbody>
     </table>
   </div>
+    <!-- EDITABLE FAQS -->
+
+<?php include 'db_conn.php'; ?>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Edit FAQs</h2>
+
+            <form action="update_faq.php" method="post">
+                <?php
+                $result = $conn->query("SELECT * FROM faqs ORDER BY column_side, position ASC");
+                while($row = $result->fetch_assoc()):
+                    $id = $row['id'];
+                    $question = htmlspecialchars($row['question']);
+                    $answer = htmlspecialchars($row['answer']);
+                    $side = $row['column_side'];
+                    $position = $row['position'];
+                ?>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <input type="hidden" name="faq_id[]" value="<?= $id ?>">
+
+                        <!-- Question -->
+                        <div class="form-group">
+                            <label>Question:</label>
+                            <input type="text" name="question[]" class="form-control" value="<?= $question ?>">
+                        </div>
+
+                        <!-- Answer -->
+                        <div class="form-group">
+                            <label>Answer:</label>
+                            <textarea name="answer[]" class="form-control" rows="3"><?= $answer ?></textarea>
+                        </div>
+
+                        <!-- Column Side + Position side-by-side -->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Column Side:</label>
+                                <select name="column_side[]" class="form-control">
+                                    <option value="left" <?= $side == 'left' ? 'selected' : '' ?>>Left</option>
+                                    <option value="right" <?= $side == 'right' ? 'selected' : '' ?>>Right</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Position:</label>
+                                <input type="number" name="position[]" class="form-control" value="<?= $position ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endwhile; ?>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+
+    <hr>
+
+<h3>Add New FAQ</h3>
+<form action="add_faq.php" method="post">
+    <?php foreach ([
+        ['label' => 'Question', 'name' => 'question', 'type' => 'text'],
+        ['label' => 'Answer', 'name' => 'answer', 'type' => 'textarea']
+    ] as $field): ?>
+        <div class="form-group">
+            <label><?= $field['label'] ?>:</label>
+            <?php if ($field['type'] === 'textarea'): ?>
+                <textarea name="<?= $field['name'] ?>" class="form-control" rows="3" required></textarea>
+            <?php else: ?>
+                <input type="<?= $field['type'] ?>" name="<?= $field['name'] ?>" class="form-control" required>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+
+    <!-- Position and Column Side side by side -->
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Position:</label>
+            <input type="number" name="position" class="form-control" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Column Side:</label>
+            <select name="column_side" class="form-control">
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Add FAQ</button>
+</form>
+</div>
 </section>
 
     <?php

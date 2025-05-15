@@ -171,23 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 
     <!-- Cover Photo -->
-    <div style="
-    width: 100%;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to right, #4b6cb7, #182848); /* Blue gradient */
-    color: white;
-    text-align: center;
-    font-size: 48px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);">
-    Certificate of Good Moral Form
-    </div>
+    <div class="header-banner">Certificate of Good Moral Form</div>
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
@@ -237,16 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit" class="btn btn-primary px-5">Submit</button>
             </div>
         </form>
-
-        <!-- Success Modal -->
-        <div id="successModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal()">&times;</span>
-                <h3>Form successfully submitted!</h3>
-            </div>
-        </div>
     </div>
-
     <!-- Footer Section -->
     <div class="footer">
         <div class="footer-content">

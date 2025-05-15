@@ -27,10 +27,7 @@ if (!isset($_SESSION['user_id'])) {
   <div class="header-container">
     
     <!-- Left section -->
-    <div class="left-section">
-      GOVPH
-      <span>| The Official Website of Barangay Bucandala 1, Imus, Cavite</span>
-    </div>
+    <div class="left-section">GOVPH<span>| The Official Website of Barangay Bucandala 1, Imus, Cavite</span></div>
 
     <!-- Social Media Icons -->
     <div class="social-icons">
@@ -107,143 +104,42 @@ if (!isset($_SESSION['user_id'])) {
 </nav>
 </nav>
 
-    <div class="container content">
-        <h2 class="text-center">Frequently Asked Questions</h2>
-        <div class="faq-container">
-            <div class="row">
-                <!-- Left Column -->
-                <div class="col-md-6">
-                    <div class="accordion" id="faqAccordionLeft">
-                        <!-- FAQ 1 -->
-                        <div class="card">
-                            <div class="card-header" id="headingOne">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        + Anu-ano ang kailangan sa pagkuha ng Barangay I.D.?
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#faqAccordionLeft">
-                                <div class="card-body">
-                                    Kailangan mong magdala ng valid ID at proof of residence tulad ng utility bill o barangay certificate.
-                                </div>
-                            </div>
-                        </div>
+<?php include '../db_conn.php'; ?>
 
-                        <!-- FAQ 2 -->
-                        <div class="card">
-                            <div class="card-header" id="headingTwo">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        + Paano kumuha ng Barangay Indigency?
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqAccordionLeft">
-                                <div class="card-body">
-                                    Magdala ng valid ID at certificate mula sa Barangay Kapitan na nagpapatunay ng iyong indigency status.
-                                </div>
-                            </div>
+<div class="container content">
+    <h2 class="text-center">Frequently Asked Questions</h2>
+    <div class="faq-container">
+        <div class="row">
+            <?php
+            $sides = ['left', 'right'];
+            foreach ($sides as $side):
+                $result = $conn->query("SELECT * FROM faqs WHERE column_side = '$side' ORDER BY position ASC");
+            ?>
+            <div class="col-md-6">
+                <div class="accordion" id="faqAccordion<?= ucfirst($side) ?>">
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                    <div class="card">
+                        <div class="card-header" id="heading<?= $row['id'] ?>">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse<?= $row['id'] ?>" aria-expanded="false" aria-controls="collapse<?= $row['id'] ?>">
+                                    + <?= htmlspecialchars($row['question']) ?>
+                                </button>
+                            </h2>
                         </div>
-
-                        <!-- FAQ 3 -->
-                        <div class="card">
-                            <div class="card-header" id="headingThree">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        + Ano ang kailangan sa pagkuha ng Barangay Clearance?
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#faqAccordionLeft">
-                                <div class="card-body">
-                                    Magdala ng valid ID, barangay certificate, at bayaran ang kaukulang fee.
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- FAQ 4 -->
-                        <div class="card">
-                            <div class="card-header" id="headingFour">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                        + Saan maaaring mag-apply ng Barangay Business Permit?
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#faqAccordionLeft">
-                                <div class="card-body">
-                                    Ang aplikasyon ay maaaring gawin sa Barangay Hall. Dalhin ang necessary business documents.
-                                </div>
+                        <div id="collapse<?= $row['id'] ?>" class="collapse" aria-labelledby="heading<?= $row['id'] ?>" data-parent="#faqAccordion<?= ucfirst($side) ?>">
+                            <div class="card-body">
+                                <?= nl2br(htmlspecialchars($row['answer'])) ?>
                             </div>
                         </div>
                     </div>
+                    <?php endwhile; ?>
                 </div>
-
-                <!-- Right Column -->
-                <div class="col-md-6">
-                    <div class="accordion" id="faqAccordionRight">
-                        <!-- FAQ 5 -->
-                        <div class="card">
-                            <div class="card-header" id="headingFive">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                        + Kailan ang check-up ng mga buntis sa Barangay Health Center?
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#faqAccordionRight">
-                                <div class="card-body">
-                                    Ang check-up ay tuwing Lunes at Huwebes ng umaga. Tumawag sa health center para sa eksaktong iskedyul.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="headingSix">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                        + Anu-ano ang Requirements para sa Solo Parent I.D.? 
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#faqAccordionRight">
-                                <div class="card-body">
-                                    <strong>Ang mga sumusunod ay ang kwalipikado para sa SOLO PARENT I.D.</strong>
-                                    <ul>
-                                        <li>Biyuda</li>
-                                        <li>Hiwalay sa asawa</li>
-                                        <li>Nawalang bisa o Annulled ang kasal</li>
-                                        <li>Inabandona ng asawa o ng kinakasama</li>
-                                        <li>Sinumang indibidwal na tumatayo bilang head of the family bunga ng pag-abandona, pagkawala, matagal na pagkawalay ng magulang o ng solo parent</li>
-                                        <li>Biktima ng panggagahasa</li>
-                                        <li>Asawa ng nakakulong at/o nahatulang mabilanggo</li>
-                                        <li>Hindi sapat ang mental na kapasidad</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- FAQ 6 -->
-                        <div class="card">
-                            <div class="card-header" id="headingSeven">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                        + May bayad po ba ang Barangay I.D. at mga clearance?
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#faqAccordionRight">
-                                <div class="card-body">
-                                    Oo, may bayad depende sa dokumentong kukunin.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>  
+            </div>
+            <?php endforeach; ?>
         </div>
     </div>
+</div>
+
 
     <div class="footer">
         <div class="footer-content">

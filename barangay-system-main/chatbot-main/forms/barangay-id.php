@@ -182,23 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 
     <!-- Cover Photo -->
-    <div style="
-    width: 100%;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to right, #4b6cb7, #182848); /* Blue gradient */
-    color: white;
-    text-align: center;
-    font-size: 48px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);">
-    Barangay ID Form
-    </div>
+    <div class="header-banner">Barangay ID Form</div>
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
@@ -208,89 +192,87 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if ($error_message): ?>
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
+        <form method="POST" action="barangay-id.php" id="myForm">
+            <div class="form-row">
+                <!-- Personal Information -->
+                <div class="form-group col-md-4">
+                    <label>First Name *</label>
+                    <input type="text" name="first_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['first_name'] ?? $user['first_name'] ?? ''); ?>">
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Middle Name *</label>
+                    <input type="text" name="middle_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['middle_name'] ?? $user['middle_name'] ?? ''); ?>">
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Last Name *</label>
+                    <input type="text" name="last_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['last_name'] ?? $user['last_name'] ?? ''); ?>">
+                </div>
 
-<form method="POST" action="barangay-id.php" id="myForm">
-    <div class="form-row">
-        <!-- Personal Information -->
-        <div class="form-group col-md-4">
-            <label>First Name *</label>
-            <input type="text" name="first_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['first_name'] ?? $user['first_name'] ?? ''); ?>">
-        </div>
-        <div class="form-group col-md-4">
-            <label>Middle Name *</label>
-            <input type="text" name="middle_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['middle_name'] ?? $user['middle_name'] ?? ''); ?>">
-        </div>
-        <div class="form-group col-md-4">
-            <label>Last Name *</label>
-            <input type="text" name="last_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['last_name'] ?? $user['last_name'] ?? ''); ?>">
-        </div>
+                <div class="form-group col-md-12">
+                    <label>Address *</label>
+                    <input type="text" name="address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['address'] ?? $user['address'] ?? ''); ?>">
+                </div>
 
-        <div class="form-group col-md-12">
-            <label>Address *</label>
-            <input type="text" name="address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['address'] ?? $user['address'] ?? ''); ?>">
-        </div>
+                <div class="form-group col-md-6">
+                    <label>Date of Birth *</label>
+                    <input type="date" name="date_of_birth" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? $user['dob'] ?? ''); ?>">
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Age *</label>
+                    <input type="number" name="age" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['age'] ?? ''); ?>">
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Contact Number *</label>
+                    <input type="text" name="contact_number" class="form-control" required value="<?php echo htmlspecialchars($_POST['contact_number'] ?? $user['contact_number'] ?? ''); ?>">
+                </div>
 
-        <div class="form-group col-md-6">
-            <label>Date of Birth *</label>
-            <input type="date" name="date_of_birth" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? $user['dob'] ?? ''); ?>">
-        </div>
-        <div class="form-group col-md-3">
-            <label>Age *</label>
-            <input type="number" name="age" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['age'] ?? ''); ?>">
-        </div>
-        <div class="form-group col-md-3">
-            <label>Contact Number *</label>
-            <input type="text" name="contact_number" class="form-control" required value="<?php echo htmlspecialchars($_POST['contact_number'] ?? $user['contact_number'] ?? ''); ?>">
-        </div>
+                <!-- Government ID -->
+                <div class="form-group col-md-6">
+                    <label>Government-issued ID *</label>
+                    <select name="gov_id" class="form-control" required>
+                        <option value="">-- Select ID --</option>
+                        <option value="Philippine Passport" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'Philippine Passport') ? 'selected' : ''; ?>>Philippine Passport</option>
+                        <option value="Driver’s License" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'Driver’s License') ? 'selected' : ''; ?>>Driver’s License (LTO)</option>
+                        <option value="PhilSys National ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'PhilSys National ID') ? 'selected' : ''; ?>>PhilSys National ID</option>
+                        <option value="UMID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'UMID') ? 'selected' : ''; ?>>UMID (SSS/GSIS)</option>
+                        <option value="Voter’s ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'Voter’s ID') ? 'selected' : ''; ?>>Voter’s ID/Certificate</option>
+                        <option value="Postal ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'Postal ID') ? 'selected' : ''; ?>>Postal ID</option>
+                        <option value="PRC ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'PRC ID') ? 'selected' : ''; ?>>PRC ID</option>
+                        <option value="PhilHealth ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'PhilHealth ID') ? 'selected' : ''; ?>>PhilHealth ID</option>
+                        <option value="TIN ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'TIN ID') ? 'selected' : ''; ?>>TIN ID</option>
+                    </select>
+                </div>
 
-        <!-- Government ID -->
-        <div class="form-group col-md-6">
-            <label>Government-issued ID *</label>
-            <select name="gov_id" class="form-control" required>
-                <option value="">-- Select ID --</option>
-                <option value="Philippine Passport" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'Philippine Passport') ? 'selected' : ''; ?>>Philippine Passport</option>
-                <option value="Driver’s License" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'Driver’s License') ? 'selected' : ''; ?>>Driver’s License (LTO)</option>
-                <option value="PhilSys National ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'PhilSys National ID') ? 'selected' : ''; ?>>PhilSys National ID</option>
-                <option value="UMID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'UMID') ? 'selected' : ''; ?>>UMID (SSS/GSIS)</option>
-                <option value="Voter’s ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'Voter’s ID') ? 'selected' : ''; ?>>Voter’s ID/Certificate</option>
-                <option value="Postal ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'Postal ID') ? 'selected' : ''; ?>>Postal ID</option>
-                <option value="PRC ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'PRC ID') ? 'selected' : ''; ?>>PRC ID</option>
-                <option value="PhilHealth ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'PhilHealth ID') ? 'selected' : ''; ?>>PhilHealth ID</option>
-                <option value="TIN ID" <?php echo (isset($_POST['gov_id']) && $_POST['gov_id'] == 'TIN ID') ? 'selected' : ''; ?>>TIN ID</option>
-            </select>
-        </div>
+                <div class="form-group col-md-6">
+                    <label>Shipping Method *</label>
+                    <select name="shipping_method" class="form-control" required>
+                        <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
+                    </select>
+                </div>
 
-        <div class="form-group col-md-6">
-            <label>Shipping Method *</label>
-            <select name="shipping_method" class="form-control" required>
-                <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
-            </select>
-        </div>
+                <!-- Emergency Contact Section -->
+                <div class="form-group col-md-12 mt-4">
+                    <h5>In Case of Emergency</h5>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Full Name *</label>
+                    <input type="text" name="emergency_full_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['emergency_full_name'] ?? $user['emergency_full_name'] ?? ''); ?>">
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Address *</label>
+                    <input type="text" name="emergency_address" class="form-control" required value="<?php echo htmlspecialchars($_POST['emergency_address'] ?? $user['emergency_address'] ?? ''); ?>">
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Contact Number *</label>
+                    <input type="text" name="emergency_contact_number" class="form-control" required value="<?php echo htmlspecialchars($_POST['emergency_contact_number'] ?? $user['emergency_contact_number'] ?? ''); ?>">
+                </div>
+            </div>
 
-        <!-- Emergency Contact Section -->
-        <div class="form-group col-md-12 mt-4">
-            <h5>In Case of Emergency</h5>
-        </div>
-        <div class="form-group col-md-4">
-            <label>Full Name *</label>
-            <input type="text" name="emergency_full_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['emergency_full_name'] ?? $user['emergency_full_name'] ?? ''); ?>">
-        </div>
-        <div class="form-group col-md-4">
-            <label>Address *</label>
-            <input type="text" name="emergency_address" class="form-control" required value="<?php echo htmlspecialchars($_POST['emergency_address'] ?? $user['emergency_address'] ?? ''); ?>">
-        </div>
-        <div class="form-group col-md-4">
-            <label>Contact Number *</label>
-            <input type="text" name="emergency_contact_number" class="form-control" required value="<?php echo htmlspecialchars($_POST['emergency_contact_number'] ?? $user['emergency_contact_number'] ?? ''); ?>">
-        </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5">Submit</button>
+            </div>
+        </form>
     </div>
-
-    <div class="text-center mt-4">
-        <button type="submit" class="btn btn-primary px-5">Submit</button>
-    </div>
-</form>
-
-
         <div class="container mt-5">
             <h5 class="text-center mb-4">Barangay ID Preview</h5>
             <div class="row justify-content-center">
