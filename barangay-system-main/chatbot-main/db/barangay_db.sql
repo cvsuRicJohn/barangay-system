@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2025 at 02:28 AM
+-- Generation Time: May 18, 2025 at 04:53 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,15 +34,16 @@ CREATE TABLE `baptismal_certification_requests` (
   `child_name` varchar(255) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `baptismal_certification_requests`
 --
 
-INSERT INTO `baptismal_certification_requests` (`id`, `parent_name`, `address`, `child_name`, `purpose`, `shipping_method`, `submitted_at`) VALUES
-(1, 'qweqwewq', 'eqwewqeqe', 'wqeqeqeq', 'Baptismal', 'PICK UP', '2025-05-01 03:02:52');
+INSERT INTO `baptismal_certification_requests` (`id`, `parent_name`, `address`, `child_name`, `purpose`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'qweqwewq', 'eqwewqeqe', 'wqeqeqeq', 'Baptismal', 'PICK UP', '2025-05-01 03:02:52', 'approved');
 
 -- --------------------------------------------------------
 
@@ -58,7 +59,7 @@ CREATE TABLE `barangay_clearance` (
   `complete_address` varchar(255) NOT NULL,
   `birth_date` date NOT NULL,
   `age` int(11) NOT NULL,
-  `status` varchar(50) NOT NULL,
+  `civil_status` varchar(50) DEFAULT NULL,
   `mobile_number` varchar(20) NOT NULL,
   `years_of_stay` varchar(50) DEFAULT NULL,
   `purpose` varchar(255) NOT NULL,
@@ -68,20 +69,21 @@ CREATE TABLE `barangay_clearance` (
   `shipping_method` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL,
-  `submitted_at` datetime NOT NULL DEFAULT current_timestamp()
+  `submitted_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `barangay_clearance`
 --
 
-INSERT INTO `barangay_clearance` (`id`, `first_name`, `middle_name`, `last_name`, `complete_address`, `birth_date`, `age`, `status`, `mobile_number`, `years_of_stay`, `purpose`, `student_patient_name`, `student_patient_address`, `relationship`, `shipping_method`, `created_at`, `user_id`, `submitted_at`) VALUES
-(22, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:41:12', NULL, '2025-05-13 11:41:12'),
-(23, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:47', NULL, '2025-05-13 11:46:47'),
-(24, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:48', NULL, '2025-05-13 11:46:48'),
-(25, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:48', NULL, '2025-05-13 11:46:48'),
-(26, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:49', NULL, '2025-05-13 11:46:49'),
-(27, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:49', NULL, '2025-05-13 11:46:49');
+INSERT INTO `barangay_clearance` (`id`, `first_name`, `middle_name`, `last_name`, `complete_address`, `birth_date`, `age`, `civil_status`, `mobile_number`, `years_of_stay`, `purpose`, `student_patient_name`, `student_patient_address`, `relationship`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`) VALUES
+(22, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:41:12', NULL, '2025-05-13 11:41:12', 'pending'),
+(23, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:47', NULL, '2025-05-13 11:46:47', 'pending'),
+(24, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:48', NULL, '2025-05-13 11:46:48', 'rejected'),
+(25, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:48', NULL, '2025-05-13 11:46:48', 'rejected'),
+(26, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:49', NULL, '2025-05-13 11:46:49', 'approved'),
+(27, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:49', NULL, '2025-05-13 11:46:49', 'pending');
 
 -- --------------------------------------------------------
 
@@ -104,24 +106,25 @@ CREATE TABLE `barangay_id_requests` (
   `shipping_method` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL,
-  `submitted_at` datetime NOT NULL DEFAULT current_timestamp()
+  `submitted_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `barangay_id_requests`
 --
 
-INSERT INTO `barangay_id_requests` (`id`, `first_name`, `middle_name`, `last_name`, `address`, `contact_number`, `emergency_full_name`, `emergency_address`, `emergency_contact_number`, `date_of_birth`, `gov_id`, `shipping_method`, `created_at`, `user_id`, `submitted_at`) VALUES
-(3, 'qweqweqwe', 'qweqwe', 'wqeqweqewq', 'ewqewqewqe', '', '', '', '', '0125-04-12', 'qweqweqwe', 'PICK UP', '2025-04-29 09:33:34', 1, '2025-05-13 11:48:47'),
-(4, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'TIN ID', 'PICK UP', '2025-05-13 08:31:12', NULL, '2025-05-13 16:31:12'),
-(5, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'TIN ID', 'PICK UP', '2025-05-14 00:58:56', NULL, '2025-05-14 08:58:56'),
-(6, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'Postal ID', 'PICK UP', '2025-05-14 01:22:32', NULL, '2025-05-14 09:22:32'),
-(7, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'PRC ID', 'PICK UP', '2025-05-14 01:35:34', NULL, '2025-05-14 09:35:34'),
-(8, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'PRC ID', 'PICK UP', '2025-05-14 01:38:40', NULL, '2025-05-14 09:38:40'),
-(9, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'Philippine Passport', 'PICK UP', '2025-05-14 01:38:56', NULL, '2025-05-14 09:38:56'),
-(10, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '09561657974', '', 'Blk 2 lot 20 Mandarin coopville bayanan', '', '2006-02-08', 'PRC ID', 'PICK UP', '2025-05-14 01:58:08', NULL, '2025-05-14 09:58:08'),
-(11, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '09561657974', 'James Earl Galvan Carza', 'Blk 2 lot 20 Mandarin coopville bayanan', '09561657974', '2006-02-08', 'Driver’s License', 'PICK UP', '2025-05-14 02:01:21', NULL, '2025-05-14 10:01:21'),
-(12, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '09561657974', 'asd', 'asd', 'asd', '2006-02-08', 'Driver’s License', 'PICK UP', '2025-05-14 02:05:41', NULL, '2025-05-14 10:05:41');
+INSERT INTO `barangay_id_requests` (`id`, `first_name`, `middle_name`, `last_name`, `address`, `contact_number`, `emergency_full_name`, `emergency_address`, `emergency_contact_number`, `date_of_birth`, `gov_id`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`) VALUES
+(3, 'qweqweqwe', 'qweqwe', 'wqeqweqewq', 'ewqewqewqe', '', '', '', '', '0125-04-12', 'qweqweqwe', 'PICK UP', '2025-04-29 09:33:34', 1, '2025-05-13 11:48:47', 'pending'),
+(4, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'TIN ID', 'PICK UP', '2025-05-13 08:31:12', NULL, '2025-05-13 16:31:12', 'pending'),
+(5, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'TIN ID', 'PICK UP', '2025-05-14 00:58:56', NULL, '2025-05-14 08:58:56', 'pending'),
+(6, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'Postal ID', 'PICK UP', '2025-05-14 01:22:32', NULL, '2025-05-14 09:22:32', 'pending'),
+(7, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'PRC ID', 'PICK UP', '2025-05-14 01:35:34', NULL, '2025-05-14 09:35:34', 'pending'),
+(8, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'PRC ID', 'PICK UP', '2025-05-14 01:38:40', NULL, '2025-05-14 09:38:40', 'pending'),
+(9, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'Philippine Passport', 'PICK UP', '2025-05-14 01:38:56', NULL, '2025-05-14 09:38:56', 'pending'),
+(10, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '09561657974', '', 'Blk 2 lot 20 Mandarin coopville bayanan', '', '2006-02-08', 'PRC ID', 'PICK UP', '2025-05-14 01:58:08', NULL, '2025-05-14 09:58:08', 'pending'),
+(11, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '09561657974', 'James Earl Galvan Carza', 'Blk 2 lot 20 Mandarin coopville bayanan', '09561657974', '2006-02-08', 'Driver’s License', 'PICK UP', '2025-05-14 02:01:21', NULL, '2025-05-14 10:01:21', 'approved'),
+(12, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '09561657974', 'asd', 'asd', 'asd', '2006-02-08', 'Driver’s License', 'PICK UP', '2025-05-14 02:05:41', NULL, '2025-05-14 10:05:41', 'rejected');
 
 -- --------------------------------------------------------
 
@@ -137,16 +140,17 @@ CREATE TABLE `certificate_of_good_moral_requests` (
   `address` varchar(255) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `certificate_of_good_moral_requests`
 --
 
-INSERT INTO `certificate_of_good_moral_requests` (`id`, `full_name`, `age`, `civil_status`, `address`, `purpose`, `shipping_method`, `submitted_at`) VALUES
-(1, 'qweqwe', 21, 'qwe', 'qweqweqwe', 'qweqweqweqw', 'PICK UP', '2025-05-01 03:01:21'),
-(2, 'qweqwe', 21, 'qwe', 'qweqweqwe', 'qweqweqweqw', 'PICK UP', '2025-05-01 03:01:22');
+INSERT INTO `certificate_of_good_moral_requests` (`id`, `full_name`, `age`, `civil_status`, `address`, `purpose`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'qweqwe', 21, 'qwe', 'qweqweqwe', 'qweqweqweqw', 'PICK UP', '2025-05-01 03:01:21', 'pending'),
+(2, 'qweqwe', 21, 'qwe', 'qweqweqwe', 'qweqweqweqw', 'PICK UP', '2025-05-01 03:01:22', 'pending');
 
 -- --------------------------------------------------------
 
@@ -170,17 +174,18 @@ CREATE TABLE `certificate_of_indigency_requests` (
   `shipping_method` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL,
-  `submitted_at` datetime DEFAULT current_timestamp()
+  `submitted_at` datetime DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `certificate_of_indigency_requests`
 --
 
-INSERT INTO `certificate_of_indigency_requests` (`id`, `first_name`, `middle_name`, `last_name`, `date_of_birth`, `civil_status`, `occupation`, `monthly_income`, `proof_of_residency`, `gov_id`, `spouse_name`, `number_of_dependents`, `shipping_method`, `created_at`, `user_id`, `submitted_at`) VALUES
-(1, 'qwe', 'wqe', 'qwe', '1231-03-12', 'single', 'qwe', 2112.00, 'qwe', 'qweqwe', 'qeqwe', 12, 'PICK UP', '2025-04-24 10:26:46', NULL, '2025-05-13 12:00:08'),
-(3, 'Eyser', 'De Ocampo', 'Santiaguel', '2001-02-02', 'single', 'qweqweq', 99999999.99, 'qweqweqw', 'Barangay ID', 'qweqweqwe', 12, 'PICK UP', '2025-05-13 04:03:19', NULL, '2025-05-13 12:03:19'),
-(4, 'Eyser', 'De Ocampo', 'Santiaguel', '2001-02-02', 'single', 'qweqwe', 1000.00, 'qweqwe', 'TIN ID', 'qweqwe', 1, 'PICK UP', '2025-05-13 04:04:16', NULL, '2025-05-13 12:04:16');
+INSERT INTO `certificate_of_indigency_requests` (`id`, `first_name`, `middle_name`, `last_name`, `date_of_birth`, `civil_status`, `occupation`, `monthly_income`, `proof_of_residency`, `gov_id`, `spouse_name`, `number_of_dependents`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`) VALUES
+(1, 'qwe', 'wqe', 'qwe', '1231-03-12', 'single', 'qwe', 2112.00, 'qwe', 'qweqwe', 'qeqwe', 12, 'PICK UP', '2025-04-24 10:26:46', NULL, '2025-05-13 12:00:08', 'rejected'),
+(3, 'Eyser', 'De Ocampo', 'Santiaguel', '2001-02-02', 'single', 'qweqweq', 99999999.99, 'qweqweqw', 'Barangay ID', 'qweqweqwe', 12, 'PICK UP', '2025-05-13 04:03:19', NULL, '2025-05-13 12:03:19', 'approved'),
+(4, 'Eyser', 'De Ocampo', 'Santiaguel', '2001-02-02', 'single', 'qweqwe', 1000.00, 'qweqwe', 'TIN ID', 'qweqwe', 1, 'PICK UP', '2025-05-13 04:04:16', NULL, '2025-05-13 12:04:16', 'pending');
 
 -- --------------------------------------------------------
 
@@ -201,15 +206,17 @@ CREATE TABLE `certificate_of_residency_requests` (
   `shipping_method` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL,
-  `submitted_at` datetime DEFAULT current_timestamp()
+  `submitted_at` datetime DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `certificate_of_residency_requests`
 --
 
-INSERT INTO `certificate_of_residency_requests` (`id`, `first_name`, `middle_name`, `last_name`, `date_of_birth`, `gov_id`, `complete_address`, `proof_of_residency`, `purpose`, `shipping_method`, `created_at`, `user_id`, `submitted_at`) VALUES
-(1, 'qwe', 'qwe', 'qwe', '0000-00-00', 'qwe', 'qwe', 'qwe', 'qwe', 'PICK UP', '2025-04-24 10:34:45', NULL, '2025-05-13 12:01:16');
+INSERT INTO `certificate_of_residency_requests` (`id`, `first_name`, `middle_name`, `last_name`, `date_of_birth`, `gov_id`, `complete_address`, `proof_of_residency`, `purpose`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`) VALUES
+(1, 'qwe', 'qwe', 'qwe', '0000-00-00', 'qwe', 'qwe', 'qwe', 'qwe', 'PICK UP', '2025-04-24 10:34:45', NULL, '2025-05-13 12:01:16', 'pending'),
+(2, 'qweqas', 'asfasf', 'qwesa', '2025-05-02', 'asfas', 'qweq', 'asfa', 'zxc', 'asdqwe', '0000-00-00 00:00:00', 3, '2025-05-10 00:00:00', 'approved');
 
 -- --------------------------------------------------------
 
@@ -225,15 +232,16 @@ CREATE TABLE `cohabitation_certification_requests` (
   `cohabitation_duration` varchar(100) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cohabitation_certification_requests`
 --
 
-INSERT INTO `cohabitation_certification_requests` (`id`, `partner1_name`, `partner2_name`, `shared_address`, `cohabitation_duration`, `purpose`, `shipping_method`, `submitted_at`) VALUES
-(1, 'qweqwewq', 'wqewqewqewq', 'wqeqweqw', 'wqeqwewqewq', 'eqewqe', 'PICK UP', '2025-05-01 03:04:26');
+INSERT INTO `cohabitation_certification_requests` (`id`, `partner1_name`, `partner2_name`, `shared_address`, `cohabitation_duration`, `purpose`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'qweqwewq', 'wqewqewqewq', 'wqeqweqw', 'wqeqwewqewq', 'eqewqe', 'PICK UP', '2025-05-01 03:04:26', 'pending');
 
 -- --------------------------------------------------------
 
@@ -248,15 +256,16 @@ CREATE TABLE `construction_clearance_requests` (
   `owner_name` varchar(255) NOT NULL,
   `owner_address` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `construction_clearance_requests`
 --
 
-INSERT INTO `construction_clearance_requests` (`id`, `business_name`, `business_location`, `owner_name`, `owner_address`, `shipping_method`, `submitted_at`) VALUES
-(1, 'qweqwewqe', 'qweqweqeq', 'asdasdas', 'asdasd', 'PICK UP', '2025-05-01 03:05:18');
+INSERT INTO `construction_clearance_requests` (`id`, `business_name`, `business_location`, `owner_name`, `owner_address`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'qweqwewqe', 'qweqweqeq', 'asdasdas', 'asdasd', 'PICK UP', '2025-05-01 03:05:18', 'pending');
 
 -- --------------------------------------------------------
 
@@ -270,25 +279,26 @@ CREATE TABLE `contact_inquiries` (
   `email` varchar(255) NOT NULL,
   `subject` varchar(255) NOT NULL,
   `message` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `contact_inquiries`
 --
 
-INSERT INTO `contact_inquiries` (`id`, `name`, `email`, `subject`, `message`, `created_at`) VALUES
-(1, 'qwe', 'qwe@gmail.com', 'qwe', 'qwe', '2025-04-29 03:45:53'),
-(2, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:46:46'),
-(3, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:48'),
-(4, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:48'),
-(5, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:48'),
-(6, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49'),
-(7, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49'),
-(8, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49'),
-(9, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49'),
-(10, 'aicer', 'aicersantiaguel@gmail.com', 'wrtrw', 'qweqweqweqw', '2025-04-29 03:48:49'),
-(13, 'qwe', 'qweqweqwe@gmail.com', 'qweqweqwe', 'qweqweqw', '2025-04-29 08:37:05');
+INSERT INTO `contact_inquiries` (`id`, `name`, `email`, `subject`, `message`, `created_at`, `status`) VALUES
+(1, 'qwe', 'qwe@gmail.com', 'qwe', 'qwe', '2025-04-29 03:45:53', 'pending'),
+(2, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:46:46', 'pending'),
+(3, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:48', 'pending'),
+(4, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:48', 'pending'),
+(5, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:48', 'pending'),
+(6, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49', 'pending'),
+(7, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49', 'pending'),
+(8, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49', 'rejected'),
+(9, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49', 'pending'),
+(10, 'aicer', 'aicersantiaguel@gmail.com', 'wrtrw', 'qweqweqweqw', '2025-04-29 03:48:49', 'approved'),
+(13, 'qwe', 'qweqweqwe@gmail.com', 'qweqweqwe', 'qweqweqw', '2025-04-29 08:37:05', 'rejected');
 
 -- --------------------------------------------------------
 
@@ -330,15 +340,16 @@ CREATE TABLE `first_time_job_seeker_requests` (
   `residency_length` varchar(100) NOT NULL,
   `oath_acknowledged` enum('Yes','No') NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `first_time_job_seeker_requests`
 --
 
-INSERT INTO `first_time_job_seeker_requests` (`id`, `full_name`, `address`, `residency_length`, `oath_acknowledged`, `shipping_method`, `submitted_at`) VALUES
-(1, 'asdasdas', 'dasdasda', 'asdasda', 'Yes', 'PICK UP', '2025-05-01 03:06:28');
+INSERT INTO `first_time_job_seeker_requests` (`id`, `full_name`, `address`, `residency_length`, `oath_acknowledged`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'asdasdas', 'dasdasda', 'asdasda', 'Yes', 'PICK UP', '2025-05-01 03:06:28', 'pending');
 
 -- --------------------------------------------------------
 
@@ -360,15 +371,16 @@ CREATE TABLE `late_birth_registration_requests` (
   `years_in_barangay` varchar(100) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `late_birth_registration_requests`
 --
 
-INSERT INTO `late_birth_registration_requests` (`id`, `last_name`, `first_name`, `middle_name`, `address`, `marital_status`, `place_of_birth`, `date_of_birth`, `fathers_name`, `mothers_name`, `years_in_barangay`, `purpose`, `shipping_method`, `submitted_at`) VALUES
-(1, 'azcxzc', 'zxczxczx', 'zxczxczxczxcz', 'zxczxczxc', 'xzczxczxczxcz', 'xczxcxzc', '0124-03-12', 'zxczxczxczx', 'czxczxczx', 'zxczxczxcz', 'Late Registration of Birth Certificate', 'PICK UP', '2025-05-01 03:07:46');
+INSERT INTO `late_birth_registration_requests` (`id`, `last_name`, `first_name`, `middle_name`, `address`, `marital_status`, `place_of_birth`, `date_of_birth`, `fathers_name`, `mothers_name`, `years_in_barangay`, `purpose`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'azcxzc', 'zxczxczx', 'zxczxczxczxcz', 'zxczxczxc', 'xzczxczxczxcz', 'xczxcxzc', '0124-03-12', 'zxczxczxczx', 'czxczxczx', 'zxczxczxcz', 'Late Registration of Birth Certificate', 'PICK UP', '2025-05-01 03:07:46', 'pending');
 
 -- --------------------------------------------------------
 
@@ -382,15 +394,16 @@ CREATE TABLE `non_residency_certification_requests` (
   `previous_address` varchar(255) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `non_residency_certification_requests`
 --
 
-INSERT INTO `non_residency_certification_requests` (`id`, `full_name`, `previous_address`, `purpose`, `shipping_method`, `submitted_at`) VALUES
-(1, 'adsagf', 'asdasdasd', 'asdasdas', 'PICK UP', '2025-05-01 03:10:20');
+INSERT INTO `non_residency_certification_requests` (`id`, `full_name`, `previous_address`, `purpose`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'adsagf', 'asdasdasd', 'asdasdas', 'PICK UP', '2025-05-01 03:10:20', 'pending');
 
 -- --------------------------------------------------------
 
@@ -407,15 +420,16 @@ CREATE TABLE `no_income_certification_requests` (
   `no_income_statement` text NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `no_income_certification_requests`
 --
 
-INSERT INTO `no_income_certification_requests` (`id`, `full_name`, `date_of_birth`, `civil_status`, `address`, `no_income_statement`, `purpose`, `shipping_method`, `submitted_at`) VALUES
-(1, 'asffasda', '0000-00-00', 'asdasdasd', 'asdasdasd', 'asdasda', 'sdasdasda', 'PICK UP', '2025-05-01 03:09:07');
+INSERT INTO `no_income_certification_requests` (`id`, `full_name`, `date_of_birth`, `civil_status`, `address`, `no_income_statement`, `purpose`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'asffasda', '0000-00-00', 'asdasdasd', 'asdasdasd', 'asdasda', 'sdasdasda', 'PICK UP', '2025-05-01 03:09:07', 'pending');
 
 -- --------------------------------------------------------
 
@@ -430,15 +444,16 @@ CREATE TABLE `out_of_school_youth_requests` (
   `citizenship` varchar(100) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `out_of_school_youth_requests`
 --
 
-INSERT INTO `out_of_school_youth_requests` (`id`, `full_name`, `address`, `citizenship`, `purpose`, `shipping_method`, `submitted_at`) VALUES
-(1, 'qweqweq', 'weqweqw', 'Filipino', 'qweqwe', 'PICK UP', '2025-05-01 03:11:14');
+INSERT INTO `out_of_school_youth_requests` (`id`, `full_name`, `address`, `citizenship`, `purpose`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'qweqweq', 'weqweqw', 'Filipino', 'qweqwe', 'PICK UP', '2025-05-01 03:11:14', 'pending');
 
 -- --------------------------------------------------------
 
@@ -454,16 +469,17 @@ CREATE TABLE `solo_parent_requests` (
   `child_count` int(11) NOT NULL,
   `children_names` text NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `solo_parent_requests`
 --
 
-INSERT INTO `solo_parent_requests` (`id`, `full_name`, `address`, `solo_since`, `child_count`, `children_names`, `shipping_method`, `submitted_at`) VALUES
-(1, 'qweqweqwe', 'wqeqwewq', '12312', 21, 'qweqweqwe', 'PICK UP', '2025-05-01 03:12:00'),
-(2, 'qwe', 'qwe', '123', 12, 'qweqwe', 'PICK UP', '2025-05-01 05:07:23');
+INSERT INTO `solo_parent_requests` (`id`, `full_name`, `address`, `solo_since`, `child_count`, `children_names`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'qweqweqwe', 'wqeqwewq', '12312', 21, 'qweqweqwe', 'PICK UP', '2025-05-01 03:12:00', 'pending'),
+(2, 'qwe', 'qwe', '123', 12, 'qweqwe', 'PICK UP', '2025-05-01 05:07:23', 'pending');
 
 -- --------------------------------------------------------
 
@@ -480,15 +496,16 @@ CREATE TABLE `unemployment_certification_requests` (
   `address` varchar(255) NOT NULL,
   `purpose` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
-  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `submitted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `unemployment_certification_requests`
 --
 
-INSERT INTO `unemployment_certification_requests` (`id`, `full_name`, `age`, `birth_date`, `civil_status`, `address`, `purpose`, `shipping_method`, `submitted_at`) VALUES
-(1, 'qweqwewqe', 21, '0000-00-00', 'Single', 'qweqweqwe', 'qweqweq', 'PICK UP', '2025-05-01 03:13:13');
+INSERT INTO `unemployment_certification_requests` (`id`, `full_name`, `age`, `birth_date`, `civil_status`, `address`, `purpose`, `shipping_method`, `submitted_at`, `status`) VALUES
+(1, 'qweqwewqe', 21, '0000-00-00', 'Single', 'qweqweqwe', 'qweqweq', 'PICK UP', '2025-05-01 03:13:13', 'pending');
 
 -- --------------------------------------------------------
 
@@ -527,7 +544,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `first_name`, `middle_name`, `last_name`, `address`, `email`, `username`, `password`, `dob`, `gender`, `civil_status`, `government_id`, `id_number`, `emergency_contact_name`, `emergency_contact_number`, `profile_pic`, `dependents`, `status`, `created_at`, `updated_at`, `is_admin`) VALUES
 (1, 'Aicer John', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', 'aicersantiaguel@gmail.com', 'Eyser', '$2y$10$NMlnY01YT/GRqqbt8nm0GutOQpnP/QFzDFmYWidUJLCT.54MjXwsK', '2001-02-28', 'Male', 'Single', 'Philippine National ID', '123456', 'greys', '123123213', '', 'N/A', 'approved', '2025-05-13 04:31:05', '2025-05-14 20:48:22', 0),
 (3, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', 'qweqweqwe@gmail.com', 'Eyserr', '$2y$10$xGFyh.2rCocylTtwuS01..76DX.2IUGZfx6INu2esPPopt1bXGvbq', '2006-02-08', 'Male', 'Single', 'UMID', '123123213123', 'qweqwe', '123123312', 'n/a', 'qwe', 'approved', '2025-05-13 04:33:57', '2025-05-13 04:50:38', 1),
-(5, 'qweqwe', 'qweqwe', 'qweqwe', 'qweqweqw', 'qweqweqqwewe@gmail.com', 'try', '$2y$10$PnqZXHdM8w.DCK/EjrGYmuYachRdZpj2XMKr2HoRqkVzY8Vk9ax1.', '2025-05-13', 'Male', 'Single', 'UMID', '123123', 'qwewqe', '12312312321', '', '', 'approved', '2025-05-13 05:07:34', '2025-05-13 05:15:46', 0);
+(5, 'qweqwe', 'qweqwe', 'qweqwe', 'qweqweqw', 'qweqweqqwewe@gmail.com', 'try', '$2y$10$PnqZXHdM8w.DCK/EjrGYmuYachRdZpj2XMKr2HoRqkVzY8Vk9ax1.', '2025-05-13', 'Male', 'Single', 'UMID', '123123', 'qwewqe', '12312312321', '', '', 'approved', '2025-05-13 05:07:34', '2025-05-13 05:15:46', 0),
+(6, 'ric', 'john', 'anuat', 'imus', 'ricjohnanuat@cvsu.edu.ph', 'ric111', '$2y$10$nUITv5vwJ9z4.eVzI82GquMXx8zOdqMB8U6aJ4yMdUwLz0In8iblK', '2025-05-01', 'Male', 'Single', 'Philippine National ID', '11111111111', 'sir huele', '09292933333', '', '', 'approved', '2025-05-15 08:33:17', '2025-05-18 02:10:47', 0);
 
 --
 -- Indexes for dumped tables
@@ -681,7 +699,7 @@ ALTER TABLE `certificate_of_indigency_requests`
 -- AUTO_INCREMENT for table `certificate_of_residency_requests`
 --
 ALTER TABLE `certificate_of_residency_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cohabitation_certification_requests`
@@ -753,7 +771,7 @@ ALTER TABLE `unemployment_certification_requests`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -75,21 +75,39 @@ if (isset($_GET['action'])) {
         $id = $_GET['id'] ?? '';
         $status = $_GET['status'] ?? '';
 
-        if ($entity !== 'certificate_of_indigency_requests' && $entity !== 'users') {
+        $allowedStatusEntities = [
+            'certificate_of_indigency_requests',
+            'users',
+            'barangay_clearance',
+            'certificate_of_residency_requests',
+            'baptismal_certification_requests',
+            'certificate_of_good_moral_requests',
+            'cohabitation_certification_requests',
+            'construction_clearance_requests',
+            'first_time_job_seeker_requests',
+            'late_birth_registration_requests',
+            'non_residency_certification_requests',
+            'no_income_certification_requests',
+            'out_of_school_youth_requests',
+            'solo_parent_requests',
+            'unemployment_certification_requests',
+            'barangay_id_requests',
+            'contact_inquiries'
+        ];
+
+        if (!in_array($entity, $allowedStatusEntities)) {
             die("Invalid entity for status update.");
         }
         if (!is_numeric($id)) {
             die("Invalid ID for status update.");
         }
-        if (!in_array($status, ['approved', 'rejected'])) {
+        if (!in_array($status, ['approved', 'rejected', 'pending'])) {
             die("Invalid status value.");
         }
 
         try {
-            if ($entity === 'certificate_of_indigency_requests') {
-                $stmt = $pdo->prepare("UPDATE certificate_of_indigency_requests SET status = :status WHERE id = :id");
-            } elseif ($entity === 'users') {
-                $stmt = $pdo->prepare("UPDATE users SET status = :status WHERE id = :id");
+            if (in_array($entity, $allowedStatusEntities)) {
+                $stmt = $pdo->prepare("UPDATE $entity SET status = :status WHERE id = :id");
             }
             $stmt->bindParam(':status', $status, PDO::PARAM_STR);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -418,7 +436,7 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
                 'complete_address' => 'Complete Address',
                 'birth_date' => 'Birth Date',
                 'age' => 'Age',
-                'status' => 'Status',
+                'civil_status' => 'Civil Status',
                 'mobile_number' => 'Mobile Number',
                 'years_of_stay' => 'Years of Stay',
                 'purpose' => 'Purpose',
@@ -626,6 +644,10 @@ foreach ($columns as $key => $colHeader) {
     if ($keyToUse === 'email' && in_array($entityKey, $certificationEntities)) {
         continue;
     }
+    // Fix for barangay_clearance: map civil_status column instead of status for civil status display
+    if ($entityKey === 'barangay_clearance' && $keyToUse === 'status') {
+        $keyToUse = 'civil_status';
+    }
     $val = isset($row[$keyToUse]) ? $row[$keyToUse] : '';
 
     // For certification entities, map status values to user-friendly labels
@@ -681,34 +703,52 @@ foreach ($columns as $key => $colHeader) {
         echo '<td class="action-btns">';
 echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'&tab='.$entityEsc.'" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a> ';
         echo '<a href="admin_page.php?view='.$entityEsc.'&id='.$idEsc.'" class="btn btn-sm btn-primary" title="View"><i class="fas fa-eye"></i></a> ';
-if (($entityKey === 'certificate_of_indigency_requests' || $entityKey === 'users') && isset($row['status'])) {
-    echo '<div class="btn-group">';
-    // Use Bootstrap button colors for status
-    $btnClass = 'btn-secondary';
-    switch (strtolower($row['status'])) {
-        case 'approved':
-            $btnClass = 'btn-success';
-            break;
-        case 'pending':
-            $btnClass = 'btn-warning';
-            break;
-        case 'rejected':
-            $btnClass = 'btn-danger';
-            break;
-    }
-    echo '<button type="button" class="btn btn-sm ' . $btnClass . ' dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-    echo ucfirst($row['status']);
-    echo '</button>';
-    echo '<div class="dropdown-menu">';
-    $statuses = ['approved' => 'Done', 'pending' => 'In Progress', 'rejected' => 'Not Yet'];
-    foreach ($statuses as $statusKey => $statusLabel) {
-        if ($row['status'] !== $statusKey) {
-            echo '<a class="dropdown-item" href="admin_page.php?action=update_status&entity='.$entityEsc.'&id='.$idEsc.'&status='.$statusKey.'" onclick="return confirm(\'Are you sure you want to change status to '.$statusLabel.'?\');">'.$statusLabel.'</a>';
+        if (in_array($entityKey, [
+            'certificate_of_indigency_requests',
+            'users',
+            'barangay_clearance',
+            'certificate_of_residency_requests',
+            'baptismal_certification_requests',
+            'certificate_of_good_moral_requests',
+            'cohabitation_certification_requests',
+            'construction_clearance_requests',
+            'first_time_job_seeker_requests',
+            'late_birth_registration_requests',
+            'non_residency_certification_requests',
+            'no_income_certification_requests',
+            'out_of_school_youth_requests',
+            'solo_parent_requests',
+            'unemployment_certification_requests',
+            'barangay_id_requests',
+            'contact_inquiries'
+        ]) && isset($row['status'])) {
+        echo '<div class="btn-group">';
+        // Use Bootstrap button colors for status
+        $btnClass = 'btn-secondary';
+        switch (strtolower($row['status'])) {
+            case 'approved':
+                $btnClass = 'btn-success';
+                break;
+            case 'pending':
+                $btnClass = 'btn-warning';
+                break;
+            case 'rejected':
+                $btnClass = 'btn-danger';
+                break;
         }
+        echo '<button type="button" class="btn btn-sm ' . $btnClass . ' dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+        echo ucfirst($row['status']);
+        echo '</button>';
+        echo '<div class="dropdown-menu">';
+        $statuses = ['approved' => 'Done', 'pending' => 'In Progress', 'rejected' => 'Not Yet'];
+        foreach ($statuses as $statusKey => $statusLabel) {
+            if ($row['status'] !== $statusKey) {
+                echo '<a class="dropdown-item" href="admin_page.php?action=update_status&entity='.$entityEsc.'&id='.$idEsc.'&status='.$statusKey.'" onclick="return confirm(\'Are you sure you want to change status to '.$statusLabel.'?\');">'.$statusLabel.'</a>';
+            }
+        }
+        echo '</div>';
+        echo '</div>';
     }
-    echo '</div>';
-    echo '</div>';
-}
 
         echo '<button onclick="confirmDelete(\''.$entityEsc.'\', '.$idEsc.')" class="btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash-alt"></i></button>';
         echo '</td>';
