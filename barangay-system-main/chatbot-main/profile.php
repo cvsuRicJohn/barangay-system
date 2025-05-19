@@ -166,16 +166,24 @@ foreach ($formTables as $table) {
                 $hasName = false;
             }
 
-            if ($hasFullName || $hasName) {
-                $nameColumn = $hasFullName ? 'full_name' : 'name';
-                $fullName = trim($user['first_name'] . ' ' . ($user['middle_name'] ?? '') . ' ' . $user['last_name']);
-                $stmt = $pdo->prepare("SELECT id, status, submitted_at FROM $table WHERE $nameColumn = ? ORDER BY submitted_at DESC");
-                $stmt->execute([$fullName]);
-                $results = $stmt->fetchAll();
-                if (!empty($results)) {
-                    $formStatuses[$table] = $results;
+                if ($hasFullName || $hasName) {
+                    $nameColumn = $hasFullName ? 'full_name' : 'name';
+                    $fullName = trim($user['first_name'] . ' ' . ($user['middle_name'] ?? '') . ' ' . $user['last_name']);
+                    // Try to fetch address column if exists
+                    $columnsStmt = $pdo->prepare("SHOW COLUMNS FROM $table LIKE 'address'");
+                    $columnsStmt->execute();
+                    $hasAddress = $columnsStmt->fetch();
+                    $selectColumns = "id, status, submitted_at";
+                    if ($hasAddress) {
+                        $selectColumns .= ", address";
+                    }
+                    $stmt = $pdo->prepare("SELECT $selectColumns FROM $table WHERE $nameColumn = ? ORDER BY submitted_at DESC");
+                    $stmt->execute([$fullName]);
+                    $results = $stmt->fetchAll();
+                    if (!empty($results)) {
+                        $formStatuses[$table] = $results;
+                    }
                 }
-            }
         }
     }
 }
