@@ -109,6 +109,10 @@ if (isset($_GET['action'])) {
             if (in_array($entity, $allowedStatusEntities)) {
                 $stmt = $pdo->prepare("UPDATE $entity SET status = :status WHERE id = :id");
             }
+            // If status is empty or null on insert, default to 'pending'
+            if (empty($status)) {
+                $status = 'pending';
+            }
             $stmt->bindParam(':status', $status, PDO::PARAM_STR);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
