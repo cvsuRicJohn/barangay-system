@@ -86,6 +86,60 @@ try {
             <div class="col-md-6 mb-2"><span class="info-label">Emergency Contact Number</span><br><span class="info-value"><?= htmlspecialchars($user['emergency_contact_number']) ?></span></div>
         </div>
     </div>
+<?php
+// Fetch form submission statuses for the user
+$formTables = [
+    'barangay_id_requests',
+    'barangay_clearance',
+    'certificate_of_indigency_requests',
+    'certificate_of_residency_requests',
+    'baptismal_certification_requests',
+    'certificate_of_good_moral_requests',
+    'cohabitation_certification_requests',
+    'construction_clearance_requests',
+    'first_time_job_seeker_requests',
+    'late_birth_registration_requests',
+    'non_residency_certification_requests',
+    'no_income_certification_requests',
+    'out_of_school_youth_requests',
+    'solo_parent_requests',
+    'unemployment_certification_requests'
+];
+
+$formStatuses = [];
+foreach ($formTables as $table) {
+    // Check if user_id column exists in the table
+    $columnCheckStmt = $pdo->prepare("SHOW COLUMNS FROM $table LIKE 'user_id'");
+    $columnCheckStmt->execute();
+    $hasUserId = $columnCheckStmt->fetch();
+
+    if ($hasUserId) {
+        $stmt = $pdo->prepare("SELECT id, status, submitted_at FROM $table WHERE user_id = ? ORDER BY submitted_at DESC");
+        $stmt->execute([$_SESSION['user_id']]);
+        $results = $stmt->fetchAll();
+        if (!empty($results)) {
+            $formStatuses[$table] = $results;
+        }
+    }
+    // Do not include forms with no submissions
+}
+?>
+<div class="container mt-4">
+    <h3>Your Form Submission Status</h3>
+    <?php foreach ($formStatuses as $formName => $submissions): ?>
+        <h5><?php echo ucwords(str_replace('_', ' ', $formName)); ?></h5>
+        <?php if (empty($submissions)): ?>
+            <p>No submissions found.</p>
+        <?php else: ?>
+            <ul>
+                <?php foreach ($submissions as $submission): ?>
+                    <li>
+                        ID: <?php echo htmlspecialchars($submission['id']); ?> - Status: <?php echo htmlspecialchars(ucfirst($submission['status'] ?? 'Pending')); ?> - Submitted At: <?php echo htmlspecialchars($submission['submitted_at']); ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    <?php endforeach; ?>
 </div>
 </body>
 </html>

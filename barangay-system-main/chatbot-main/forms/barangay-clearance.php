@@ -64,10 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Insert into database
         try {
             $stmt = $pdo->prepare("INSERT INTO barangay_clearance 
-                (first_name, middle_name, last_name, complete_address, birth_date, age, status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, shipping_method, submitted_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+                (user_id, first_name, middle_name, last_name, complete_address, birth_date, age, status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, shipping_method, submitted_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $complete_address, $birth_date, $age, $status, $mobile_number,
+                $_SESSION['user_id'], $first_name, $middle_name, $last_name, $complete_address, $birth_date, $age, $status, $mobile_number,
                 $years_of_stay, $purpose, $student_patient_name, $student_patient_address, $relationship, $shipping_method
             ]);
             $success_message = "Form successfully submitted!";
