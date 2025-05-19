@@ -44,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $owner_address = trim($_POST['owner_address'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
+    // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($business_name) || empty($business_location) || empty($owner_name) || empty($owner_address) ||
         empty($shipping_method)
@@ -57,7 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute([
                 $business_name, $business_location, $owner_name, $owner_address, $shipping_method
             ]);
-            $success_message = "Form successfully submitted!";
+            // Redirect to avoid form resubmission on refresh
+            header("Location: construction-clearance.php?success=1");
+            exit();
         } catch (PDOException $e) {
             $error_message = "Error submitting form: " . $e->getMessage();
         }
@@ -173,8 +176,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <?php if ($success_message): ?>
-            <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
+        <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+            <div class="alert alert-success text-center">Form successfully submitted!</div>
         <?php endif; ?>
         <?php if ($error_message): ?>
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>

@@ -50,19 +50,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $purpose = trim($_POST['purpose'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
+    // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($full_name) || empty($age) || empty($birth_date) || empty($civil_status) || empty($address) || empty($purpose) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO unemployment_certification_requests 
-                (full_name, age, birth_date, civil_status, address, purpose, shipping_method, user_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $full_name, $age, $birth_date, $civil_status, $address, $purpose, $shipping_method, $_SESSION['user_id']
-            ]);
-            $success_message = "Form successfully submitted!";
+            // Check if user_id column exists in the table
+            $columnCheckStmt = $pdo->prepare("SHOW COLUMNS FROM unemployment_certification_requests LIKE 'user_id'");
+            $columnCheckStmt->execute();
+            $hasUserId = $columnCheckStmt->fetch();
+
+            if ($hasUserId) {
+                $stmt = $pdo->prepare("INSERT INTO unemployment_certification_requests 
+                    (full_name, age, birth_date, civil_status, address, purpose, shipping_method, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $full_name, $age, $birth_date, $civil_status, $address, $purpose, $shipping_method, $_SESSION['user_id']
+                ]);
+            } else {
+                $stmt = $pdo->prepare("INSERT INTO unemployment_certification_requests 
+                    (full_name, age, birth_date, civil_status, address, purpose, shipping_method)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $full_name, $age, $birth_date, $civil_status, $address, $purpose, $shipping_method
+                ]);
+            }
+            // Redirect to avoid form resubmission on refresh
+            header("Location: unemployment-certification.php?success=1");
+            exit();
         } catch (PDOException $e) {
             $error_message = "Error submitting form: " . $e->getMessage();
         }
@@ -178,8 +195,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <?php if ($success_message): ?>
-            <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
+        <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+            <div class="alert alert-success text-center">Form successfully submitted!</div>
         <?php endif; ?>
         <?php if ($error_message): ?>
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>

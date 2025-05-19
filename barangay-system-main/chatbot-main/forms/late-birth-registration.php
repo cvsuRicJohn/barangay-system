@@ -51,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $purpose = trim($_POST['purpose'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
+    // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($last_name) || empty($first_name) || empty($middle_name) || empty($address) ||
         empty($marital_status) || empty($place_of_birth) || empty($date_of_birth) || empty($fathers_name) ||
@@ -59,13 +60,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO late_birth_registration_requests 
-                (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method, user_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method, $_SESSION['user_id']
-            ]);
-            $success_message = "Form successfully submitted!";
+            // Check if user_id column exists in the table
+            $columnCheckStmt = $pdo->prepare("SHOW COLUMNS FROM late_birth_registration_requests LIKE 'user_id'");
+            $columnCheckStmt->execute();
+            $hasUserId = $columnCheckStmt->fetch();
+
+            if ($hasUserId) {
+                $stmt = $pdo->prepare("INSERT INTO late_birth_registration_requests 
+                    (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method, $_SESSION['user_id']
+                ]);
+            } else {
+                $stmt = $pdo->prepare("INSERT INTO late_birth_registration_requests 
+                    (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method
+                ]);
+            }
+            // Redirect to avoid form resubmission on refresh
+            header("Location: late-birth-registration.php?success=1");
+            exit();
         } catch (PDOException $e) {
             $error_message = "Error submitting form: " . $e->getMessage();
         }
@@ -181,8 +198,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <?php if ($success_message): ?>
-            <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
+        <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+            <div class="alert alert-success text-center">Form successfully submitted!</div>
         <?php endif; ?>
         <?php if ($error_message): ?>
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>
@@ -218,7 +235,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="form-group col-md-6">
             <label>Date of Birth *</label>
-            <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? ''); ?>">
+            <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? ($user_data['dob'] ?? '')); ?>">
         </div>
         <div class="form-group col-md-6">
             <label>Father's Name *</label>

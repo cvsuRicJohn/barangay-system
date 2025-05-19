@@ -48,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $emergency_address = $_POST['emergency_address'] ?? '';
     $emergency_contact_number = trim($_POST['emergency_contact_number'] ?? '');
 
+    // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
         empty($date_of_birth) || empty($gov_id) || empty($shipping_method) || empty($contact_number)
@@ -72,7 +73,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $emergency_contact_number,
                 $_SESSION['user_id']
             ]);
-            $success_message = "Form successfully submitted!";
+            // Redirect to avoid form resubmission on refresh
+            header("Location: barangay-id.php?success=1");
+            exit();
         } catch (PDOException $e) {
             $error_message = "Error submitting form: " . $e->getMessage();
         }
@@ -187,8 +190,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <?php if ($success_message): ?>
-            <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
+        <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+            <div class="alert alert-success text-center">Form successfully submitted!</div>
         <?php endif; ?>
         <?php if ($error_message): ?>
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>

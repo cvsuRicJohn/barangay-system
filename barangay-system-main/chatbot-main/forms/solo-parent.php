@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $children_names = trim($_POST['children_names'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
+    // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($full_name) || empty($address) || empty($solo_since) || empty($child_count) || empty($children_names) || empty($shipping_method)
     ) {
@@ -57,7 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute([
                 $full_name, $address, $solo_since, $child_count, $children_names, $shipping_method
             ]);
-            $success_message = "Form successfully submitted!";
+            // Redirect to avoid form resubmission on refresh
+            header("Location: solo-parent.php?success=1");
+            exit();
         } catch (PDOException $e) {
             $error_message = "Error submitting form: " . $e->getMessage();
         }
@@ -173,8 +176,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <?php if ($success_message): ?>
-            <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
+        <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+            <div class="alert alert-success text-center">Form successfully submitted!</div>
         <?php endif; ?>
         <?php if ($error_message): ?>
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>

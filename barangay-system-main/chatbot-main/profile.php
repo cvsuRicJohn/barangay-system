@@ -108,20 +108,76 @@ $formTables = [
 
 $formStatuses = [];
 foreach ($formTables as $table) {
-    // Check if user_id column exists in the table
+    // Try to fetch submissions by user_id or username if user_id column is missing
     $columnCheckStmt = $pdo->prepare("SHOW COLUMNS FROM $table LIKE 'user_id'");
     $columnCheckStmt->execute();
     $hasUserId = $columnCheckStmt->fetch();
 
     if ($hasUserId) {
-        $stmt = $pdo->prepare("SELECT id, status, submitted_at FROM $table WHERE user_id = ? ORDER BY submitted_at DESC");
-        $stmt->execute([$_SESSION['user_id']]);
-        $results = $stmt->fetchAll();
-        if (!empty($results)) {
-            $formStatuses[$table] = $results;
+        $columnsStmt = $pdo->prepare("SHOW COLUMNS FROM $table");
+        $columnsStmt->execute();
+        $columns = $columnsStmt->fetchAll(PDO::FETCH_COLUMN);
+
+        $statusColumn = in_array('status', $columns) ? 'status' : (in_array('request_status', $columns) ? 'request_status' : null);
+        $submittedAtColumn = in_array('submitted_at', $columns) ? 'submitted_at' : (in_array('created_at', $columns) ? 'created_at' : null);
+
+        if ($statusColumn && $submittedAtColumn) {
+            $stmt = $pdo->prepare("SELECT id, $statusColumn AS status, $submittedAtColumn AS submitted_at FROM $table WHERE user_id = ? ORDER BY $submittedAtColumn DESC");
+            $stmt->execute([$_SESSION['user_id']]);
+            $results = $stmt->fetchAll();
+            if (!empty($results)) {
+                $formStatuses[$table] = $results;
+            }
+        }
+    } else {
+        // If no user_id column, try to fetch by username column if exists
+        $columnCheckUsername = $pdo->prepare("SHOW COLUMNS FROM $table LIKE 'username'");
+        $columnCheckUsername->execute();
+        $hasUsername = $columnCheckUsername->fetch();
+
+        if ($hasUsername) {
+            // Determine status and submitted_at columns dynamically
+            $columnsStmt = $pdo->prepare("SHOW COLUMNS FROM $table");
+            $columnsStmt->execute();
+            $columns = $columnsStmt->fetchAll(PDO::FETCH_COLUMN);
+
+            $statusColumn = in_array('status', $columns) ? 'status' : (in_array('request_status', $columns) ? 'request_status' : null);
+            $submittedAtColumn = in_array('submitted_at', $columns) ? 'submitted_at' : (in_array('created_at', $columns) ? 'created_at' : null);
+
+            if ($statusColumn && $submittedAtColumn) {
+                $stmt = $pdo->prepare("SELECT id, $statusColumn AS status, $submittedAtColumn AS submitted_at FROM $table WHERE username = ? ORDER BY $submittedAtColumn DESC");
+                $stmt->execute([$user['username']]);
+                $results = $stmt->fetchAll();
+                if (!empty($results)) {
+                    $formStatuses[$table] = $results;
+                }
+            }
+        } else {
+            // If no user_id or username column, try to fetch by full_name or name columns if exist
+            $columnCheckName = $pdo->prepare("SHOW COLUMNS FROM $table LIKE 'full_name'");
+            $columnCheckName->execute();
+            $hasFullName = $columnCheckName->fetch();
+
+            if (!$hasFullName) {
+                $columnCheckName = $pdo->prepare("SHOW COLUMNS FROM $table LIKE 'name'");
+                $columnCheckName->execute();
+                $hasName = $columnCheckName->fetch();
+            } else {
+                $hasName = false;
+            }
+
+            if ($hasFullName || $hasName) {
+                $nameColumn = $hasFullName ? 'full_name' : 'name';
+                $fullName = trim($user['first_name'] . ' ' . ($user['middle_name'] ?? '') . ' ' . $user['last_name']);
+                $stmt = $pdo->prepare("SELECT id, status, submitted_at FROM $table WHERE $nameColumn = ? ORDER BY submitted_at DESC");
+                $stmt->execute([$fullName]);
+                $results = $stmt->fetchAll();
+                if (!empty($results)) {
+                    $formStatuses[$table] = $results;
+                }
+            }
         }
     }
-    // Do not include forms with no submissions
 }
 ?>
 <div class="container mt-4">

@@ -50,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $number_of_dependents = trim($_POST['number_of_dependents'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
+    // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($first_name) || empty($middle_name) || empty($last_name) || empty($date_of_birth) ||
         empty($civil_status) || empty($occupation) || empty($monthly_income) || empty($proof_of_residency) ||
@@ -64,7 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute([
                 $first_name, $middle_name, $last_name, $date_of_birth, $civil_status, $occupation, $monthly_income, $proof_of_residency, $gov_id, $spouse_name, $number_of_dependents, $shipping_method
             ]);
-            $success_message = "Form successfully submitted!";
+            // Redirect to avoid form resubmission on refresh
+            header("Location: certificate-of-indigency.php?success=1");
+            exit();
         } catch (PDOException $e) {
             $error_message = "Error submitting form: " . $e->getMessage();
         }
@@ -179,8 +182,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Form Section -->
     <div class="container-fluid px-5 py-4">
-        <?php if ($success_message): ?>
-            <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
+        <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+            <div class="alert alert-success text-center">Form successfully submitted!</div>
         <?php endif; ?>
         <?php if ($error_message): ?>
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>

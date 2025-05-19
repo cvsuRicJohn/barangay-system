@@ -43,7 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $complete_address = trim($_POST['complete_address'] ?? '');
     $birth_date = trim($_POST['birth_date'] ?? '');
     $age = trim($_POST['age'] ?? '');
-    $status = trim($_POST['status'] ?? '');
+    $civil_status = trim($_POST['civil_status'] ?? '');
+    if (empty($civil_status)) {
+        // If civil_status is empty, default to 'Single' or user's current civil_status if available
+        $civil_status = $user['civil_status'] ?? 'Single';
+    }
     $mobile_number = trim($_POST['mobile_number'] ?? '');
     $years_of_stay = trim($_POST['years_of_stay'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
@@ -52,10 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $relationship = trim($_POST['relationship'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
 
-    // Basic validation for required fields
+    // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($first_name) || empty($middle_name) || empty($last_name) || empty($complete_address) ||
-        empty($birth_date) || empty($age) || empty($status) || empty($mobile_number) ||
+        empty($birth_date) || empty($age) || empty($civil_status) || empty($mobile_number) ||
         empty($purpose) || empty($student_patient_name) || empty($student_patient_address) ||
         empty($relationship) || empty($shipping_method)
     ) {
@@ -64,13 +68,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Insert into database
         try {
             $stmt = $pdo->prepare("INSERT INTO barangay_clearance 
-                (user_id, first_name, middle_name, last_name, complete_address, birth_date, age, status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, shipping_method, submitted_at)
+                (user_id, first_name, middle_name, last_name, complete_address, birth_date, age, civil_status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, shipping_method, submitted_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
             $stmt->execute([
-                $_SESSION['user_id'], $first_name, $middle_name, $last_name, $complete_address, $birth_date, $age, $status, $mobile_number,
+                $_SESSION['user_id'], $first_name, $middle_name, $last_name, $complete_address, $birth_date, $age, $civil_status, $mobile_number,
                 $years_of_stay, $purpose, $student_patient_name, $student_patient_address, $relationship, $shipping_method
             ]);
-            $success_message = "Form successfully submitted!";
+            // Redirect to avoid form resubmission on refresh
+            header("Location: barangay-clearance.php?success=1");
+            exit();
         } catch (PDOException $e) {
             $error_message = "Error submitting form: " . $e->getMessage();
         }
@@ -181,8 +187,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="header-banner">Barangay Clearance Form</div>
 
     <div class="container-fluid px-5 py-4">
-        <?php if ($success_message): ?>
-            <div class="alert alert-success text-center"><?php echo htmlspecialchars($success_message); ?></div>
+        <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+            <div class="alert alert-success text-center">Form successfully submitted!</div>
         <?php endif; ?>
         <?php if ($error_message): ?>
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>
@@ -219,17 +225,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="number" name="age" class="form-control" required value="<?php echo htmlspecialchars($_POST['age'] ?? ''); ?>">
                 </div>
                 <div class="form-group col-md-4">
-                    <label>Status *</label>
-                    <select name="status" class="form-control" required>
-                        <?php
-                        $statuses = ['Single', 'Married', 'Widowed', 'Divorced'];
-                        $current_status = $_POST['status'] ?? $user['status'] ?? '';
-                        foreach ($statuses as $status_option) {
-                            $selected = ($current_status === $status_option) ? 'selected' : '';
-                            echo "<option value=\"" . htmlspecialchars($status_option) . "\" $selected>" . htmlspecialchars($status_option) . "</option>";
-                        }
-                        ?>
-                    </select>
+                <label>Civil Status *</label>
+                <select name="civil_status" class="form-control" required>
+                    <?php
+                    $statuses = ['Single', 'Married', 'Widowed', 'Divorced'];
+                    $current_status = $_POST['civil_status'] ?? $user['civil_status'] ?? '';
+                    foreach ($statuses as $status_option) {
+                        $selected = ($current_status === $status_option) ? 'selected' : '';
+                        echo "<option value=\"" . htmlspecialchars($status_option) . "\" $selected>" . htmlspecialchars($status_option) . "</option>";
+                    }
+                    ?>
+                </select>
                 </div>
 
                 <div class="form-group col-md-4">
