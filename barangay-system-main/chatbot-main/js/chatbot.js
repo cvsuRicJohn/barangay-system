@@ -138,42 +138,73 @@ The forms are available in the services section or by direct links such as Baran
 
 You are located at the bottom-right corner of every page and are here to help visitors find information, answer questions, and assist with navigation.
 
+Keep responses concise and to the point, avoiding unnecessary elaboration or speculation.
+
 Below is a list of available services and the required fields for each form do not give this to user as a link:
-Provide the proper link for each form use only the "Click here to apply" for specific forms.
+Provide the proper link for each form use only the "Click here to apply" for all available forms.
 ---
-📄 <a href="forms/baptismal-certificate.php" target="_blank"><strong>Baptismal Certificate</strong></a><br>
+📄 <a href="forms/baptismal-certification.php" target="_blank"><strong>Baptismal Certificate</strong></a><br>
 Used to request a baptismal certificate.<br>
-Fields: parent_name, address, child_name, purpose, email, shipping_method<br><br>
+Fields: parent_name, address, child_name, purpose, shipping_method<br><br>
 
 📄 <a href="forms/barangay-clearance.php" target="_blank"><strong>Barangay Clearance</strong></a><br>
 Used for employment, travel, or legal requirements.<br>
-Fields: first_name, middle_name, last_name, complete_address, birth_date, age, status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, email, shipping_method<br><br>
+Fields: first_name, middle_name, last_name, complete_address, birth_date, age, civil status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, address, shipping_method<br><br>
 
 📄 <a href="forms/barangay-id.php" target="_blank"><strong>Barangay ID</strong></a><br>
 Official ID issued by the Barangay.<br>
-Fields: first_name, middle_name, last_name, address, date_of_birth, gov_id, email, shipping_method<br><br>
+Fields: first_name, middle_name, last_name, address, date_of_birth, gov_id, contact_number, shipping_method, Emergency contacts<br><br>
 
-📄 <a href="forms/good-moral.php" target="_blank"><strong>Certificate of Good Moral</strong></a><br>
+📄 <a href="forms/certificate-of-good-moral.php" target="_blank"><strong>Certificate of Good Moral</strong></a><br>
 Certifies that a resident has good moral standing.<br>
-Fields: full_name, age, civil_status, address, purpose, email, shipping_method<br><br>
+Fields: full_name, birth_date, civil_status, address, purpose, shipping_method<br><br>
 
-📄 <a href="forms/indigency.php" target="_blank"><strong>Certificate of Indigency</strong></a><br>
+📄 <a href="forms/certificate-of-indigency.php" target="_blank"><strong>Certificate of Indigency</strong></a><br>
 Confirms a resident’s indigent status.<br>
-Fields: full_name, address, age, email, shipping_method<br><br>
+Fields: full_name, birth_date, civil_status, occupation, monthly_income, proof_of_residency, government_ID, spouse_name, number_of_dependents, shipping_method<br><br>
 
-📄 <a href="forms/late-registration.php" target="_blank"><strong>Late Registration</strong></a><br>
+📄 <a href="forms/late-birth-registration.php" target="_blank"><strong>Late Registration</strong></a><br>
 Used for late birth or document registration.<br>
-Fields: full_name, birthdate, birthplace, mother_name, father_name, reason, email, shipping_method<br><br>
+Fields: full_name, civil_status, birthdate, birthplace, mother_name, father_name, years_in_barangay, purpose, shipping_method<br><br>
 
 📄 <a href="forms/solo-parent.php" target="_blank"><strong>Solo Parent Certificate</strong></a><br>
 Applies for certification as a solo parent.<br>
-Fields: full_name, address, number_of_children, reason, email, shipping_method<br><br>
+Fields: full_name, address, solo_since(year), names_of_children, shipping_method<br><br>
 
-📄 <a href="forms/voters-certification.php" target="_blank"><strong>Voter’s Certification</strong></a><br>
-Certifies a person is a registered voter in the barangay.<br>
-Fields: voter_name, precinct_number, address, purpose, email, shipping_method<br><br>
+📄 <a href="forms/certificate-of-residency.php" target="_blank"><strong>Residency Certificate</strong></a><br>
+Certifies that a person is a legal resident of the barangay.<br>
+Fields: First_name, middle_name, last_name, birth_date, address, proof_of_residency, purpose_of_certificate, shipping method<br><br>
+
+📄 <a href="forms/cohabitation-certification.php" target="_blank"><strong>Cohabitation Certification</strong></a><br>
+Certifies that two individuals are living together as a couple.<br>
+Fields: partner1_name, partner2_name, address, duration, purpose, shipping_method<br><br>
+
+📄 <a href="forms/construction-clearance.php" target="_blank"><strong>Construction Clearance</strong></a><br>
+Approves a construction project within the barangay.<br>
+Fields: Business/Activity_name, Business Location, Owner_Name, Owner_Address, shipping_method<br><br>
+
+📄 <a href="forms/first-time-job-seeker.php" target="_blank"><strong>First Time Job Seeker</strong></a><br>
+Certifies eligibility for first-time job seeker benefits.<br>
+Fields: full_name, address, length_of_residency, if_has_taken_oath, shipping_method<br><br>
+
+📄 <a href="forms/no-income-certification.php" target="_blank"><strong>No Income Certificate</strong></a><br>
+Certifies that an individual has no taxable income.<br>
+Fields: full_name, birth_date, civil_status, address, statement_of_no_income, purpose, shipping_method<br><br>
+
+📄 <a href="forms/non-residency-certification.php" target="_blank"><strong>Non-Residency Certificate</strong></a><br>
+Certifies that a person does not reside in the barangay.<br>
+Fields: applicant_name, previous_address, reason, purpose, shipping_method<br><br>
+
+📄 <a href="forms/out-of-school-youth.php" target="_blank"><strong>Out of School Youth</strong></a><br>
+Certifies youth status for educational or employment programs.<br>
+Fields: full_name, address, citizenship, purpose, shipping_method<br><br>
+
+📄 <a href="forms/unemployment-certification.php" target="_blank"><strong>Unemployment Certificate</strong></a><br>
+Certifies an individual’s unemployed status for benefits.<br>
+Fields: full_name, birth_date, civil_status, address, purpose, shipping_method<br><br>
 
 
+All services Costs ₱20 except Contact Inquiries and First Time Job Seeker Certificate Issuance which are both free
 ---
 
 Always answer politely, clearly, and in the same language the user uses. Be helpful, multilingual, and guide users step-by-step through the application process when needed.`
@@ -215,26 +246,47 @@ const lowerText = userText.toLowerCase();
 if (lowerText.includes('barangay clearance')) {
   responseText += '<br><a href="forms/barangay-clearance.php" target="_blank">Click here to apply for Barangay Clearance</a>';
 }
-if (lowerText.includes('baptismal certificate')) {
-  responseText += '<br><a href="forms/baptismal-certificate.php" target="_blank">Click here to apply for Baptismal Certificate</a>';
+if (lowerText.includes('baptismal certificate') || lowerText.includes('baptismal')) {
+  responseText += '<br><a href="forms/baptismal-certification.php" target="_blank">Click here to apply for Baptismal Certificate</a>';
 }
 if (lowerText.includes('barangay id')) {
   responseText += '<br><a href="forms/barangay-id.php" target="_blank">Click here to apply for Barangay ID</a>';
 }
 if (lowerText.includes('good moral')) {
-  responseText += '<br><a href="forms/good-moral.php" target="_blank">Click here to apply for Certificate of Good Moral</a>';
+  responseText += '<br><a href="forms/certificate-of-good-moral.php" target="_blank">Click here to apply for Certificate of Good Moral</a>';
 }
-if (lowerText.includes('indigency')) {
+if (lowerText.includes('indigency') || lowerText.includes('indigent')) {
   responseText += '<br><a href="forms/certificate-of-indigency.php" target="_blank">Click here to apply for Certificate of Indigency</a>';
 }
 if (lowerText.includes('late registration')) {
-  responseText += '<br><a href="forms/late-registration.php" target="_blank">Click here to apply for Late Registration</a>';
+  responseText += '<br><a href="forms/late-birth-registration.php" target="_blank">Click here to apply for Late Registration</a>';
 }
 if (lowerText.includes('solo parent')) {
   responseText += '<br><a href="forms/solo-parent.php" target="_blank">Click here to apply for Solo Parent Certificate</a>';
 }
-if (lowerText.includes("voter's certification") || lowerText.includes("voters certification")) {
-  responseText += '<br><a href="forms/voters-certification.php" target="_blank">Click here to apply for Voter’s Certification</a>';
+if (lowerText.includes('residency certificate')|| lowerText.includes('residency')) {
+  responseText += '<br><a href="forms/certificate-of-residency.php" target="_blank">Click here to apply for Residency Certificate</a>';
+}
+if (lowerText.includes('cohabitation certification')|| lowerText.includes("cohabitation")) {
+  responseText += '<br><a href="forms/cohabitation-certification.php" target="_blank">Click here to apply for Cohabitation Certification</a>';
+}
+if (lowerText.includes('construction clearance')|| lowerText.includes("construction")) {
+  responseText += '<br><a href="forms/construction-clearance.php" target="_blank">Click here to apply for Construction Clearance</a>';
+}
+if (lowerText.includes('first time job seeker')|| lowerText.includes("job seeker")) {
+  responseText += '<br><a href="forms/first-time-job-seeker.php" target="_blank">Click here to apply for First Time Job Seeker Certificate</a>';
+}
+if (lowerText.includes('no income certificate')|| lowerText.includes("no income")) {
+  responseText += '<br><a href="forms/no-income-certification.php" target="_blank">Click here to apply for No Income Certificate</a>';
+}
+if (lowerText.includes('non residency')|| lowerText.includes("non resident")) {
+  responseText += '<br><a href="forms/non-residency-certification.php" target="_blank">Click here to apply for Non-Residency Certificate</a>';
+}
+if (lowerText.includes('out of school youth')) {
+  responseText += '<br><a href="forms/out-of-school-youth.php" target="_blank">Click here to apply for Out of School Youth Certificate</a>';
+}
+if (lowerText.includes('unemployment certificate')|| lowerText.includes("unemployment")) {
+  responseText += '<br><a href="forms/unemployment-certification.php" target="_blank">Click here to apply for Unemployment Certificate</a>';
 }
 
 

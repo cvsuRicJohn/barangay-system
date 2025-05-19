@@ -189,6 +189,7 @@ foreach ($formTables as $table) {
 }
 ?>
 <div class="container mt-4">
+    <div class="profile-card">
     <h3>Your Form Submission Status</h3>
     <?php foreach ($formStatuses as $formName => $submissions): ?>
         <h5><?php echo ucwords(str_replace('_', ' ', $formName)); ?></h5>
@@ -198,12 +199,13 @@ foreach ($formTables as $table) {
             <ul>
                 <?php foreach ($submissions as $submission): ?>
                     <li>
-                        ID: <?php echo htmlspecialchars($submission['id']); ?> - Status: <?php echo htmlspecialchars(ucfirst($submission['status'] ?? 'Pending')); ?> - Submitted At: <?php echo htmlspecialchars($submission['submitted_at']); ?>
+                        Request Status: <?php echo htmlspecialchars(ucfirst($submission['status'] ?? 'Pending')); ?> - Submitted At: <?php echo htmlspecialchars($submission['submitted_at']); ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
     <?php endforeach; ?>
+    </div>
 </div>
 </body>
 </html>
