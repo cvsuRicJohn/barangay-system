@@ -60,10 +60,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO late_birth_registration_requests 
-                (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method
+                $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method, $_SESSION['user_id']
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {

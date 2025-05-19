@@ -57,10 +57,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO unemployment_certification_requests 
-                (full_name, age, birth_date, civil_status, address, purpose, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?)");
+                (full_name, age, birth_date, civil_status, address, purpose, shipping_method, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $age, $birth_date, $civil_status, $address, $purpose, $shipping_method
+                $full_name, $age, $birth_date, $civil_status, $address, $purpose, $shipping_method, $_SESSION['user_id']
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {

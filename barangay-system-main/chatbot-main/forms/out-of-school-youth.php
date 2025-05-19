@@ -51,10 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO out_of_school_youth_requests 
-                (full_name, address, citizenship, purpose, shipping_method)
-                VALUES (?, ?, ?, ?, ?)");
+                (full_name, address, citizenship, purpose, shipping_method, user_id)
+                VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $address, $citizenship, $purpose, $shipping_method
+                $full_name, $address, $citizenship, $purpose, $shipping_method, $_SESSION['user_id']
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {

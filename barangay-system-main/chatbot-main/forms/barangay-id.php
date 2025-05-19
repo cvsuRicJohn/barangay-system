@@ -56,8 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
-                (first_name, middle_name, last_name, address, date_of_birth, gov_id, shipping_method, submitted_at, contact_number, emergency_full_name, emergency_address, emergency_contact_number)
-                VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)");
+                (first_name, middle_name, last_name, address, date_of_birth, gov_id, shipping_method, submitted_at, contact_number, emergency_full_name, emergency_address, emergency_contact_number, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $first_name,
                 $middle_name,
@@ -69,7 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $contact_number,
                 $emergency_full_name,
                 $emergency_address,
-                $emergency_contact_number
+                $emergency_contact_number,
+                $_SESSION['user_id']
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {

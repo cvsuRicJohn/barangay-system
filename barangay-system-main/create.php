@@ -48,6 +48,8 @@ try {
     die("Error fetching table columns: " . $e->getMessage());
 }
 
+session_start();
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fields = $_POST;
@@ -62,6 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $columnTypes = [];
     foreach ($columns as $column) {
         $columnTypes[$column['Field']] = $column['Type'];
+    }
+
+    // Set user_id from session if column exists and session user_id is set
+    if (array_key_exists('user_id', $columnTypes) && isset($_SESSION['user_id'])) {
+        $fields['user_id'] = $_SESSION['user_id'];
     }
 
     // Format date fields to 'Y-m-d' or 'Y-m-d H:i:s' as needed

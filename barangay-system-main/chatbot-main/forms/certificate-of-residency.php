@@ -1,5 +1,7 @@
 <?php
-session_start();
+require_once('../session_check.php');
+check_user_session();
+
 // Make sure user is logged in
 if (!isset($_SESSION['user_id'])) {
   header("Location: login.php");
@@ -54,10 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO certificate_of_residency_requests 
-                (first_name, middle_name, last_name, date_of_birth, gov_id, complete_address, proof_of_residency, purpose, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                (first_name, middle_name, last_name, date_of_birth, gov_id, complete_address, proof_of_residency, purpose, shipping_method, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $date_of_birth, $gov_id, $complete_address, $proof_of_residency, $purpose, $shipping_method
+                $first_name, $middle_name, $last_name, $date_of_birth, $gov_id, $complete_address, $proof_of_residency, $purpose, $shipping_method, $_SESSION['user_id']
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
@@ -178,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="alert alert-danger text-center"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
 
-        <form method="POST" action="../certificate-of-residency.php" id="myForm">
+        <form method="POST" action="certificate-of-residency.php" id="myForm">
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label>First Name *</label>

@@ -54,10 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO no_income_certification_requests 
-                (full_name, date_of_birth, civil_status, address, no_income_statement, purpose, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?)");
+                (full_name, date_of_birth, civil_status, address, no_income_statement, purpose, shipping_method, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $full_name, $date_of_birth, $civil_status, $address, $no_income_statement, $purpose, $shipping_method
+                $full_name, $date_of_birth, $civil_status, $address, $no_income_statement, $purpose, $shipping_method, $_SESSION['user_id']
             ]);
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
