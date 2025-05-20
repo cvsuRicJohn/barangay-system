@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $emergency_full_name = trim($_POST['emergency_full_name'] ?? '');
     $emergency_address = $_POST['emergency_address'] ?? '';
     $emergency_contact_number = trim($_POST['emergency_contact_number'] ?? '');
-    $cost = 20; // fixed cost for all except first-time job seeker
+    $cost = 75; // fixed cost for all except first-time job seeker
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
@@ -257,7 +257,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group col-md-6">
                     <label>Cost</label>
-                    <input type="text" class="form-control" readonly value="₱20.00">
+                    <input type="text" class="form-control" readonly value="₱75.00">
                 </div>
 
                 <!-- Emergency Contact Section -->

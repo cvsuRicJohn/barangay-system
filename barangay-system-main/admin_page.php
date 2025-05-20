@@ -4,11 +4,65 @@ require_once 'chatbot-main/session_check.php';
 check_admin_session();
 check_user_status(); // Add this to block rejected users from accessing admin page
 
-// Handle logout
-if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    session_destroy();
-    header("Location: chatbot-main/login.php");
-    exit();
+// Handle logout and backup
+if (isset($_GET['action'])) {
+    if ($_GET['action'] === 'logout') {
+        session_destroy();
+        header("Location: chatbot-main/login.php");
+        exit();
+    } elseif ($_GET['action'] === 'backup') {
+        // PHP-based database backup logic without using exec or mysqldump
+        try {
+            $tables = [];
+            $stmt = $pdo->query("SHOW TABLES");
+            while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+                $tables[] = $row[0];
+            }
+
+            $sqlDump = "";
+            foreach ($tables as $table) {
+                // Get CREATE TABLE statement
+                $createStmt = $pdo->query("SHOW CREATE TABLE `$table`")->fetch(PDO::FETCH_ASSOC);
+                $sqlDump .= "\n\n" . $createStmt['Create Table'] . ";\n\n";
+
+                // Get table data
+                $rows = $pdo->query("SELECT * FROM `$table`")->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($rows as $row) {
+                    $columns = array_map(function($col) { return "`$col`"; }, array_keys($row));
+                    $values = array_map(function($val) use ($pdo) {
+                        if ($val === null) return "NULL";
+                        return $pdo->quote($val);
+                    }, array_values($row));
+                    $sqlDump .= "INSERT INTO `$table` (" . implode(", ", $columns) . ") VALUES (" . implode(", ", $values) . ");\n";
+                }
+            }
+
+            $backupFile = 'backup_barangay_db_' . date('Y-m-d_H-i-s') . '.sql';
+
+            // Save to file
+            file_put_contents($backupFile, $sqlDump);
+
+            // Send the backup file as download
+            if (file_exists($backupFile)) {
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/sql');
+                header('Content-Disposition: attachment; filename=' . basename($backupFile));
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($backupFile));
+                flush();
+                readfile($backupFile);
+                // Delete the backup file after download
+                unlink($backupFile);
+                exit();
+            } else {
+                die("Backup file not found.");
+            }
+        } catch (Exception $e) {
+            die("Error creating database backup: " . $e->getMessage());
+        }
+    }
 }
 
 $servername = "localhost";
@@ -54,7 +108,8 @@ if (isset($_GET['action'])) {
             'no_income_certification_requests',
             'out_of_school_youth_requests',
             'solo_parent_requests',
-            'unemployment_certification_requests'
+            'unemployment_certification_requests',
+            'transactions'
         ];
 
         if (!in_array($entity, $valid_entities)) {
@@ -116,6 +171,61 @@ if (isset($_GET['action'])) {
             $stmt->bindParam(':status', $status, PDO::PARAM_STR);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
+
+            // If status is approved, insert a record into transactions table
+            if ($status === 'approved') {
+                // Define costs for each entity type
+                $entityCosts = [
+                    'barangay_id_requests' => 75.00,
+                    'barangay_clearance' => 20.00,
+                    'certificate_of_indigency_requests' => 20.00,
+                    'certificate_of_residency_requests' => 20.00,
+                    'baptismal_certification_requests' => 20.00,
+                    'certificate_of_good_moral_requests' => 20.00,
+                    'cohabitation_certification_requests' => 40.00,
+                    'construction_clearance_requests' => 20.00,
+                    'first_time_job_seeker_requests' => 0.00,
+                    'late_birth_registration_requests' => 20.00,
+                    'non_residency_certification_requests' => 20.00,
+                    'no_income_certification_requests' => 20.00,
+                    'out_of_school_youth_requests' => 20.00,
+                    'solo_parent_requests' => 20.00,
+                    'unemployment_certification_requests' => 20.00,
+                    'contact_inquiries' => 0.00,
+                    'users' => 0.00
+                ];
+
+                // Fetch user info from the entity table for the given id
+                $userStmt = $pdo->prepare("SELECT * FROM $entity WHERE id = :id");
+                $userStmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $userStmt->execute();
+                $record = $userStmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($record) {
+                    // Determine user and amount fields for transaction
+                    // Use 'first_name' and 'last_name' concatenated if available, else 'user' field if exists
+                    $userName = '';
+                    if (isset($record['first_name']) && isset($record['last_name'])) {
+                        $userName = $record['first_name'] . ' ' . $record['last_name'];
+                    } elseif (isset($record['user'])) {
+                        $userName = $record['user'];
+                    } elseif (isset($record['full_name'])) {
+                        $userName = $record['full_name'];
+                    } else {
+                        $userName = 'Unknown User';
+                    }
+
+                    // Get amount from entityCosts mapping or default to 0.00
+                    $amount = $entityCosts[$entity] ?? 0.00;
+
+            // Insert into transactions table without form_type and form_id to avoid error
+            $insertStmt = $pdo->prepare("INSERT INTO transactions (user, amount, date, status) VALUES (:user, :amount, NOW(), 'completed')");
+            $insertStmt->bindParam(':user', $userName, PDO::PARAM_STR);
+            $insertStmt->bindParam(':amount', $amount);
+            $insertStmt->execute();
+                }
+            }
+
             // Instead of redirecting immediately, reload the page without exiting to preserve session
             header("Location: admin_page.php?tab=$entity");
             // Do not call exit() here to prevent session loss
@@ -158,7 +268,8 @@ $entities = [
     'no_income_certification_requests' => fetchAll($pdo, 'no_income_certification_requests'),
     'out_of_school_youth_requests' => fetchAll($pdo, 'out_of_school_youth_requests'),
     'solo_parent_requests' => fetchAll($pdo, 'solo_parent_requests'),
-    'unemployment_certification_requests' => fetchAll($pdo, 'unemployment_certification_requests')
+    'unemployment_certification_requests' => fetchAll($pdo, 'unemployment_certification_requests'),
+    'transactions' => fetchAll($pdo, 'transactions')
 ];
 
 // Counts for sidebar badges
@@ -220,16 +331,17 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
       <a href="#" data-target="no_income_certification_requests">No Income Certification <span class="badge badge-success"><?= $counts['no_income_certification_requests'] ?></span></a>
       <a href="#" data-target="out_of_school_youth_requests">Out Of School Youth <span class="badge badge-warning"><?= $counts['out_of_school_youth_requests'] ?></span></a>
       <a href="#" data-target="solo_parent_requests">Solo Parent <span class="badge badge-info"><?= $counts['solo_parent_requests'] ?></span></a>
-      <a href="#" data-target="unemployment_certification_requests">Unemployment Certification <span class="badge badge-secondary"><?= $counts['unemployment_certification_requests'] ?></span></a>
-    </nav>
-    <button id="logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location='?action=logout';" aria-label="Logout from admin panel">Logout <i class="fas fa-sign-out-alt"></i></button>
+    <a href="#" data-target="unemployment_certification_requests">Unemployment Certification <span class="badge badge-secondary"><?= $counts['unemployment_certification_requests'] ?></span></a>
+    <a href="#" data-target="transactions">Transaction Records <span class="badge badge-info"><?= $counts['transactions'] ?? 0 ?></span></a>
+    <a href="?action=backup" onclick="return confirm('Are you sure you want to create a backup of the database?');"><span><i class="fas fa-database"></i> Backup Database</span></a>
+  </nav>
+  <button id="logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location='?action=logout';" aria-label="Logout from admin panel">Logout <i class="fas fa-sign-out-alt"></i></button>
   </aside>
 
   <main id="main-content" role="main" tabindex="0">
-    <!-- Removed user approval form as per request -->
 <button id="hamburger-toggle" class="hamburger">&#9776;</button>
 
-<section id="dashboard" class="tab-content-section active" aria-labelledby="dashboard-header">
+  <section id="dashboard" class="tab-content-section active" aria-labelledby="dashboard-header">
   <h3 id="dashboard-header" class="page-title">Dashboard Overview</h3>
 
 <div class="chart-container">
@@ -304,6 +416,42 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
       </tbody>
     </table>
   </div>
+
+  <!-- Transaction Records on Dashboard -->
+  <h3 class="page-title">Transaction Records</h3>
+  <form id="transaction-records-form" method="post" action="#">
+    <div class="table-wrapper">
+      <table class="entity-table" aria-describedby="transactions-desc">
+        <caption id="transactions-desc">List of transaction records</caption>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          if (!empty($entities['transactions'])) {
+              foreach ($entities['transactions'] as $transaction) {
+                  echo '<tr>';
+                  echo '<td>' . e($transaction['id'] ?? '') . '</td>';
+                  echo '<td>' . e($transaction['user'] ?? '') . '</td>';
+                  echo '<td>' . e($transaction['amount'] ?? '') . '</td>';
+                  echo '<td>' . e($transaction['date'] ?? '') . '</td>';
+                  echo '<td>' . e($transaction['status'] ?? '') . '</td>';
+                  echo '</tr>';
+              }
+          } else {
+              echo '<tr><td colspan="5" style="text-align:center; font-style: italic;">No transaction records found.</td></tr>';
+          }
+          ?>
+        </tbody>
+      </table>
+    </div>
+  </form>
     <!-- EDITABLE FAQS -->
 
 <?php include 'db_conn.php'; ?>
@@ -415,7 +563,7 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
             'out_of_school_youth_requests',
             'solo_parent_requests',
             'unemployment_certification_requests',
-            'barangay_id_requests' // Added barangay_id_requests to remove email column
+            'barangay_id_requests' 
         ];
 
         // Column layouts for each entity - define key columns and headers for illustration
@@ -792,6 +940,47 @@ echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'&tab='.$entityEsc.'" 
     foreach ($entities as $entityKey => $items) {
         renderEntityTable($entityKey, $items);
     }
+?>
+<section id="transactions" class="tab-content-section">
+  <h3 class="page-title">Transaction Records</h3>
+  <div class="table-wrapper">
+    <table class="entity-table" aria-describedby="transactions-desc">
+      <caption id="transactions-desc">List of transaction records</caption>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+          <?php
+          if (!empty($entities['transactions'])) {
+              foreach ($entities['transactions'] as $transaction) {
+                  echo '<tr>';
+                  echo '<td>' . e($transaction['id'] ?? '') . '</td>';
+                  echo '<td>' . e($transaction['user'] ?? '') . '</td>';
+                  echo '<td>' . e($transaction['amount'] ?? '') . '</td>';
+                  echo '<td>' . e($transaction['date'] ?? '') . '</td>';
+                  // Show form type and form id if available
+                  $formInfo = '';
+                  if (!empty($transaction['form_type']) && !empty($transaction['form_id'])) {
+                      $formInfo = e(str_replace('_', ' ', ucwords($transaction['form_type']))) . ' #' . e($transaction['form_id']);
+                  }
+                  echo '<td>' . e($transaction['status'] ?? '') . ($formInfo ? ' (' . $formInfo . ')' : '') . '</td>';
+                  echo '</tr>';
+              }
+          } else {
+              echo '<tr><td colspan="5" style="text-align:center; font-style: italic;">No transaction records found.</td></tr>';
+          }
+          ?>
+      </tbody>
+    </table>
+  </div>
+</section>
+<?php
     ?>
 
   </main>
