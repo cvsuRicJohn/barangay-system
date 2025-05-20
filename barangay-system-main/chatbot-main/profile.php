@@ -30,6 +30,7 @@ try {
     <title>User Profile | Barangay Bucandala 1</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/profile.css" />
 </head>
 <body>
@@ -188,23 +189,42 @@ foreach ($formTables as $table) {
     }
 }
 ?>
-<div class="container mt-4">
+<div class="container mt-5">
     <div class="profile-card">
-    <h3>Your Form Submission Status</h3>
-    <?php foreach ($formStatuses as $formName => $submissions): ?>
-        <h5><?php echo ucwords(str_replace('_', ' ', $formName)); ?></h5>
-        <?php if (empty($submissions)): ?>
-            <p>No submissions found.</p>
-        <?php else: ?>
-            <ul>
-                <?php foreach ($submissions as $submission): ?>
-                    <li>
-                        Request Status: <?php echo htmlspecialchars(ucfirst($submission['status'] ?? 'Pending')); ?> - Submitted At: <?php echo htmlspecialchars($submission['submitted_at']); ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-    <?php endforeach; ?>
+        <h3 class="mb-4">📄 Your Form Submission Status</h3>
+        <?php foreach ($formStatuses as $formName => $submissions): ?>
+            <h5 class="form-section-title"><?php echo ucwords(str_replace('_', ' ', $formName)); ?></h5>
+            <?php if (empty($submissions)): ?>
+                <p class="text-muted">No submissions found.</p>
+            <?php else: ?>
+                <ul class="list-group mb-3">
+                    <?php foreach ($submissions as $submission): 
+                        $status = ucfirst($submission['status'] ?? 'Pending');
+                        $badgeClass = 'status-badge ';
+                        switch (strtolower($status)) {
+                            case 'approved':
+                                $badgeClass .= 'status-approved';
+                                break;
+                            case 'rejected':
+                                $badgeClass .= 'status-rejected';
+                                break;
+                            default:
+                                $badgeClass .= 'status-pending';
+                                break;
+                        }
+                    ?>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-column flex-sm-row">
+                            <div>
+                                <span class="<?php echo $badgeClass; ?>">Status: <?php echo htmlspecialchars($status); ?></span>
+                            </div>
+                            <div class="submitted-time mt-2 mt-sm-0">
+                                Submitted At: <?php echo htmlspecialchars($submission['submitted_at']); ?>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </div>
 </div>
 </body>

@@ -53,3 +53,50 @@
         
     }
 
+
+    /* STATUS OF THE FORM */
+    .profile-card {
+        background: #ffffff;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .profile-card:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .form-section-title {
+        border-bottom: 2px solid #dee2e6;
+        padding-bottom: 0.5rem;
+        margin-top: 1.5rem;
+        color: #343a40;
+    }
+
+    .status-badge {
+        font-size: 0.875rem;
+        padding: 0.35em 0.75em;
+        border-radius: 0.5rem;
+        font-weight: 500;
+    }
+
+    .status-pending {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .status-approved {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .status-rejected {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .submitted-time {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }

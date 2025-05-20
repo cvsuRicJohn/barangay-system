@@ -783,7 +783,7 @@ echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'&tab='.$entityEsc.'" 
             'unemployment_certification_requests'
         ];
         if (in_array($entityKey, $entitiesWithCreate)) {
-            echo '<a class="btn btn-primary mb-3" href="create.php?entity='.$entityEsc.'">Add New '.e(str_replace('_', ' ', ucwords($entityKey))).'</a>';
+            echo '<a class="btn btn-primary mb-3" href="create.php?entity='. $entityKey .'">Add New '.e(str: str_replace('_', ' ', ucwords($entityKey))).'</a>';
         }
 
         echo '</section>';
