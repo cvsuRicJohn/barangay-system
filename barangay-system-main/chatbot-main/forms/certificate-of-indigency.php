@@ -49,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $spouse_name = trim($_POST['spouse_name'] ?? '');
     $number_of_dependents = trim($_POST['number_of_dependents'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $cost = 20; // fixed cost for all except first-time job seeker
 
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
@@ -59,12 +60,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO certificate_of_indigency_requests 
-                (first_name, middle_name, last_name, date_of_birth, civil_status, occupation, monthly_income, proof_of_residency, gov_id, spouse_name, number_of_dependents, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $first_name, $middle_name, $last_name, $date_of_birth, $civil_status, $occupation, $monthly_income, $proof_of_residency, $gov_id, $spouse_name, $number_of_dependents, $shipping_method
-            ]);
+            // Check if user_id column exists in the table
+            $columnCheckStmt = $pdo->prepare("SHOW COLUMNS FROM certificate_of_indigency_requests LIKE 'user_id'");
+            $columnCheckStmt->execute();
+            $hasUserId = $columnCheckStmt->fetch();
+
+            if ($hasUserId) {
+                $stmt = $pdo->prepare("INSERT INTO certificate_of_indigency_requests 
+                    (first_name, middle_name, last_name, date_of_birth, civil_status, occupation, monthly_income, proof_of_residency, gov_id, spouse_name, number_of_dependents, shipping_method, cost, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $first_name, $middle_name, $last_name, $date_of_birth, $civil_status, $occupation, $monthly_income, $proof_of_residency, $gov_id, $spouse_name, $number_of_dependents, $shipping_method, $cost, $_SESSION['user_id']
+                ]);
+            }
             // Redirect to avoid form resubmission on refresh
             header("Location: certificate-of-indigency.php?success=1");
             exit();
@@ -267,6 +275,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="shipping_method" class="form-control" required>
                         <option value="PICK UP" <?php if ($success_message) echo 'selected'; ?>>PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" readonly value="₱20.00">
                 </div>
             </div>
 

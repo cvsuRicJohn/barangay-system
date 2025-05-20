@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $child_name = trim($_POST['child_name'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $cost = 20; // fixed cost for all except first-time job seeker
 
     if (
         empty($parent_name) || empty($address) || empty($child_name) || empty($purpose) ||
@@ -54,12 +55,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO baptismal_certification_requests 
-                (parent_name, address, child_name, purpose, shipping_method)
-                VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $parent_name, $address, $child_name, $purpose, $shipping_method
-            ]);
+            // Check if user_id column exists in the table
+            $columnCheckStmt = $pdo->prepare("SHOW COLUMNS FROM baptismal_certification_requests LIKE 'user_id'");
+            $columnCheckStmt->execute();
+            $hasUserId = $columnCheckStmt->fetch();
+
+            if ($hasUserId) {
+                $stmt = $pdo->prepare("INSERT INTO baptismal_certification_requests 
+                    (parent_name, address, child_name, purpose, shipping_method, cost, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $parent_name, $address, $child_name, $purpose, $shipping_method, $cost, $_SESSION['user_id']
+                ]);
+            }
             $success_message = "Form successfully submitted!";
         } catch (PDOException $e) {
             $error_message = "Error submitting form: " . $e->getMessage();
@@ -207,6 +215,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="shipping_method" class="form-control" required>
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" readonly value="₱20.00">
                 </div>
             </div>
 

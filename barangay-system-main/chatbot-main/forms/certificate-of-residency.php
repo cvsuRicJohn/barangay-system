@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $proof_of_residency = trim($_POST['proof_of_residency'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $cost = 20; // fixed cost for all except first-time job seeker
 
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
@@ -57,10 +58,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO certificate_of_residency_requests 
-                (first_name, middle_name, last_name, date_of_birth, gov_id, complete_address, proof_of_residency, purpose, shipping_method, user_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                (first_name, middle_name, last_name, date_of_birth, gov_id, complete_address, proof_of_residency, purpose, shipping_method, cost, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $date_of_birth, $gov_id, $complete_address, $proof_of_residency, $purpose, $shipping_method, $_SESSION['user_id']
+                $first_name, $middle_name, $last_name, $date_of_birth, $gov_id, $complete_address, $proof_of_residency, $purpose, $shipping_method, $cost, $_SESSION['user_id']
             ]);
             // Redirect to avoid form resubmission on refresh
             header("Location: certificate-of-residency.php?success=1");
@@ -226,6 +227,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="shipping_method" class="form-control" required>
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" readonly value="₱20.00">
                 </div>
             </div>
 

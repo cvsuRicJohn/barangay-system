@@ -49,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = trim($_POST['address'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $cost = 20; // fixed cost for all except first-time job seeker
 
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
@@ -64,17 +65,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($hasUserId) {
                 $stmt = $pdo->prepare("INSERT INTO unemployment_certification_requests 
-                    (full_name, age, birth_date, civil_status, address, purpose, shipping_method, user_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    (full_name, age, birth_date, civil_status, address, purpose, shipping_method, cost, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
-                    $full_name, $age, $birth_date, $civil_status, $address, $purpose, $shipping_method, $_SESSION['user_id']
+                    $full_name, $age, $birth_date, $civil_status, $address, $purpose, $shipping_method, $cost, $_SESSION['user_id']
                 ]);
             } else {
                 $stmt = $pdo->prepare("INSERT INTO unemployment_certification_requests 
-                    (full_name, age, birth_date, civil_status, address, purpose, shipping_method)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    (full_name, age, birth_date, civil_status, address, purpose, shipping_method, cost)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
-                    $full_name, $age, $birth_date, $civil_status, $address, $purpose, $shipping_method
+                    $full_name, $age, $birth_date, $civil_status, $address, $purpose, $shipping_method, $cost
                 ]);
             }
             // Redirect to avoid form resubmission on refresh
@@ -249,13 +250,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label>Purpose of Certification *</label>
             <input type="text" name="purpose" class="form-control" required value="<?php echo htmlspecialchars($_POST['purpose'] ?? ''); ?>">
         </div>
-        <div class="form-group col-md-6">
-            <label>Shipping Method *</label>
-            <select name="shipping_method" class="form-control" required>
-                <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am–5pm)</option>
-            </select>
-        </div>
+    <div class="form-group col-md-6">
+        <label>Shipping Method *</label>
+        <select name="shipping_method" class="form-control" required>
+            <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am–5pm)</option>
+        </select>
     </div>
+    <div class="form-group col-md-6">
+        <label>Cost</label>
+        <input type="text" class="form-control" readonly value="₱20.00">
+    </div>
+</div>
 
     <div class="text-center mt-4">
         <button type="submit" class="btn btn-primary px-5">Submit</button>

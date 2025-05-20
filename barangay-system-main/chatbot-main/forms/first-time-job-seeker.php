@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $residency_length = trim($_POST['residency_length'] ?? '');
     $oath_acknowledged = trim($_POST['oath_acknowledged'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $cost = 0; // free for first-time job seeker
 
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
@@ -59,17 +60,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($hasUserId) {
                 $stmt = $pdo->prepare("INSERT INTO first_time_job_seeker_requests 
-                    (full_name, address, residency_length, oath_acknowledged, shipping_method, user_id)
-                    VALUES (?, ?, ?, ?, ?, ?)");
+                    (full_name, address, residency_length, oath_acknowledged, shipping_method, user_id, cost)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
-                    $full_name, $address, $residency_length, $oath_acknowledged, $shipping_method, $_SESSION['user_id']
-                ]);
-            } else {
-                $stmt = $pdo->prepare("INSERT INTO first_time_job_seeker_requests 
-                    (full_name, address, residency_length, oath_acknowledged, shipping_method)
-                    VALUES (?, ?, ?, ?, ?)");
-                $stmt->execute([
-                    $full_name, $address, $residency_length, $oath_acknowledged, $shipping_method
+                    $full_name, $address, $residency_length, $oath_acknowledged, $shipping_method, $_SESSION['user_id'], $cost
                 ]);
             }
             // Redirect to avoid form resubmission on refresh
@@ -230,6 +224,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <select name="shipping_method" class="form-control" required>
                 <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am–5pm)</option>
             </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Cost</label>
+            <input type="text" class="form-control" readonly value="₱0.00">
         </div>
     </div>
 

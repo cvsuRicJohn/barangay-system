@@ -44,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cohabitation_duration = trim($_POST['cohabitation_duration'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $cost = 20; // fixed cost for all except first-time job seeker
 
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
@@ -54,10 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO cohabitation_certification_requests 
-                (partner1_name, partner2_name, shared_address, cohabitation_duration, purpose, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?)");
+                (partner1_name, partner2_name, shared_address, cohabitation_duration, purpose, shipping_method, cost, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $partner1_name, $partner2_name, $shared_address, $cohabitation_duration, $purpose, $shipping_method
+                $partner1_name, $partner2_name, $shared_address, $cohabitation_duration, $purpose, $shipping_method, $cost, $_SESSION['user_id']
             ]);
             // Redirect to avoid form resubmission on refresh
             header("Location: cohabitation-certification.php?success=1");
@@ -214,8 +215,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
                 </div>
+                <div class="form-group col-md-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" readonly value="₱20.00">
+                </div>
             </div>
-
+            
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary px-5">Submit</button>
             </div>

@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = trim($_POST['address'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $cost = 20; // fixed cost for all except first-time job seeker
 
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
@@ -55,12 +56,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO certificate_of_good_moral_requests 
-                (full_name, age, civil_status, address, purpose, shipping_method)
-                VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $full_name, $age, $civil_status, $address, $purpose, $shipping_method
-            ]);
+            // Check if user_id column exists in the table
+            $columnCheckStmt = $pdo->prepare("SHOW COLUMNS FROM certificate_of_good_moral_requests LIKE 'user_id'");
+            $columnCheckStmt->execute();
+            $hasUserId = $columnCheckStmt->fetch();
+
+            if ($hasUserId) {
+                $stmt = $pdo->prepare("INSERT INTO certificate_of_good_moral_requests 
+                    (full_name, age, civil_status, address, purpose, shipping_method, cost, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $full_name, $age, $civil_status, $address, $purpose, $shipping_method, $cost, $_SESSION['user_id']
+                ]);
+            }
             // Redirect to avoid form resubmission on refresh
             header("Location: certificate-of-good-moral.php?success=1");
             exit();
@@ -218,8 +226,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
                 </div>
+                <div class="form-group col-md-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" readonly value="₱20.00">
+                </div>
             </div>
-
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary px-5">Submit</button>
             </div>

@@ -48,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // If civil_status is empty, default to 'Single' or user's current civil_status if available
         $civil_status = $user['civil_status'] ?? 'Single';
     }
+    $cost = 20; // fixed cost for all except first-time job seeker
     $mobile_number = trim($_POST['mobile_number'] ?? '');
     $years_of_stay = trim($_POST['years_of_stay'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
@@ -68,12 +69,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Insert into database
         try {
             $stmt = $pdo->prepare("INSERT INTO barangay_clearance 
-                (user_id, first_name, middle_name, last_name, complete_address, birth_date, age, civil_status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, shipping_method, submitted_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-            $stmt->execute([
-                $_SESSION['user_id'], $first_name, $middle_name, $last_name, $complete_address, $birth_date, $age, $civil_status, $mobile_number,
-                $years_of_stay, $purpose, $student_patient_name, $student_patient_address, $relationship, $shipping_method
-            ]);
+            (user_id, first_name, middle_name, last_name, complete_address, birth_date, age, civil_status, mobile_number, years_of_stay, purpose, student_patient_name, student_patient_address, relationship, shipping_method, cost, submitted_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->execute([
+            $_SESSION['user_id'], $first_name, $middle_name, $last_name, $complete_address, $birth_date, $age, $civil_status, $mobile_number,
+            $years_of_stay, $purpose, $student_patient_name, $student_patient_address, $relationship, $shipping_method, $cost
+        ]);
             // Redirect to avoid form resubmission on refresh
             header("Location: barangay-clearance.php?success=1");
             exit();
@@ -271,7 +272,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
                 </div>
-            </div>   
+                <div class="form-group col-md-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" readonly value="₱20.00">
+                </div>
+            </div>
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary px-5">Submit</button>
             </div>

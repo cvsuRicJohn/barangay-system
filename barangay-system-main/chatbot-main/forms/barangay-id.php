@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $emergency_full_name = trim($_POST['emergency_full_name'] ?? '');
     $emergency_address = $_POST['emergency_address'] ?? '';
     $emergency_contact_number = trim($_POST['emergency_contact_number'] ?? '');
-
+    $cost = 20; // fixed cost for all except first-time job seeker
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($first_name) || empty($middle_name) || empty($last_name) || empty($address) ||
@@ -57,8 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO barangay_id_requests 
-                (first_name, middle_name, last_name, address, date_of_birth, gov_id, shipping_method, submitted_at, contact_number, emergency_full_name, emergency_address, emergency_contact_number, user_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?)");
+                (first_name, middle_name, last_name, address, date_of_birth, gov_id, shipping_method, cost, submitted_at, contact_number, emergency_full_name, emergency_address, emergency_contact_number, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $first_name,
                 $middle_name,
@@ -67,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $date_of_birth,
                 $gov_id,
                 $shipping_method,
+                $cost,
                 $contact_number,
                 $emergency_full_name,
                 $emergency_address,
@@ -252,6 +253,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="shipping_method" class="form-control" required>
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" readonly value="₱20.00">
                 </div>
 
                 <!-- Emergency Contact Section -->

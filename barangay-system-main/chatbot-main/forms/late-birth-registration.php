@@ -50,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $years_in_barangay = trim($_POST['years_in_barangay'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $cost = 20; // fixed cost for all except first-time job seeker
 
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
@@ -67,17 +68,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($hasUserId) {
                 $stmt = $pdo->prepare("INSERT INTO late_birth_registration_requests 
-                    (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method, user_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method, cost, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
-                    $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method, $_SESSION['user_id']
-                ]);
-            } else {
-                $stmt = $pdo->prepare("INSERT INTO late_birth_registration_requests 
-                    (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([
-                    $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method
+                    $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method, $cost, $_SESSION['user_id']
                 ]);
             }
             // Redirect to avoid form resubmission on refresh
@@ -258,6 +252,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="shipping_method" class="form-control" required>
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" readonly value="₱20.00">
                 </div>
             </div>
 

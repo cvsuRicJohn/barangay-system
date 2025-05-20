@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $owner_name = trim($_POST['owner_name'] ?? '');
     $owner_address = trim($_POST['owner_address'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $cost = 20; // fixed cost for all except first-time job seeker
 
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
@@ -53,10 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO construction_clearance_requests 
-                (business_name, business_location, owner_name, owner_address, shipping_method)
-                VALUES (?, ?, ?, ?, ?)");
+                (business_name, business_location, owner_name, owner_address, shipping_method, cost, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $business_name, $business_location, $owner_name, $owner_address, $shipping_method
+                $business_name, $business_location, $owner_name, $owner_address, $shipping_method, $cost, $_SESSION['user_id']
             ]);
             // Redirect to avoid form resubmission on refresh
             header("Location: construction-clearance.php?success=1");
@@ -207,6 +208,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="shipping_method" class="form-control" required>
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Cost</label>
+                    <input type="text" class="form-control" readonly value="₱20.00">
                 </div>
             </div>
 
