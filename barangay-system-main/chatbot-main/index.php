@@ -341,13 +341,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
       <h2 class="contact-highlight">Contact Information</h2>
       <h4><strong>Barangay Bucandala 1, Imus, Cavite</strong></h4>
       <p>📍 Barangay Hall, Barangay Bucandala 1, Imus, Cavite Philippines 4103</p>
-      <p>✉️ <a href="mailto:barangaybucandala1@gov.ph">barangaybucana1@gmail.com</a></p>
+      <p>✉️ <a href="mailto:barangaybucandala1@gov.ph">barangaybucandala1@gmail.com</a></p>
     </div>
   </section>
   
   <div class="footer">
     <div class="footer-content">
-      <img src="image/imus-logo.png" alt="Barangay Logo" class="footer-logo">
+<a href="../admin_page.php">
+  <img src="image/imus-logo.png" alt="Barangay Logo" class="footer-logo"></a>
       <div class="footer-text">
         <p>Copyright &copy; 2025 The Official Website of Barangay Bucandala 1, Imus Cavite. All Rights Reserved.</p>
         <p>Bucandala 1 Barangay Hall, Imus, Cavite, Philippines 4103.</p>

@@ -69,7 +69,7 @@ if (!isset($_SESSION['user_id'])) {
         <!-- Remove this block if dynamically generating from JS -->
         <div class="chat-message-wrapper bot">
             <img src="image/avatar.png" class="avatar" alt="Bot Avatar" />
-            <div class="chat-message bot-message">Hello! How can I assist you today?</div>
+            <div class="chat-message bot-message">Hello! How can I assist you today? Im the official chatbot of Barangay Bucandala 1, here to help you with services and information. Just let me know what you need!</div>
         </div>
     </div>
 

@@ -168,7 +168,7 @@ foreach ($formTables as $table) {
             }
 
                 if ($hasFullName || $hasName) {
-                    $nameColumn = $hasFullName ? 'full_name' : 'name';
+                    $nameColumn = $hasFullName ? 'full_name' : ($hasName ? 'name' : 'full_name_parent');
                     $fullName = trim($user['first_name'] . ' ' . ($user['middle_name'] ?? '') . ' ' . $user['last_name']);
                     // Try to fetch address column if exists
                     $columnsStmt = $pdo->prepare("SHOW COLUMNS FROM $table LIKE 'address'");

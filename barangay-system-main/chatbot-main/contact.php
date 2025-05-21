@@ -74,7 +74,7 @@ if (!isset($_SESSION['user_id'])) {
   <a href="index.php">Home</a>
 
   <div class="dropdown">
-    <a href="#online-services-section" class="dropbtn">Services ▾</a>
+    <a href="index.php#online-services-section" class="dropbtn">Services ▾</a>
     <div class="dropdown-content">
       <!-- Barangay Clearance -->
       <div class="dropdown-submenu">

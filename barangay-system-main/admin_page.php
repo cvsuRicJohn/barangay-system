@@ -191,8 +191,7 @@ if (isset($_GET['action'])) {
                     'out_of_school_youth_requests' => 20.00,
                     'solo_parent_requests' => 20.00,
                     'unemployment_certification_requests' => 20.00,
-                    'contact_inquiries' => 0.00,
-                    'users' => 0.00
+                    
                 ];
 
                 // Fetch user info from the entity table for the given id
@@ -340,7 +339,9 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
 
   <main id="main-content" role="main" tabindex="0">
 <button id="hamburger-toggle" class="hamburger">&#9776;</button>
-
+<button class="modern-btn" onclick="window.location.href='chatbot-main/index.php'">
+  Go to Homepage
+</button>
   <section id="dashboard" class="tab-content-section active" aria-labelledby="dashboard-header">
   <h3 id="dashboard-header" class="page-title">Dashboard Overview</h3>
 

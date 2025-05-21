@@ -169,6 +169,27 @@ h3.page-title {
     height: 300px;
 }
 
+  .modern-btn {
+    padding: 12px 28px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 86, 179, 0.3);
+  }
+
+  .modern-btn:hover {
+    background-color: #003d80;
+    transform: scale(1.05);
+  }
+
+  .modern-btn:active {
+    transform: scale(0.95);
+  }
+  
 /* Optional: responsive behavior for smaller screens */
 @media (max-width: 850px) {
     .chart-container {
@@ -278,4 +299,5 @@ h3.page-title {
     padding-top: 3.5rem; /* adjust for button spacing */
   }
 }
+
 
