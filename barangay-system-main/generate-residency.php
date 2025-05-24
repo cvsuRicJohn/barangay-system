@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 $id = $_GET['id'] ?? 1;
 
-$sql = "SELECT first_name, middle_name, last_name, date_of_birth, gov_id, complete_address, proof_of_residency, purpose, shipping_method, submitted_at 
+$sql = "SELECT first_name, middle_name, last_name, date_of_birth, age, civil_status, complete_address, purpose, shipping_method, submitted_at 
         FROM certificate_of_residency_requests WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
@@ -30,9 +30,9 @@ if ($data) {
     // Replace placeholders
     $template->setValue('name', htmlspecialchars($fullName));
     $template->setValue('date_of_birth', htmlspecialchars($data['date_of_birth']));
-    $template->setValue('gov_id', htmlspecialchars($data['gov_id']));
+    $template->setValue('age', htmlspecialchars($data['age'] ?? ''));
+    $template->setValue('civil_status', htmlspecialchars($data['civil_status'] ?? ''));
     $template->setValue('complete_address', htmlspecialchars($data['complete_address']));
-    $template->setValue('proof_of_residency', htmlspecialchars($data['proof_of_residency']));
     $template->setValue('purpose', htmlspecialchars($data['purpose']));
     $template->setValue('shipping_method', htmlspecialchars($data['shipping_method']));
     $template->setValue('date_issued', date('F j, Y', strtotime($data['submitted_at']))); // formatted nicely

@@ -24,9 +24,15 @@ if ($data) {
     // Load Word template
     $template = new TemplateProcessor('no-income-template.docx');
 
+    // Calculate age from date_of_birth
+    $dob = new DateTime($data['date_of_birth']);
+    $now = new DateTime();
+    $age = $now->diff($dob)->y;
+
     // Replace placeholders
     $template->setValue('full_name', htmlspecialchars($data['full_name']));
     $template->setValue('date_of_birth', htmlspecialchars($data['date_of_birth']));
+    $template->setValue('age', htmlspecialchars($age));
     $template->setValue('civil_status', htmlspecialchars($data['civil_status']));
     $template->setValue('address', htmlspecialchars($data['address']));
     $template->setValue('no_income_statement', htmlspecialchars($data['no_income_statement']));

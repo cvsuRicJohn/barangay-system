@@ -5,14 +5,19 @@ $pdo = null;
 if (isset($GLOBALS['pdo'])) {
     $pdo = $GLOBALS['pdo'];
 } else {
-    // Try to create a new PDO connection if not available globally
+    // Try to create a new mysqli connection if not available globally
     $servername = "localhost";
     $username_db = "root"; // Adjust if needed
     $password_db = "";     // Adjust if needed
     $dbname = "barangay_db";
 
+    $conn = new mysqli($servername, $username_db, $password_db, $dbname);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    // Create a PDO instance from mysqli connection for compatibility
+    $dsn = "mysql:host=$servername;dbname=$dbname;charset=utf8mb4";
     try {
-        $dsn = "mysql:host=$servername;dbname=$dbname;charset=utf8mb4";
         $pdo = new PDO($dsn, $username_db, $password_db, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
