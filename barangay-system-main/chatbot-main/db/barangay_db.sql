@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2025 at 09:18 AM
+-- Generation Time: May 24, 2025 at 09:19 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,15 +39,6 @@ CREATE TABLE `baptismal_certification_requests` (
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `baptismal_certification_requests`
---
-
-INSERT INTO `baptismal_certification_requests` (`id`, `parent_name`, `address`, `child_name`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'qweqwewq', 'eqwewqeqe', 'wqeqeqeq', 'Baptismal', 'PICK UP', '2025-05-01 03:02:52', 'approved', 20.00, NULL),
-(2, 'tung tung sahur', 'imus', 'Lechon Kawali', 'Baptismal', 'PICK UP', '2025-05-20 03:07:06', 'pending', 20.00, NULL),
-(3, 'tung tung sahur', 'imus', 'Lechon Kawali', 'Baptismal', 'PICK UP', '2025-05-20 03:08:32', 'pending', 20.00, 7);
 
 -- --------------------------------------------------------
 
@@ -83,15 +74,7 @@ CREATE TABLE `barangay_clearance` (
 --
 
 INSERT INTO `barangay_clearance` (`id`, `first_name`, `middle_name`, `last_name`, `complete_address`, `birth_date`, `age`, `civil_status`, `mobile_number`, `years_of_stay`, `purpose`, `student_patient_name`, `student_patient_address`, `relationship`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`, `cost`) VALUES
-(22, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:41:12', NULL, '2025-05-13 11:41:12', 'pending', 20.00),
-(23, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:47', NULL, '2025-05-13 11:46:47', 'pending', 20.00),
-(24, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:48', NULL, '2025-05-13 11:46:48', 'rejected', 20.00),
-(25, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:48', NULL, '2025-05-13 11:46:48', 'rejected', 20.00),
-(26, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:49', NULL, '2025-05-13 11:46:49', 'approved', 20.00),
-(27, 'Eyser', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', '2001-02-02', 24, 'Single', '12321321312', '12', 'wqeqwe', 'qweqwqweqwe', 'qweqweqweqw', 'qweqweqweqqwe', 'PICK UP', '2025-05-13 03:46:49', NULL, '2025-05-13 11:46:49', 'pending', 20.00),
-(28, 'tung', 'tung', 'sahur', 'imus', '2025-05-01', 1, 'Widowed', '09129012049', '12', 'astig', 'Maangas', 'Dito', 'Bangus', 'PICK UP', '2025-05-19 08:29:37', 7, '2025-05-19 16:29:37', 'pending', 20.00),
-(29, 'tung', 'tung', 'sahur', 'imus', '2025-05-01', 21, 'Widowed', '09129012049', '12', 'astig', 'Maangas', 'Dito', 'Bangus', 'PICK UP', '2025-05-20 02:23:20', 7, '2025-05-20 10:23:20', 'pending', 20.00),
-(30, 'tung', 'tung', 'sahur', 'imus', '2025-05-01', 21, 'Widowed', '09129012049', '12', 'enrollment', 'aicer1 john santiaguel', 'sa barangay bucandala i', 'utensil', 'PICK UP', '2025-05-20 02:23:38', 7, '2025-05-20 10:23:38', 'rejected', 20.00);
+(32, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '2006-02-08', 19, 'Single', '09561657974', '23', '123', 'James Earl Galvan Carza', 'Blk 2 lot 20 Mandarin coopville bayanan', '123', 'PICK UP', '2025-05-24 05:23:17', 3, '2025-05-24 13:23:17', 'approved', 20.00);
 
 -- --------------------------------------------------------
 
@@ -119,23 +102,6 @@ CREATE TABLE `barangay_id_requests` (
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `barangay_id_requests`
---
-
-INSERT INTO `barangay_id_requests` (`id`, `first_name`, `middle_name`, `last_name`, `address`, `contact_number`, `emergency_full_name`, `emergency_address`, `emergency_contact_number`, `date_of_birth`, `gov_id`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`, `cost`) VALUES
-(3, 'qweqweqwe', 'qweqwe', 'wqeqweqewq', 'ewqewqewqe', '', '', '', '', '0125-04-12', 'qweqweqwe', 'PICK UP', '2025-04-29 09:33:34', 1, '2025-05-13 11:48:47', 'pending', 20.00),
-(4, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'TIN ID', 'PICK UP', '2025-05-13 08:31:12', NULL, '2025-05-13 16:31:12', 'pending', 20.00),
-(5, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'TIN ID', 'PICK UP', '2025-05-14 00:58:56', NULL, '2025-05-14 08:58:56', 'pending', 20.00),
-(6, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'Postal ID', 'PICK UP', '2025-05-14 01:22:32', NULL, '2025-05-14 09:22:32', 'pending', 20.00),
-(7, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'PRC ID', 'PICK UP', '2025-05-14 01:35:34', NULL, '2025-05-14 09:35:34', 'pending', 20.00),
-(8, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'PRC ID', 'PICK UP', '2025-05-14 01:38:40', NULL, '2025-05-14 09:38:40', 'pending', 20.00),
-(9, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '', '', '', '', '2006-02-08', 'Philippine Passport', 'PICK UP', '2025-05-14 01:38:56', NULL, '2025-05-14 09:38:56', 'pending', 20.00),
-(10, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '09561657974', '', 'Blk 2 lot 20 Mandarin coopville bayanan', '', '2006-02-08', 'PRC ID', 'PICK UP', '2025-05-14 01:58:08', NULL, '2025-05-14 09:58:08', 'pending', 20.00),
-(11, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '09561657974', 'James Earl Galvan Carza', 'Blk 2 lot 20 Mandarin coopville bayanan', '09561657974', '2006-02-08', 'Driver’s License', 'PICK UP', '2025-05-14 02:01:21', NULL, '2025-05-14 10:01:21', 'approved', 20.00),
-(12, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '09561657974', 'asd', 'asd', 'asd', '2006-02-08', 'Driver’s License', 'PICK UP', '2025-05-14 02:05:41', NULL, '2025-05-14 10:05:41', 'rejected', 20.00),
-(13, 'tung', 'tung', 'sahur', 'imus', '09129012049', 'sir huele', 'sa barangay bucandala i', '09292933333', '2012-02-08', 'UMID', 'PICK UP', '2025-05-20 02:58:17', 7, '2025-05-20 10:58:17', 'pending', 20.00);
-
 -- --------------------------------------------------------
 
 --
@@ -156,15 +122,6 @@ CREATE TABLE `certificate_of_good_moral_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `certificate_of_good_moral_requests`
---
-
-INSERT INTO `certificate_of_good_moral_requests` (`id`, `full_name`, `age`, `civil_status`, `address`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'qweqwe', 21, 'qwe', 'qweqweqwe', 'qweqweqweqw', 'PICK UP', '2025-05-01 03:01:21', 'pending', 20.00, NULL),
-(2, 'qweqwe', 21, 'qwe', 'qweqweqwe', 'qweqweqweqw', 'PICK UP', '2025-05-01 03:01:22', 'pending', 20.00, NULL),
-(3, 'tung tung sahur', 13, 'Widowed', 'imus', 'enrollment', 'PICK UP', '2025-05-20 03:05:15', 'pending', 20.00, 7);
-
 -- --------------------------------------------------------
 
 --
@@ -177,6 +134,7 @@ CREATE TABLE `certificate_of_indigency_requests` (
   `middle_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `date_of_birth` date NOT NULL,
+  `age` int(11) NOT NULL,
   `civil_status` enum('single','married','widowed','divorced') NOT NULL,
   `occupation` varchar(100) NOT NULL,
   `monthly_income` decimal(10,2) NOT NULL,
@@ -192,18 +150,6 @@ CREATE TABLE `certificate_of_indigency_requests` (
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `certificate_of_indigency_requests`
---
-
-INSERT INTO `certificate_of_indigency_requests` (`id`, `first_name`, `middle_name`, `last_name`, `date_of_birth`, `civil_status`, `occupation`, `monthly_income`, `proof_of_residency`, `gov_id`, `spouse_name`, `number_of_dependents`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`, `cost`) VALUES
-(1, 'qwe', 'wqe', 'qwe', '1231-03-12', 'single', 'qwe', 2112.00, 'qwe', 'qweqwe', 'qeqwe', 12, 'PICK UP', '2025-04-24 10:26:46', NULL, '2025-05-13 12:00:08', 'rejected', 20.00),
-(3, 'Eyser', 'De Ocampo', 'Santiaguel', '2001-02-02', 'single', 'qweqweq', 99999999.99, 'qweqweqw', 'Barangay ID', 'qweqweqwe', 12, 'PICK UP', '2025-05-13 04:03:19', NULL, '2025-05-13 12:03:19', 'approved', 20.00),
-(4, 'Eyser', 'De Ocampo', 'Santiaguel', '2001-02-02', 'single', 'qweqwe', 1000.00, 'qweqwe', 'TIN ID', 'qweqwe', 1, 'PICK UP', '2025-05-13 04:04:16', NULL, '2025-05-13 12:04:16', 'pending', 20.00),
-(5, 'tung', 'tung', 'sahur', '2025-05-01', 'married', 'Maangas', 1000000.00, 'HOA', 'Philippine Passport', 'Bombardino Crocodilo', 1, 'PICK UP', '2025-05-20 02:17:21', NULL, '2025-05-20 10:17:21', 'pending', 20.00),
-(6, 'tung', 'tung', 'sahur', '2012-02-08', 'married', 'Maangas', 1000000.00, 'HOA', 'UMID', 'Bombardino Crocodilo', 1, 'PICK UP', '2025-05-20 02:59:42', NULL, '2025-05-20 10:59:42', 'pending', 20.00),
-(7, 'tung', 'tung', 'sahur', '2012-02-08', 'married', 'Maangas', 1000000.00, 'HOA', 'Postal ID', 'Bombardino Crocodilo', 1, 'PICK UP', '2025-05-20 03:01:32', 7, '2025-05-20 11:01:32', 'approved', 20.00);
-
 -- --------------------------------------------------------
 
 --
@@ -216,9 +162,9 @@ CREATE TABLE `certificate_of_residency_requests` (
   `middle_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `date_of_birth` date NOT NULL,
-  `gov_id` varchar(100) NOT NULL,
+  `age` int(11) DEFAULT NULL,
   `complete_address` varchar(255) NOT NULL,
-  `proof_of_residency` varchar(255) NOT NULL,
+  `civil_status` varchar(20) DEFAULT NULL,
   `purpose` varchar(255) NOT NULL,
   `shipping_method` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -227,16 +173,6 @@ CREATE TABLE `certificate_of_residency_requests` (
   `status` varchar(50) NOT NULL DEFAULT 'pending',
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `certificate_of_residency_requests`
---
-
-INSERT INTO `certificate_of_residency_requests` (`id`, `first_name`, `middle_name`, `last_name`, `date_of_birth`, `gov_id`, `complete_address`, `proof_of_residency`, `purpose`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`, `cost`) VALUES
-(1, 'qwe', 'qwe', 'qwe', '0000-00-00', 'qwe', 'qwe', 'qwe', 'qwe', 'PICK UP', '2025-04-24 10:34:45', NULL, '2025-05-13 12:01:16', 'pending', 20.00),
-(2, 'qweqas', 'asfasf', 'qwesa', '2025-05-02', 'asfas', 'qweq', 'asfa', 'zxc', 'asdqwe', '0000-00-00 00:00:00', 3, '2025-05-10 00:00:00', 'approved', 20.00),
-(3, 'tung', 'tung', 'sahur', '2025-05-01', 'Philippine Passport', 'imus', 'HOA', 'enrollment', 'PICK UP', '2025-05-20 02:19:36', 7, '2025-05-20 10:19:36', 'pending', 20.00),
-(4, 'tung', 'tung', 'sahur', '2012-02-08', 'Philippine Passport', 'imus', 'HOA', 'enrollment', 'PICK UP', '2025-05-20 02:58:57', 7, '2025-05-20 10:58:57', 'pending', 20.00);
 
 -- --------------------------------------------------------
 
@@ -258,14 +194,6 @@ CREATE TABLE `cohabitation_certification_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `cohabitation_certification_requests`
---
-
-INSERT INTO `cohabitation_certification_requests` (`id`, `partner1_name`, `partner2_name`, `shared_address`, `cohabitation_duration`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'qweqwewq', 'wqewqewqewq', 'wqeqweqw', 'wqeqwewqewq', 'eqewqe', 'PICK UP', '2025-05-01 03:04:26', 'pending', 20.00, NULL),
-(2, 'tung tung sahur', 'bombardino crocodilo', 'imus', '9', 'enrollment', 'PICK UP', '2025-05-20 02:45:08', 'pending', 20.00, 7);
-
 -- --------------------------------------------------------
 
 --
@@ -285,16 +213,6 @@ CREATE TABLE `construction_clearance_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `construction_clearance_requests`
---
-
-INSERT INTO `construction_clearance_requests` (`id`, `business_name`, `business_location`, `owner_name`, `owner_address`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'qweqwewqe', 'qweqweqeq', 'asdasdas', 'asdasd', 'PICK UP', '2025-05-01 03:05:18', 'pending', 20.00, NULL),
-(2, 'JabiJabi', 'Nueno', 'tung tung sahur', 'imus', 'PICK UP', '2025-05-20 02:37:53', 'pending', 20.00, NULL),
-(3, 'JabiJabi', 'Nueno', 'tung tung sahur', 'imus', 'PICK UP', '2025-05-20 02:39:15', 'pending', 20.00, 7),
-(4, 'JabiJabi', 'Nueno', 'tung tung sahur', 'imus', 'PICK UP', '2025-05-20 02:58:30', 'pending', 20.00, 7);
-
 -- --------------------------------------------------------
 
 --
@@ -311,23 +229,6 @@ CREATE TABLE `contact_inquiries` (
   `status` varchar(50) NOT NULL DEFAULT 'pending',
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `contact_inquiries`
---
-
-INSERT INTO `contact_inquiries` (`id`, `name`, `email`, `subject`, `message`, `created_at`, `status`, `user_id`) VALUES
-(1, 'qwe', 'qwe@gmail.com', 'qwe', 'qwe', '2025-04-29 03:45:53', 'pending', NULL),
-(2, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:46:46', 'pending', NULL),
-(3, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:48', 'pending', NULL),
-(4, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:48', 'pending', NULL),
-(5, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:48', 'pending', NULL),
-(6, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49', 'pending', NULL),
-(7, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49', 'pending', NULL),
-(8, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49', 'rejected', NULL),
-(9, 'aicer', 'aicersantiaguel@gmail.com', 'qwe', 'qweqweqweqw', '2025-04-29 03:48:49', 'pending', NULL),
-(10, 'aicer', 'aicersantiaguel@gmail.com', 'wrtrw', 'qweqweqweqw', '2025-04-29 03:48:49', 'approved', NULL),
-(13, 'qwe', 'qweqweqwe@gmail.com', 'qweqweqwe', 'qweqweqw', '2025-04-29 08:37:05', 'rejected', NULL);
 
 -- --------------------------------------------------------
 
@@ -375,14 +276,6 @@ CREATE TABLE `first_time_job_seeker_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `first_time_job_seeker_requests`
---
-
-INSERT INTO `first_time_job_seeker_requests` (`id`, `full_name`, `address`, `residency_length`, `oath_acknowledged`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'asdasdas', 'dasdasda', 'asdasda', 'Yes', 'PICK UP', '2025-05-01 03:06:28', 'pending', 0.00, NULL),
-(2, 'tung tung sahur', 'imus', '2 years', 'Yes', 'PICK UP', '2025-05-20 03:06:09', 'pending', 0.00, 7);
-
 -- --------------------------------------------------------
 
 --
@@ -409,16 +302,6 @@ CREATE TABLE `late_birth_registration_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `late_birth_registration_requests`
---
-
-INSERT INTO `late_birth_registration_requests` (`id`, `last_name`, `first_name`, `middle_name`, `address`, `marital_status`, `place_of_birth`, `date_of_birth`, `fathers_name`, `mothers_name`, `years_in_barangay`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'azcxzc', 'zxczxczx', 'zxczxczxczxcz', 'zxczxczxc', 'xzczxczxczxcz', 'xczxcxzc', '0124-03-12', 'zxczxczxczx', 'czxczxczx', 'zxczxczxcz', 'Late Registration of Birth Certificate', 'PICK UP', '2025-05-01 03:07:46', 'pending', 20.00, NULL),
-(2, 'sahur', 'tung', 'tung', 'imus', 'Widowed', 'kawit', '2025-05-01', 'prr prr patapim', 'assassino cappucino', '5', 'Late Registration of Birth Certificate', 'PICK UP', '2025-05-20 02:30:03', 'pending', 20.00, NULL),
-(3, 'sahur', 'tung', 'tung', 'imus', 'Widowed', 'kawit', '2012-02-08', 'prr prr patapim', 'assassino cappucino', '5', 'Late Registration of Birth Certificate', 'PICK UP', '2025-05-20 02:49:17', 'pending', 20.00, 7),
-(4, 'sahur', 'tung', 'tung', 'imus', 'Widowed', 'kawit', '2012-02-08', 'prr prr patapim', 'assassino cappucino', '5', 'enrollment', 'PICK UP', '2025-05-20 02:50:51', 'pending', 20.00, 7);
-
 -- --------------------------------------------------------
 
 --
@@ -436,14 +319,6 @@ CREATE TABLE `non_residency_certification_requests` (
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `non_residency_certification_requests`
---
-
-INSERT INTO `non_residency_certification_requests` (`id`, `full_name`, `previous_address`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'adsagf', 'asdasdasd', 'asdasdas', 'PICK UP', '2025-05-01 03:10:20', 'pending', 20.00, NULL),
-(2, 'tung tung sahur', 'Indang', 'Lilipat', 'PICK UP', '2025-05-20 02:51:40', 'pending', 20.00, 7);
 
 -- --------------------------------------------------------
 
@@ -466,14 +341,6 @@ CREATE TABLE `no_income_certification_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `no_income_certification_requests`
---
-
-INSERT INTO `no_income_certification_requests` (`id`, `full_name`, `date_of_birth`, `civil_status`, `address`, `no_income_statement`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'asffasda', '0000-00-00', 'asdasdasd', 'asdasdasd', 'asdasda', 'sdasdasda', 'PICK UP', '2025-05-01 03:09:07', 'pending', 20.00, NULL),
-(2, 'tung tung sahur', '2012-02-08', 'Widowed', 'imus', 'Kuryenteng Ubod ng mahal', 'Bayad bill huhu', 'PICK UP', '2025-05-20 02:47:47', 'pending', 20.00, 7);
-
 -- --------------------------------------------------------
 
 --
@@ -493,13 +360,35 @@ CREATE TABLE `out_of_school_youth_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `out_of_school_youth_requests`
+-- Table structure for table `password_resets`
 --
 
-INSERT INTO `out_of_school_youth_requests` (`id`, `full_name`, `address`, `citizenship`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'qweqweq', 'weqweqw', 'Filipino', 'qweqwe', 'PICK UP', '2025-05-01 03:11:14', 'pending', 20.00, NULL),
-(2, 'tung tung sahur', 'imus', 'Filipino', 'astig', 'PICK UP', '2025-05-20 02:55:06', 'pending', 20.00, 7);
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(100) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `user_id`, `token`, `expires_at`, `created_at`) VALUES
+(1, 1, '32cc35549feababe6bed2324fa8e77dd76376df51279d89322f4a4dd36c840a05dbc97560d8f882a1aac1de92d41b81fecc9', '2025-05-21 13:32:58', '2025-05-21 11:02:58'),
+(2, 1, '878d775c67fc1f8cbb9321513f8eb90c27e3b96620b0e247850cb5cd22dbced28ab11609dc817c66cb3b85e3e4f66cf3305d', '2025-05-21 13:33:01', '2025-05-21 11:03:01'),
+(3, 1, '935dcef99c9e9f709592a6bc356831a8a7226045945f30f80dcdae1d54c50aeba2eb923912da488a26801b88a462d7801296', '2025-05-21 13:33:03', '2025-05-21 11:03:03'),
+(4, 1, '1f79c892a588f1bcefbe0424a81be6de3d402f676f3c7bd5733a500616bc02788874161754221d007f67ad837e3ce7a5e8f7', '2025-05-21 13:33:05', '2025-05-21 11:03:05'),
+(5, 1, 'b8f2d02a8e9b420550681a152283dcd87b91d7def26c87286a7d183b359ff6f449819ffd550331783175f8f308dbcc566d64', '2025-05-21 13:33:30', '2025-05-21 11:03:30'),
+(6, 1, 'f286a25d19c922c2b863a7a996bbfe18552974aed44b26b4ad8025d97e09b43119f22090c45ce1486456a1fe78458cc2584d', '2025-05-21 13:33:31', '2025-05-21 11:03:31'),
+(7, 1, '15b344aa514ab782339b23cd544761b268c0c25219ce0b17c25466d53f0a603896a7c2e528241f25071c321de52d89dc6b71', '2025-05-21 13:33:32', '2025-05-21 11:03:32'),
+(8, 1, '2a202579789a5091c2bdad66731127930f4ada930b2a54eb50d8d3484efd213af26f350b6d5f1f3613db9dc691e2ef64b179', '2025-05-21 13:33:32', '2025-05-21 11:03:32'),
+(9, 1, '6c6eb8f8a14384d751ea29b85833e3e1735478fc79d5ccfe2b93fea26bf4baaf3c8e067020428cd993ad85f6c18cd51e4a9f', '2025-05-21 13:33:50', '2025-05-21 11:03:50'),
+(10, 1, '4c8973d1fbae05e0bda22b4cb0614635168c773a1414d5fce56fafe57132df9ee8daefddf3fef5610fefed5ffd8682330522', '2025-05-21 13:35:27', '2025-05-21 11:05:27');
 
 -- --------------------------------------------------------
 
@@ -521,14 +410,19 @@ CREATE TABLE `solo_parent_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `solo_parent_requests`
+-- Table structure for table `transactions`
 --
 
-INSERT INTO `solo_parent_requests` (`id`, `full_name`, `address`, `solo_since`, `child_count`, `children_names`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'qweqweqwe', 'wqeqwewq', '12312', 21, 'qweqweqwe', 'PICK UP', '2025-05-01 03:12:00', 'pending', 20.00, NULL),
-(2, 'qwe', 'qwe', '123', 12, 'qweqwe', 'PICK UP', '2025-05-01 05:07:23', 'pending', 20.00, NULL),
-(3, 'tung tung sahur', 'imus', '2000', 1, 'Agubajaji', 'PICK UP', '2025-05-20 02:57:01', 'pending', 20.00, 7);
+CREATE TABLE `transactions` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user` varchar(255) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` enum('pending','completed','failed') NOT NULL DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -550,14 +444,6 @@ CREATE TABLE `unemployment_certification_requests` (
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `unemployment_certification_requests`
---
-
-INSERT INTO `unemployment_certification_requests` (`id`, `full_name`, `age`, `birth_date`, `civil_status`, `address`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
-(1, 'qweqwewqe', 21, '0000-00-00', 'Single', 'qweqweqwe', 'qweqweq', 'PICK UP', '2025-05-01 03:13:13', 'pending', 20.00, NULL),
-(2, 'tung tung sahur', 13, '2012-02-08', 'Married', 'imus', 'enrollment', 'PICK UP', '2025-05-20 02:42:46', 'pending', 20.00, 7);
 
 -- --------------------------------------------------------
 
@@ -594,11 +480,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `middle_name`, `last_name`, `address`, `email`, `username`, `password`, `dob`, `gender`, `civil_status`, `government_id`, `id_number`, `emergency_contact_name`, `emergency_contact_number`, `profile_pic`, `dependents`, `status`, `created_at`, `updated_at`, `is_admin`) VALUES
-(1, 'Aicer John', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', 'aicersantiaguel@gmail.com', 'Eyser', '$2y$10$NMlnY01YT/GRqqbt8nm0GutOQpnP/QFzDFmYWidUJLCT.54MjXwsK', '2001-02-28', 'Male', 'Single', 'Philippine National ID', '123456', 'greys', '123123213', '', 'N/A', 'approved', '2025-05-13 04:31:05', '2025-05-14 20:48:22', 0),
-(3, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', 'qweqweqwe@gmail.com', 'Eyserr', '$2y$10$xGFyh.2rCocylTtwuS01..76DX.2IUGZfx6INu2esPPopt1bXGvbq', '2006-02-08', 'Male', 'Single', 'UMID', '123123213123', 'qweqwe', '123123312', 'n/a', 'qwe', 'approved', '2025-05-13 04:33:57', '2025-05-13 04:50:38', 1),
+(1, 'Aicer John', 'De Ocampo', 'Santiaguel', '48 Bucandala 1 City of Imus, Cavite', 'aicersantiaguel@gmail.com', 'Eyser', '$2y$10$NMlnY01YT/GRqqbt8nm0GutOQpnP/QFzDFmYWidUJLCT.54MjXwsK', '2001-02-28', 'Male', 'Single', 'Philippine National ID', '123456', 'greys', '123123213', '', 'N/A', 'approved', '2025-05-13 04:31:05', '2025-05-21 05:42:24', 1),
+(3, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', 'qweqweqwe@gmail.com', 'Eyserr', '$2y$10$xGFyh.2rCocylTtwuS01..76DX.2IUGZfx6INu2esPPopt1bXGvbq', '2006-02-08', 'Male', 'Single', 'UMID', '12123', 'qweqwe', '123', 'n/a', 'qwe', 'approved', '2025-05-13 04:33:57', '2025-05-21 05:42:24', 1),
 (5, 'qweqwe', 'qweqwe', 'qweqwe', 'qweqweqw', 'qweqweqqwewe@gmail.com', 'try', '$2y$10$PnqZXHdM8w.DCK/EjrGYmuYachRdZpj2XMKr2HoRqkVzY8Vk9ax1.', '2025-05-13', 'Male', 'Single', 'UMID', '123123', 'qwewqe', '12312312321', '', '', 'approved', '2025-05-13 05:07:34', '2025-05-13 05:15:46', 0),
 (6, 'ric', 'john', 'anuat', 'imus', 'ricjohnanuat@cvsu.edu.ph', 'ric111', '$2y$10$nUITv5vwJ9z4.eVzI82GquMXx8zOdqMB8U6aJ4yMdUwLz0In8iblK', '2025-05-01', 'Male', 'Single', 'Philippine National ID', '11111111111', 'sir huele', '09292933333', '', '', 'approved', '2025-05-15 08:33:17', '2025-05-18 02:10:47', 0),
-(7, 'tung', 'tung', 'sahur', 'imus', 'tungtungsahur@gmail.com', 'tungtungtung1', '$2y$10$.13oMzeHN4otGjCVYGHXWO97HDdkDrzillGPem.Nws4KEN16U4c82', '2012-02-08', 'Female', 'Widowed', 'Philippine National ID', '11111111111', 'sir huele', '09292933333', 'tung-tung-sahur-meme-2.avif', '', 'approved', '2025-05-18 03:02:14', '2025-05-20 02:42:19', 0);
+(7, 'tung', 'tung', 'sahur', 'imus', 'tungtungsahur@gmail.com', 'tungtungtung1', '$2y$10$.13oMzeHN4otGjCVYGHXWO97HDdkDrzillGPem.Nws4KEN16U4c82', '2012-02-08', 'Female', 'Widowed', 'Philippine National ID', '11111111111', 'sir huele', '09292933333', 'tung-tung-sahur-meme-2.avif', '', 'approved', '2025-05-18 03:02:14', '2025-05-21 05:57:24', 0),
+(8, 'Aicer John', 'De Ocampo', 'Santiaguel', 'BUCANDALA 1', 'aicersantiaguell@gmail.com', 'Eyserrr', '$2y$10$1rCm6HUpzucmfQhYUXfKJOBCh8E1VmB4edQWW8TvaXL7ZuUZQhjJe', '2001-02-28', 'Male', 'Single', 'Driver’s License', '123123123', 'qweqwe', '123123123', '', 'qweqwe', 'approved', '2025-05-20 07:38:16', '2025-05-21 05:40:33', 0),
+(9, '123', '123', '123', '123', '123@123', '123', '$2y$10$e7SspkDAVvRfpOc0rR0khO4Bf2tp7feZMEyi30XIxWQG8Xjf11AJa', '2025-04-30', 'Male', 'Married', 'UMID', '123123', '123123', '123123', '', '123', 'approved', '2025-05-21 06:22:30', '2025-05-21 06:22:55', 0);
 
 --
 -- Indexes for dumped tables
@@ -695,9 +583,22 @@ ALTER TABLE `out_of_school_youth_requests`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `solo_parent_requests`
 --
 ALTER TABLE `solo_parent_requests`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `transactions`
+--
+ALTER TABLE `transactions`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -722,109 +623,131 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `baptismal_certification_requests`
 --
 ALTER TABLE `baptismal_certification_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `barangay_clearance`
 --
 ALTER TABLE `barangay_clearance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `barangay_id_requests`
 --
 ALTER TABLE `barangay_id_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `certificate_of_good_moral_requests`
 --
 ALTER TABLE `certificate_of_good_moral_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `certificate_of_indigency_requests`
 --
 ALTER TABLE `certificate_of_indigency_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `certificate_of_residency_requests`
 --
 ALTER TABLE `certificate_of_residency_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `cohabitation_certification_requests`
 --
 ALTER TABLE `cohabitation_certification_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `construction_clearance_requests`
 --
 ALTER TABLE `construction_clearance_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `contact_inquiries`
 --
 ALTER TABLE `contact_inquiries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `faqs`
 --
 ALTER TABLE `faqs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `first_time_job_seeker_requests`
 --
 ALTER TABLE `first_time_job_seeker_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `late_birth_registration_requests`
 --
 ALTER TABLE `late_birth_registration_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `non_residency_certification_requests`
 --
 ALTER TABLE `non_residency_certification_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `no_income_certification_requests`
 --
 ALTER TABLE `no_income_certification_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `out_of_school_youth_requests`
 --
 ALTER TABLE `out_of_school_youth_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `solo_parent_requests`
 --
 ALTER TABLE `solo_parent_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `transactions`
+--
+ALTER TABLE `transactions`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `unemployment_certification_requests`
 --
 ALTER TABLE `unemployment_certification_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD CONSTRAINT `password_resets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
