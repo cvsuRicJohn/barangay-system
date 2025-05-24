@@ -332,7 +332,7 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
       <a href="#" data-target="solo_parent_requests">Solo Parent <span class="badge badge-info"><?= $counts['solo_parent_requests'] ?></span></a>
     <a href="#" data-target="unemployment_certification_requests">Unemployment Certification <span class="badge badge-secondary"><?= $counts['unemployment_certification_requests'] ?></span></a>
     <a href="#" data-target="transactions">Transaction Records <span class="badge badge-info"><?= $counts['transactions'] ?? 0 ?></span></a>
-    <a href="?action=backup" onclick="return confirm('Are you sure you want to create a backup of the database?');"><span><i class="fas fa-database"></i> Backup Database</span></a>
+
   </nav>
   <button id="logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location='?action=logout';" aria-label="Logout from admin panel">Logout <i class="fas fa-sign-out-alt"></i></button>
   </aside>
@@ -342,6 +342,11 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
 <button class="modern-btn" onclick="window.location.href='chatbot-main/index.php'">
   Go to Homepage
 </button>
+<a href="backup_database.php" 
+   onclick="return confirm('Are you sure you want to create a backup of the database?');" 
+   class="btn btn-primary">
+   Backup Database
+</a>
   <section id="dashboard" class="tab-content-section active" aria-labelledby="dashboard-header">
   <h3 id="dashboard-header" class="page-title">Dashboard Overview</h3>
 
