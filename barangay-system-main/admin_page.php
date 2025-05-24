@@ -856,6 +856,11 @@ foreach ($columns as $key => $colHeader) {
         echo '<td class="action-btns">';
 echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'&tab='.$entityEsc.'" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a> ';
         echo '<a href="admin_page.php?view='.$entityEsc.'&id='.$idEsc.'" class="btn btn-sm btn-primary" title="View"><i class="fas fa-eye"></i></a> ';
+        if ($entityKey === 'barangay_clearance') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate_clearance.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Clearance Document" target="_blank"><i class="fas fa-file-word"></i> Generate Clearance</a> ';
+    }
+}
         if (in_array($entityKey, [
             'certificate_of_indigency_requests',
             'users',
