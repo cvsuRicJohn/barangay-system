@@ -216,7 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am–5pm)</option>
             </select>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-2">
                     <label>Cost</label>
                     <input type="text" class="form-control" readonly value="₱20.00">
                 </div>

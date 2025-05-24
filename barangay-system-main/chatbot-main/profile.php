@@ -42,16 +42,24 @@ try {
     </div>
 <div class="container mt-5">
     <!-- Profile Card -->
-    <div class="profile-card">
-        <div class="d-flex justify-content-between align-items-center profile-header">
-            <div class="d-flex align-items-center gap-3">
-                <img src="<?= !empty($user['profile_pic']) ? 'uploads/' . htmlspecialchars($user['profile_pic']) : 'image/default-avatar.png'; ?>" class="profile-img" alt="Profile Picture">
-                <div>
-                    <h5 class="mb-1"><?= htmlspecialchars($user['first_name'] . ' ' . ($user['middle_name'] ?? '') . ' ' . $user['last_name']) ?></h5>
-                    <div class="text-muted"><?= htmlspecialchars($user['role'] ?? 'User') ?></div>
-                    <div class="text-muted small"><?= htmlspecialchars($user['address']) ?></div>
-                </div>
+<?php
+$profilePic = !empty($user['profile_pic']) && file_exists('uploads/' . $user['profile_pic'])
+    ? 'uploads/' . htmlspecialchars($user['profile_pic'])
+    : 'image/default_profile.jpg';
+?>
+
+<div class="profile-card">
+    <div class="d-flex justify-content-between align-items-center profile-header">
+        <div class="d-flex align-items-center gap-3">
+            <img src="<?= $profilePic ?>" class="profile-img" alt="Profile Picture">
+            <div>
+                <h5 class="mb-1"><?= htmlspecialchars($user['first_name'] . ' ' . ($user['middle_name'] ?? '') . ' ' . $user['last_name']) ?></h5>
+                <div class="text-muted"><?= htmlspecialchars($user['role'] ?? 'User') ?></div>
+                <div class="text-muted small"><?= htmlspecialchars($user['address']) ?></div>
             </div>
+        </div>
+
+
             <div class="text-end">
                 <a href="edit_profile.php" class="btn btn-outline-secondary btn-sm edit-btn">✏️ Edit</a>
             </div>

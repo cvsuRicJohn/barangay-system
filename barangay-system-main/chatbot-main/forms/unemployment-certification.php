@@ -207,11 +207,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <form method="POST" action="unemployment-certification.php" id="unemployedForm">
     <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4">
             <label>Full Name *</label>
             <input type="text" name="full_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['full_name'] ?? ($user_data ? trim($user_data['first_name'] . ' ' . ($user_data['middle_name'] ?? '') . ' ' . $user_data['last_name']) : '')); ?>">
         </div>
-        <div class="form-group col-md-3">
+
+        <div class="form-group col-md-4">
+            <label>Address *</label>
+            <input type="text" name="address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
+        </div>
+
+                <div class="form-group col-md-2">
+            <label>Date of Birth *</label>
+            <?php
+                $dob_value = $_POST['birth_date'] ?? ($user_data['dob'] ?? '');
+            ?>
+            <input type="date" name="birth_date" class="form-control" required readonly value="<?php echo htmlspecialchars($dob_value); ?>">
+        </div>
+
+        <div class="form-group col-md-2">
             <label>Age *</label>
             <?php
                 $age_value = '';
@@ -225,14 +239,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ?>
             <input type="number" name="age" class="form-control" required readonly value="<?php echo htmlspecialchars($age_value); ?>">
         </div>
-        <div class="form-group col-md-3">
-            <label>Date of Birth *</label>
-            <?php
-                $dob_value = $_POST['birth_date'] ?? ($user_data['dob'] ?? '');
-            ?>
-            <input type="date" name="birth_date" class="form-control" required readonly value="<?php echo htmlspecialchars($dob_value); ?>">
-        </div>
-        <div class="form-group col-md-6">
+
+        <div class="form-group col-md-2">
             <label>Civil Status *</label>
             <select name="civil_status" class="form-control" required>
                 <option value="">-- Select --</option>
@@ -242,11 +250,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="Widow/Widower" <?php echo (($_POST['civil_status'] ?? '') === 'Widow/Widower') ? 'selected' : ''; ?>>Widow/Widower</option>
             </select>
         </div>
+
         <div class="form-group col-md-6">
-            <label>Address *</label>
-            <input type="text" name="address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
-        </div>
-        <div class="form-group col-md-12">
             <label>Purpose of Certification *</label>
             <input type="text" name="purpose" class="form-control" required value="<?php echo htmlspecialchars($_POST['purpose'] ?? ''); ?>">
         </div>
@@ -256,7 +261,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am–5pm)</option>
         </select>
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-2">
         <label>Cost</label>
         <input type="text" class="form-control" readonly value="₱20.00">
     </div>

@@ -49,9 +49,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $spouse_name = trim($_POST['spouse_name'] ?? '');
     $number_of_dependents = trim($_POST['number_of_dependents'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
-    $cost = 20; // fixed cost for all except first-time job seeker
+    $cost = 20; // fixed cost
 
-    // Prevent double submission on page refresh by redirecting after successful POST
+    // Calculate age server-side
+    function calculate_age($dob) {
+        $dob_ts = strtotime($dob);
+        if (!$dob_ts) return null;
+        $today = new DateTime();
+        $birthdate = new DateTime(date('Y-m-d', $dob_ts));
+        $age = $today->diff($birthdate)->y;
+        return $age;
+    }
+    $age = calculate_age($date_of_birth);
+
+    // Validate required fields (age optional, but you can check if needed)
     if (
         empty($first_name) || empty($middle_name) || empty($last_name) || empty($date_of_birth) ||
         empty($civil_status) || empty($occupation) || empty($monthly_income) || empty($proof_of_residency) ||
@@ -67,10 +78,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($hasUserId) {
                 $stmt = $pdo->prepare("INSERT INTO certificate_of_indigency_requests 
-                    (first_name, middle_name, last_name, date_of_birth, civil_status, occupation, monthly_income, proof_of_residency, gov_id, spouse_name, number_of_dependents, shipping_method, cost, user_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    (first_name, middle_name, last_name, date_of_birth, age, civil_status, occupation, monthly_income, proof_of_residency, gov_id, spouse_name, number_of_dependents, shipping_method, cost, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
-                    $first_name, $middle_name, $last_name, $date_of_birth, $civil_status, $occupation, $monthly_income, $proof_of_residency, $gov_id, $spouse_name, $number_of_dependents, $shipping_method, $cost, $_SESSION['user_id']
+                    $first_name, $middle_name, $last_name, $date_of_birth, $age, $civil_status, $occupation, $monthly_income, $proof_of_residency, $gov_id, $spouse_name, $number_of_dependents, $shipping_method, $cost, $_SESSION['user_id']
                 ]);
             }
             // Redirect to avoid form resubmission on refresh
@@ -199,25 +210,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <form method="POST" action="certificate-of-indigency.php" id="myForm">
     <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label>First Name *</label>
             <input type="text" name="first_name" class="form-control" required readonly value="<?php echo $success_message ? '' : htmlspecialchars($_POST['first_name'] ?? ($user_data['first_name'] ?? '')); ?>">
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label>Middle Name *</label>
             <input type="text" name="middle_name" class="form-control" required readonly value="<?php echo $success_message ? '' : htmlspecialchars($_POST['middle_name'] ?? ($user_data['middle_name'] ?? '')); ?>">
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label>Last Name *</label>
             <input type="text" name="last_name" class="form-control" required readonly value="<?php echo $success_message ? '' : htmlspecialchars($_POST['last_name'] ?? ($user_data['last_name'] ?? '')); ?>">
         </div>
 
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-2">
             <label>Date of Birth *</label>
-            <input type="date" name="date_of_birth" class="form-control" required readonly value="<?php echo $success_message ? '' : htmlspecialchars($_POST['date_of_birth'] ?? ($user_data['dob'] ?? '')); ?>">
+            <input type="date" id="dob" name="date_of_birth" class="form-control" required readonly
+                value="<?php echo $success_message ? '' : htmlspecialchars($_POST['date_of_birth'] ?? ($user_data['dob'] ?? '')); ?>">
         </div>
 
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-1">
+            <label>Age</label>
+            <input type="text" id="age" name="age" class="form-control" readonly
+                value="<?php echo $success_message ? '' : (isset($_POST['age']) ? htmlspecialchars($_POST['age']) : ''); ?>">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Complete Address *</label>
+            <input type="text" name="complete_address" class="form-control" required readonly value="<?php echo $success_message ? '' : htmlspecialchars($_POST['complete_address'] ?? ($user_data['address'] ?? '')); ?>">
+        </div>
+        
+        <div class="form-group col-md-2">
             <label>Civil Status *</label>
             <select name="civil_status" class="form-control" required>
                 <option value="">Select</option>
@@ -228,12 +251,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </select>
         </div>
 
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-3">
             <label>Occupation *</label>
             <input type="text" name="occupation" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['occupation'] ?? ''); ?>">
         </div>
 
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-3">
             <label>Monthly Income *</label>
             <input type="number" step="0.01" name="monthly_income" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['monthly_income'] ?? ''); ?>">
         </div>
@@ -265,7 +288,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" name="spouse_name" class="form-control" value="<?php echo $success_message ? '' : htmlspecialchars($_POST['spouse_name'] ?? ''); ?>">
         </div>
 
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-2">
             <label>Number of Dependents *</label>
             <input type="number" name="number_of_dependents" class="form-control" required value="<?php echo $success_message ? '' : htmlspecialchars($_POST['number_of_dependents'] ?? ''); ?>">
         </div>
@@ -276,7 +299,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="PICK UP" <?php if ($success_message) echo 'selected'; ?>>PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-1">
                     <label>Cost</label>
                     <input type="text" class="form-control" readonly value="₱20.00">
                 </div>
