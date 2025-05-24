@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $usernameReg = trim($_POST['usernameReg']);
     $passwordReg = trim($_POST['passwordReg']);
     $confirmPassword = trim($_POST['confirmPassword']);
-    $dob = trim($_POST['dob']);
+    $dob = trim(string: $_POST['dob']);
     $gender = trim($_POST['gender']);
     $civilStatus = trim($_POST['civilStatus']);
     $governmentId = trim($_POST['governmentId']);

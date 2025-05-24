@@ -860,6 +860,68 @@ echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'&tab='.$entityEsc.'" 
     if (strtolower($row['status']) === 'approved') {
         echo '<a href="generate_clearance.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Clearance Document" target="_blank"><i class="fas fa-file-word"></i> Generate Clearance</a> ';
     }
+    
+}
+        if ($entityKey === 'out_of_school_youth_requests') {
+        echo '<a href="generate_school_youth.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate School Youth Document" target="_blank"><i class="fas fa-file-word"></i> Generate School Youth</a> ';
+}
+        if ($entityKey === 'certificate_of_residency_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate-residency.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Residency Document" target="_blank"><i class="fas fa-file-word"></i> Generate Residency</a> ';
+    }
+}
+        if ($entityKey === 'certificate_of_indigency_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate-indigency.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Indigency Document" target="_blank"><i class="fas fa-file-word"></i> Generate Indigency</a> ';
+    }
+}
+        if ($entityKey === 'certificate_of_good_moral_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate-good-moral.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Good Moral Document" target="_blank"><i class="fas fa-file-word"></i> Generate Good Moral</a> ';
+    }
+}
+        if ($entityKey === 'baptismal_certification_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate_baptismal.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Baptismal Certification Document" target="_blank"><i class="fas fa-file-word"></i> Generate Baptismal Certification</a> ';
+    }
+}
+        if ($entityKey === 'first_time_job_seeker_requests') {
+        echo '<a href="generate-first-time-job.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate First Time Job Seeker Document" target="_blank"><i class="fas fa-file-word"></i> Generate First Time Job Seeker</a> ';
+}
+        if ($entityKey === 'construction_clearance_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate_construction.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Construction Clearance Document" target="_blank"><i class="fas fa-file-word"></i> Generate Construction Clearance</a> ';
+    }
+}
+        if ($entityKey === 'cohabitation_certification_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate_cohabilation.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Cohabitation Certification Document" target="_blank"><i class="fas fa-file-word"></i> Generate Cohabitation</a> ';
+    }
+}
+        if ($entityKey === 'solo_parent_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate-solo-parent.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Solo Parent Document" target="_blank"><i class="fas fa-file-word"></i> Generate Solo Parent</a> ';
+    }
+}
+        if ($entityKey === 'non_residency_certification_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate_non-residency.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Non Residency Document" target="_blank"><i class="fas fa-file-word"></i> Generate Non Residency</a> ';
+    }
+}
+        if ($entityKey === 'unemployment_certification_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate_unemployed.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Unemployment Certification Document" target="_blank"><i class="fas fa-file-word"></i> Generate Unemployment Certification</a> ';
+    }
+}
+        if ($entityKey === 'no_income_certification_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate_no_income.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate No Income Certification Document" target="_blank"><i class="fas fa-file-word"></i> Generate No Income Certification</a> ';
+    }
+}
+        if ($entityKey === 'late_birth_registration_requests') {
+    if (strtolower($row['status']) === 'approved') {
+        echo '<a href="generate_late_registration.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Late Birth Registration Document" target="_blank"><i class="fas fa-file-word"></i> Generate Late Birth Registration</a> ';
+    }
 }
         if (in_array($entityKey, [
             'certificate_of_indigency_requests',

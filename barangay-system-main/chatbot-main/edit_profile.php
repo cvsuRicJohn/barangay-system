@@ -13,8 +13,10 @@ $password = "";
 $dbname = "barangay_db";
 
 try {
+    
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
 
     // Fetch user data
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
