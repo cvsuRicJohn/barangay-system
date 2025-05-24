@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2025 at 09:19 AM
+-- Generation Time: May 24, 2025 at 01:17 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -74,7 +74,7 @@ CREATE TABLE `barangay_clearance` (
 --
 
 INSERT INTO `barangay_clearance` (`id`, `first_name`, `middle_name`, `last_name`, `complete_address`, `birth_date`, `age`, `civil_status`, `mobile_number`, `years_of_stay`, `purpose`, `student_patient_name`, `student_patient_address`, `relationship`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`, `cost`) VALUES
-(32, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '2006-02-08', 19, 'Single', '09561657974', '23', '123', 'James Earl Galvan Carza', 'Blk 2 lot 20 Mandarin coopville bayanan', '123', 'PICK UP', '2025-05-24 05:23:17', 3, '2025-05-24 13:23:17', 'approved', 20.00);
+(36, 'Aicer John', 'De Ocampo', 'Santiaguel', '41 Bucandala 1 City of Imus, Cavite', '2006-02-08', 19, 'Single', '12312312312', '123123', 'qweqwe', 'qweqwe', 'qweqwe', 'qweqwew', 'PICK UP', '2025-05-24 07:49:47', 3, '2025-05-24 15:49:47', 'approved', 20.00);
 
 -- --------------------------------------------------------
 
@@ -122,6 +122,13 @@ CREATE TABLE `certificate_of_good_moral_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `certificate_of_good_moral_requests`
+--
+
+INSERT INTO `certificate_of_good_moral_requests` (`id`, `full_name`, `age`, `civil_status`, `address`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
+(5, 'Aicer John De Ocampo Santiaguel', 19, 'Single', '41 Bucandala 1 City of Imus, Cavite', 'qwe', 'PICK UP', '2025-05-24 11:14:04', 'pending', 20.00, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -143,12 +150,20 @@ CREATE TABLE `certificate_of_indigency_requests` (
   `spouse_name` varchar(100) DEFAULT NULL,
   `number_of_dependents` int(11) NOT NULL,
   `shipping_method` varchar(50) NOT NULL,
+  `complete_address` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) DEFAULT NULL,
   `submitted_at` datetime DEFAULT current_timestamp(),
   `status` varchar(50) NOT NULL DEFAULT 'pending',
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `certificate_of_indigency_requests`
+--
+
+INSERT INTO `certificate_of_indigency_requests` (`id`, `first_name`, `middle_name`, `last_name`, `date_of_birth`, `age`, `civil_status`, `occupation`, `monthly_income`, `proof_of_residency`, `gov_id`, `spouse_name`, `number_of_dependents`, `shipping_method`, `complete_address`, `created_at`, `user_id`, `submitted_at`, `status`, `cost`) VALUES
+(12, 'Aicer John', 'De Ocampo', 'Santiaguel', '2006-02-08', 19, 'single', 'qweqwe', 12.00, 'qweqwe', 'PhilHealth ID', 'qweqwe', 21, 'PICK UP', '41 Bucandala 1 City of Imus, Cavite', '2025-05-24 11:05:07', 3, '2025-05-24 19:05:07', 'pending', 20.00);
 
 -- --------------------------------------------------------
 
@@ -173,6 +188,13 @@ CREATE TABLE `certificate_of_residency_requests` (
   `status` varchar(50) NOT NULL DEFAULT 'pending',
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `certificate_of_residency_requests`
+--
+
+INSERT INTO `certificate_of_residency_requests` (`id`, `first_name`, `middle_name`, `last_name`, `date_of_birth`, `age`, `complete_address`, `civil_status`, `purpose`, `shipping_method`, `created_at`, `user_id`, `submitted_at`, `status`, `cost`) VALUES
+(7, 'Aicer John', 'De Ocampo', 'Santiaguel', '2006-02-08', 19, '41 Bucandala 1 City of Imus, Cavite', 'Single', 'qweqwe', 'PICK UP', '2025-05-24 07:52:24', 3, '2025-05-24 15:52:24', 'approved', 20.00);
 
 -- --------------------------------------------------------
 
@@ -291,6 +313,7 @@ CREATE TABLE `late_birth_registration_requests` (
   `marital_status` varchar(100) NOT NULL,
   `place_of_birth` varchar(255) NOT NULL,
   `date_of_birth` date NOT NULL,
+  `age` int(11) DEFAULT NULL,
   `fathers_name` varchar(255) NOT NULL,
   `mothers_name` varchar(255) NOT NULL,
   `years_in_barangay` varchar(100) NOT NULL,
@@ -301,6 +324,14 @@ CREATE TABLE `late_birth_registration_requests` (
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `late_birth_registration_requests`
+--
+
+INSERT INTO `late_birth_registration_requests` (`id`, `last_name`, `first_name`, `middle_name`, `address`, `marital_status`, `place_of_birth`, `date_of_birth`, `age`, `fathers_name`, `mothers_name`, `years_in_barangay`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
+(7, 'Santiaguel', 'Aicer John', 'De Ocampo', '41 Bucandala 1 City of Imus, Cavite', 'Single', 'qweqweqe', '2006-02-08', 19, 'qweqwe', 'qweqwe', '12', 'Late Registration of Birth Certificate', 'PICK UP', '2025-05-24 10:45:45', 'approved', 20.00, 3),
+(8, 'Santiaguel', 'Aicer John', 'De Ocampo', '41 Bucandala 1 City of Imus, Cavite', 'Single', 'qweqwe', '2006-02-08', 19, 'qweqwe', 'qweqwe', '12', 'Late Registration of Birth Certificate', 'PICK UP', '2025-05-24 10:49:08', 'approved', 20.00, 3);
 
 -- --------------------------------------------------------
 
@@ -341,6 +372,13 @@ CREATE TABLE `no_income_certification_requests` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `no_income_certification_requests`
+--
+
+INSERT INTO `no_income_certification_requests` (`id`, `full_name`, `date_of_birth`, `civil_status`, `address`, `no_income_statement`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
+(4, 'Aicer John De Ocampo Santiaguel', '2006-02-08', 'Single', '41 Bucandala 1 City of Imus, Cavite', 'qweqwe', 'qweqwe', 'PICK UP', '2025-05-24 07:57:02', 'approved', 20.00, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -359,6 +397,13 @@ CREATE TABLE `out_of_school_youth_requests` (
   `cost` decimal(10,2) NOT NULL DEFAULT 20.00,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `out_of_school_youth_requests`
+--
+
+INSERT INTO `out_of_school_youth_requests` (`id`, `full_name`, `address`, `citizenship`, `purpose`, `shipping_method`, `submitted_at`, `status`, `cost`, `user_id`) VALUES
+(4, 'Aicer John De Ocampo Santiaguel', '41 Bucandala 1 City of Imus, Cavite', 'Filipino', 'qweqwe', 'PICK UP', '2025-05-24 10:50:32', 'approved', 20.00, 3);
 
 -- --------------------------------------------------------
 
@@ -423,6 +468,22 @@ CREATE TABLE `transactions` (
   `date` datetime NOT NULL DEFAULT current_timestamp(),
   `status` enum('pending','completed','failed') NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`id`, `user`, `amount`, `date`, `status`) VALUES
+(29, 'Aicer John Santiaguel', 20.00, '2025-05-24 15:49:53', 'completed'),
+(30, 'Aicer John Santiaguel', 20.00, '2025-05-24 15:52:36', 'completed'),
+(31, 'Aicer John De Ocampo Santiaguel', 20.00, '2025-05-24 15:57:16', 'completed'),
+(32, 'Aicer John Santiaguel', 20.00, '2025-05-24 16:33:34', 'completed'),
+(33, 'Aicer John Santiaguel', 20.00, '2025-05-24 16:40:26', 'completed'),
+(34, 'Aicer John Santiaguel', 20.00, '2025-05-24 18:28:33', 'completed'),
+(35, 'Aicer John Santiaguel', 20.00, '2025-05-24 18:45:51', 'completed'),
+(36, 'Aicer John Santiaguel', 20.00, '2025-05-24 18:49:14', 'completed'),
+(37, 'Aicer John De Ocampo Santiaguel', 20.00, '2025-05-24 19:12:19', 'completed'),
+(38, 'Aicer John De Ocampo Santiaguel', 20.00, '2025-05-24 19:14:09', 'completed');
 
 -- --------------------------------------------------------
 
@@ -629,7 +690,7 @@ ALTER TABLE `baptismal_certification_requests`
 -- AUTO_INCREMENT for table `barangay_clearance`
 --
 ALTER TABLE `barangay_clearance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `barangay_id_requests`
@@ -641,19 +702,19 @@ ALTER TABLE `barangay_id_requests`
 -- AUTO_INCREMENT for table `certificate_of_good_moral_requests`
 --
 ALTER TABLE `certificate_of_good_moral_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `certificate_of_indigency_requests`
 --
 ALTER TABLE `certificate_of_indigency_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `certificate_of_residency_requests`
 --
 ALTER TABLE `certificate_of_residency_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `cohabitation_certification_requests`
@@ -689,7 +750,7 @@ ALTER TABLE `first_time_job_seeker_requests`
 -- AUTO_INCREMENT for table `late_birth_registration_requests`
 --
 ALTER TABLE `late_birth_registration_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `non_residency_certification_requests`
@@ -701,13 +762,13 @@ ALTER TABLE `non_residency_certification_requests`
 -- AUTO_INCREMENT for table `no_income_certification_requests`
 --
 ALTER TABLE `no_income_certification_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `out_of_school_youth_requests`
 --
 ALTER TABLE `out_of_school_youth_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `password_resets`
@@ -725,7 +786,7 @@ ALTER TABLE `solo_parent_requests`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `unemployment_certification_requests`

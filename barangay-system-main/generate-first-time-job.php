@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 $id = $_GET['id'] ?? 1;
 
-$sql = "SELECT full_name, address, age, residency_length, oath_acknowledged, shipping_method, submitted_at 
+$sql = "SELECT full_name, address, residency_length, oath_acknowledged, shipping_method, submitted_at 
         FROM first_time_job_seeker_requests WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
@@ -24,8 +24,14 @@ if ($data) {
     // Load Word template
     $template = new TemplateProcessor('first-time-job-template.docx');
 
+    // Format date
+    $dateIssuedFormatted = date('F j, Y', strtotime($data['submitted_at']));
+
     // Replace placeholders
     $template->setValue('full_name', htmlspecialchars($data['full_name']));
+    $template->setValue('address', htmlspecialchars($data['address']));
+    $template->setValue('residency_length', htmlspecialchars($data['residency_length']));
+    $template->setValue('date_issued', htmlspecialchars($dateIssuedFormatted));
 
     // Save and download the file
     $filename = 'First_Time_Job_Seeker_Certificate_' . $id . '.docx';
