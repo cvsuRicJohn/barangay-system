@@ -41,29 +41,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $middle_name = trim($_POST['middle_name'] ?? '');
     $last_name = trim($_POST['last_name'] ?? '');
     $date_of_birth = trim($_POST['date_of_birth'] ?? '');
-    $gov_id = trim($_POST['gov_id'] ?? '');
     $complete_address = trim($_POST['complete_address'] ?? '');
-    $proof_of_residency = trim($_POST['proof_of_residency'] ?? '');
+    $civil_status = trim($_POST['civil_status'] ?? '');
     $purpose = trim($_POST['purpose'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
-    $cost = 20; // fixed cost for all except first-time job seeker
+    $cost = 20; // Fixed cost
+    $user_id = $_SESSION['user_id'] ?? null;
 
-    // Prevent double submission on page refresh by redirecting after successful POST
+    // Calculate age from date of birth
+    $age = '';
+    if (!empty($date_of_birth)) {
+        $dob = new DateTime($date_of_birth);
+        $today = new DateTime('today');
+        $age = $dob->diff($today)->y;
+    }
+
+    // Check required fields
     if (
-        empty($first_name) || empty($middle_name) || empty($last_name) || empty($date_of_birth) ||
-        empty($gov_id) || empty($complete_address) || empty($proof_of_residency) || empty($purpose) ||
-        empty($shipping_method)
+        empty($first_name) || empty($middle_name) || empty($last_name) ||
+        empty($date_of_birth) || empty($complete_address) || empty($civil_status) ||
+        empty($purpose) || empty($shipping_method)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO certificate_of_residency_requests 
-                (first_name, middle_name, last_name, date_of_birth, gov_id, complete_address, proof_of_residency, purpose, shipping_method, cost, user_id)
+                (first_name, middle_name, last_name, date_of_birth, age, complete_address, civil_status, purpose, shipping_method, cost, user_id)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
-                $first_name, $middle_name, $last_name, $date_of_birth, $gov_id, $complete_address, $proof_of_residency, $purpose, $shipping_method, $cost, $_SESSION['user_id']
+                $first_name,
+                $middle_name,
+                $last_name,
+                $date_of_birth,
+                $age,
+                $complete_address,
+                $civil_status,
+                $purpose,
+                $shipping_method,
+                $cost,
+                $user_id
             ]);
-            // Redirect to avoid form resubmission on refresh
+
+            // Redirect to avoid form resubmission
             header("Location: certificate-of-residency.php?success=1");
             exit();
         } catch (PDOException $e) {
@@ -186,49 +205,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form method="POST" action="certificate-of-residency.php" id="myForm">
             <div class="form-row">
-                <div class="form-group col-md-4">
+                <!-- Name fields -->
+                <div class="form-group col-md-3">
                     <label>First Name *</label>
                     <input type="text" name="first_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['first_name'] ?? $user['first_name'] ?? ''); ?>">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label>Middle Name *</label>
                     <input type="text" name="middle_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['middle_name'] ?? $user['middle_name'] ?? ''); ?>">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label>Last Name *</label>
                     <input type="text" name="last_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['last_name'] ?? $user['last_name'] ?? ''); ?>">
                 </div>
 
-                <div class="form-group col-md-6">
+                <!-- DOB and Auto Age -->
+                <div class="form-group col-md-2">
                     <label>Date of Birth *</label>
-                    <input type="date" name="date_of_birth" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? $user['dob'] ?? ''); ?>">
+                    <input type="date" id="dob" name="date_of_birth" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? $user['dob'] ?? ''); ?>">
                 </div>
-                <div class="form-group col-md-6">
-                    <label>Government-issued ID *</label>
-                    <input type="text" name="gov_id" class="form-control" required value="<?php echo htmlspecialchars($_POST['gov_id'] ?? ''); ?>">
+                <div class="form-group col-md-1">
+                    <label>Age</label>
+                    <input type="text" id="age" name="age" class="form-control" readonly>
                 </div>
 
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
                     <label>Complete Address *</label>
                     <input type="text" name="complete_address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['complete_address'] ?? $user['address'] ?? ''); ?>">
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label>Proof of Residency *</label>
-                    <input type="text" name="proof_of_residency" class="form-control" required value="<?php echo htmlspecialchars($_POST['proof_of_residency'] ?? ''); ?>">
+                <!-- Civil Status -->
+                <div class="form-group col-md-2">
+                    <label>Civil Status *</label>
+                    <select name="civil_status" class="form-control" required>
+                        <option value="">-- Select --</option>
+                        <option value="Single" <?php echo (isset($_POST['civil_status']) && $_POST['civil_status'] === 'Single') ? 'selected' : ''; ?>>Single</option>
+                        <option value="Married" <?php echo (isset($_POST['civil_status']) && $_POST['civil_status'] === 'Married') ? 'selected' : ''; ?>>Married</option>
+                        <option value="Widowed" <?php echo (isset($_POST['civil_status']) && $_POST['civil_status'] === 'Widowed') ? 'selected' : ''; ?>>Widowed</option>
+                        <option value="Separated" <?php echo (isset($_POST['civil_status']) && $_POST['civil_status'] === 'Separated') ? 'selected' : ''; ?>>Separated</option>
+                    </select>
                 </div>
-                <div class="form-group col-md-6">
+
+                <div class="form-group col-md-4">
                     <label>Purpose of Certificate *</label>
                     <input type="text" name="purpose" class="form-control" required value="<?php echo htmlspecialchars($_POST['purpose'] ?? ''); ?>">
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-5">
                     <label>Shipping Method *</label>
                     <select name="shipping_method" class="form-control" required>
                         <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
                     </select>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-2">
                     <label>Cost</label>
                     <input type="text" class="form-control" readonly value="₱20.00">
                 </div>

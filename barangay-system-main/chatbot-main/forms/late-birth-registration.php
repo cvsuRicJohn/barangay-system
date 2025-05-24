@@ -203,75 +203,99 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!-- Late Birth Registration Certificate -->
 <form method="POST" action="late-birth-registration.php" id="lateBirthForm">
     <div class="form-row">
-        <div class="form-group col-md-4">
+        <!-- Name Fields -->
+        <div class="form-group col-md-3">
             <label>Last Name *</label>
-            <input type="text" name="last_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['last_name'] ?? ($user_data['last_name'] ?? '')); ?>">
+            <input type="text" name="last_name" class="form-control" required readonly 
+                value="<?= htmlspecialchars($_POST['last_name'] ?? ($user_data['last_name'] ?? '')) ?>">
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label>First Name *</label>
-            <input type="text" name="first_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['first_name'] ?? ($user_data['first_name'] ?? '')); ?>">
+            <input type="text" name="first_name" class="form-control" required readonly 
+                value="<?= htmlspecialchars($_POST['first_name'] ?? ($user_data['first_name'] ?? '')) ?>">
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label>Middle Name *</label>
-            <input type="text" name="middle_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['middle_name'] ?? ($user_data['middle_name'] ?? '')); ?>">
+            <input type="text" name="middle_name" class="form-control" required readonly 
+                value="<?= htmlspecialchars($_POST['middle_name'] ?? ($user_data['middle_name'] ?? '')) ?>">
         </div>
+
+                <div class="form-group col-md-2">
+            <label>Date of Birth *</label>
+            <input type="date" id="dob" name="date_of_birth" class="form-control" required readonly
+                value="<?php echo $success_message ? '' : htmlspecialchars($_POST['date_of_birth'] ?? ($user_data['dob'] ?? '')); ?>">
+        </div>
+
+        <div class="form-group col-md-1">
+            <label>Age</label>
+            <input type="text" id="age" name="age" class="form-control" readonly
+                value="<?php echo $success_message ? '' : (isset($_POST['age']) ? htmlspecialchars($_POST['age']) : ''); ?>">
+        </div>
+
+        <!-- Address and Marital Status -->
         <div class="form-group col-md-6">
             <label>Address *</label>
-            <input type="text" name="address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
+            <input type="text" name="address" class="form-control" required readonly 
+                value="<?= htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')) ?>">
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-2">
             <label>Marital Status *</label>
-            <input type="text" name="marital_status" class="form-control" required value="<?php echo htmlspecialchars($_POST['marital_status'] ?? ($user_data['civil_status'] ?? '')); ?>">
+            <input type="text" name="marital_status" class="form-control" required 
+                value="<?= htmlspecialchars($_POST['marital_status'] ?? ($user_data['civil_status'] ?? '')) ?>">
         </div>
-        <div class="form-group col-md-6">
+
+        <!-- Birth Details -->
+        <div class="form-group col-md-4">
             <label>Place of Birth *</label>
-            <input type="text" name="place_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['place_of_birth'] ?? ''); ?>">
+            <input type="text" name="place_of_birth" class="form-control" required 
+                value="<?= htmlspecialchars($_POST['place_of_birth'] ?? '') ?>">
         </div>
-        <div class="form-group col-md-6">
-            <label>Date of Birth *</label>
-            <input type="date" name="date_of_birth" class="form-control" required value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? ($user_data['dob'] ?? '')); ?>">
+
+        <!-- Parents' Names -->
+        <div class="form-group col-md-3">
+            <label>Father’s Name *</label>
+            <input type="text" name="fathers_name" class="form-control" required 
+                value="<?= htmlspecialchars($_POST['fathers_name'] ?? '') ?>">
         </div>
-        <div class="form-group col-md-6">
-            <label>Father's Name *</label>
-            <input type="text" name="fathers_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['fathers_name'] ?? ''); ?>">
+        <div class="form-group col-md-3">
+            <label>Mother’s Name *</label>
+            <input type="text" name="mothers_name" class="form-control" required 
+                value="<?= htmlspecialchars($_POST['mothers_name'] ?? '') ?>">
         </div>
-        <div class="form-group col-md-6">
-            <label>Mother's Name *</label>
-            <input type="text" name="mothers_name" class="form-control" required value="<?php echo htmlspecialchars($_POST['mothers_name'] ?? ''); ?>">
+
+        <!-- Years in Barangay -->
+        <div class="form-group col-md-3">
+            <label>No. of Years/Months in Barangay *</label>
+            <input type="text" name="years_in_barangay" class="form-control" required 
+                value="<?= htmlspecialchars($_POST['years_in_barangay'] ?? '') ?>">
         </div>
-        <div class="form-group col-md-6">
-            <label>Years in Barangay *</label>
-            <input type="text" name="years_in_barangay" class="form-control" required value="<?php echo htmlspecialchars($_POST['years_in_barangay'] ?? ''); ?>">
-        </div>
-        <div class="form-group col-md-6">
+
+        <!-- Purpose -->
+        <div class="form-group col-md-3">
             <label>Purpose *</label>
-            <input type="text" name="purpose" class="form-control" required value="Late Registration of Birth Certificate">
+            <input type="text" name="purpose" class="form-control" readonly 
+                value="Late Registration of Birth Certificate">
         </div>
-                <div class="form-group col-md-6">
-                    <label>Shipping Method *</label>
-                    <select name="shipping_method" class="form-control" required>
-                        <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am-5pm)</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Cost</label>
-                    <input type="text" class="form-control" readonly value="₱20.00">
-                </div>
-            </div>
 
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary px-5">Submit</button>
-            </div>
-        </form>
-
-        <!-- Success Modal -->
-        <div id="successModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal()">&times;</span>
-                <h3>Form successfully submitted!</h3>
-            </div>
+        <!-- Shipping & Cost -->
+        <div class="form-group col-md-6">
+            <label>Shipping Method *</label>
+            <select name="shipping_method" class="form-control" required>
+                <option value="PICK UP">PICK UP (Claimable within 24 hours from 10am-5pm)</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label>Cost</label>
+            <input type="text" class="form-control" readonly value="₱20.00">
         </div>
     </div>
+
+    <!-- Submit -->
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary px-5">Submit</button>
+    </div>
+</form>
+</div>
 
     <!-- Footer Section -->
     <div class="footer">

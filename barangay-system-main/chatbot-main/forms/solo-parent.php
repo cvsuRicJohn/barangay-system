@@ -203,15 +203,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label>Address *</label>
             <input type="text" name="address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['address'] ?? ($user_data['address'] ?? '')); ?>">
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-3">
             <label>Solo Since (Year) *</label>
             <input type="text" name="solo_since" class="form-control" placeholder="e.g. 2019" required value="<?php echo htmlspecialchars($_POST['solo_since'] ?? ''); ?>">
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-3">
             <label>Number of Children *</label>
             <input type="number" name="child_count" class="form-control" required value="<?php echo htmlspecialchars($_POST['child_count'] ?? ''); ?>">
         </div>
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
             <label>Names of Children *</label>
             <textarea name="children_names" class="form-control" rows="2" required placeholder="List full names of children here"><?php echo htmlspecialchars($_POST['children_names'] ?? ''); ?></textarea>
         </div>
@@ -221,7 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="PICK UP">PICK UP (You can claim within 24 hours upon submission. Claimable from 10am–5pm)</option>
             </select>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-2">
                     <label>Cost</label>
                     <input type="text" class="form-control" readonly value="₱20.00">
                 </div>

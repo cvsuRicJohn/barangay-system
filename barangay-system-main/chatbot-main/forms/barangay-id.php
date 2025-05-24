@@ -200,39 +200,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="POST" action="barangay-id.php" id="myForm">
             <div class="form-row">
                 <!-- Personal Information -->
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label>First Name *</label>
                     <input type="text" name="first_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['first_name'] ?? $user['first_name'] ?? ''); ?>">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label>Middle Name *</label>
                     <input type="text" name="middle_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['middle_name'] ?? $user['middle_name'] ?? ''); ?>">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label>Last Name *</label>
                     <input type="text" name="last_name" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['last_name'] ?? $user['last_name'] ?? ''); ?>">
                 </div>
 
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-2">
+                    <label>Date of Birth *</label>
+                    <input type="date" name="date_of_birth" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? $user['dob'] ?? ''); ?>">
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label>Age *</label>
+                    <input type="number" name="age" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['age'] ?? ''); ?>">
+                </div>
+
+                <div class="form-group col-md-4">
                     <label>Address *</label>
                     <input type="text" name="address" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['address'] ?? $user['address'] ?? ''); ?>">
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label>Date of Birth *</label>
-                    <input type="date" name="date_of_birth" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['date_of_birth'] ?? $user['dob'] ?? ''); ?>">
-                </div>
-                <div class="form-group col-md-3">
-                    <label>Age *</label>
-                    <input type="number" name="age" class="form-control" required readonly value="<?php echo htmlspecialchars($_POST['age'] ?? ''); ?>">
-                </div>
                 <div class="form-group col-md-3">
                     <label>Contact Number *</label>
                     <input type="text" name="contact_number" class="form-control" required value="<?php echo htmlspecialchars($_POST['contact_number'] ?? $user['contact_number'] ?? ''); ?>">
                 </div>
 
                 <!-- Government ID -->
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-3">
                     <label>Government-issued ID *</label>
                     <select name="gov_id" class="form-control" required>
                         <option value="">-- Select ID --</option>
@@ -255,7 +257,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </select>
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-2">
                     <label>Cost</label>
                     <input type="text" class="form-control" readonly value="₱75.00">
                 </div>
