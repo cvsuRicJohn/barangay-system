@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 $id = $_GET['id'] ?? 1;
 
-$sql = "SELECT first_name, middle_name, last_name, date_of_birth, civil_status, occupation, monthly_income, proof_of_residency, gov_id, spouse_name, number_of_dependents, submitted_at, shipping_method 
+$sql = "SELECT first_name, middle_name, last_name, date_of_birth, age, civil_status, occupation, monthly_income, proof_of_residency, gov_id, spouse_name, number_of_dependents, submitted_at, shipping_method, complete_address 
         FROM certificate_of_indigency_requests WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
@@ -30,6 +30,7 @@ if ($data) {
     // Replace placeholders
     $template->setValue('name', htmlspecialchars($fullName));
     $template->setValue('date_of_birth', htmlspecialchars($data['date_of_birth']));
+    $template->setValue('age', htmlspecialchars($data['age']));
     $template->setValue('civil_status', htmlspecialchars($data['civil_status']));
     $template->setValue('occupation', htmlspecialchars($data['occupation']));
     $template->setValue('monthly_income', htmlspecialchars($data['monthly_income']));
@@ -39,6 +40,7 @@ if ($data) {
     $template->setValue('number_of_dependents', htmlspecialchars($data['number_of_dependents']));
     $template->setValue('date_issued', date('F j, Y', strtotime($data['submitted_at']))); // formatted nicely
     $template->setValue('shipping_method', htmlspecialchars($data['shipping_method']));
+    $template->setValue('complete_address', htmlspecialchars($data['complete_address']));
 
     // Save and download the file
     $filename = 'Certificate_of_Indigency_' . $id . '.docx';

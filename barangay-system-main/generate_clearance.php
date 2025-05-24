@@ -36,7 +36,7 @@ if ($data) {
     $template->setValue('Spouse', htmlspecialchars($data['student_patient_name']));
     $template->setValue('address', htmlspecialchars($data['complete_address']));
     $template->setValue('purpose', htmlspecialchars($data['purpose']));
-    $template->setValue('date_issued', date('F j, Y', strtotime($data['submitted_at']))); // formatted nicely
+    $template->setValue('date_issued', replace: date('F j, Y', strtotime($data['submitted_at']))); // formatted nicely
 
     // Save and download the file
     $filename = 'Barangay_Clearance_' . $id . '.docx';

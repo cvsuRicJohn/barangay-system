@@ -56,6 +56,7 @@ try {
     $templateProcessor->setValue('marital_status', htmlspecialchars($record['marital_status']));
     $templateProcessor->setValue('place_of_birth', htmlspecialchars($record['place_of_birth']));
     $templateProcessor->setValue('date_of_birth', htmlspecialchars($record['date_of_birth']));
+    $templateProcessor->setValue('age', htmlspecialchars($record['age']));
     $templateProcessor->setValue('fathers_name', htmlspecialchars($record['fathers_name']));
     $templateProcessor->setValue('mothers_name', htmlspecialchars($record['mothers_name']));
     $templateProcessor->setValue('years_in_barangay', htmlspecialchars($record['years_in_barangay']));

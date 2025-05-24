@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 $id = $_GET['id'] ?? 1;
 
-$sql = "SELECT full_name, address, residency_length, oath_acknowledged, shipping_method, submitted_at 
+$sql = "SELECT full_name, address, age, residency_length, oath_acknowledged, shipping_method, submitted_at 
         FROM first_time_job_seeker_requests WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
@@ -26,11 +26,6 @@ if ($data) {
 
     // Replace placeholders
     $template->setValue('full_name', htmlspecialchars($data['full_name']));
-    $template->setValue('address', htmlspecialchars($data['address']));
-    $template->setValue('residency_length', htmlspecialchars($data['residency_length']));
-    $template->setValue('oath_acknowledged', htmlspecialchars($data['oath_acknowledged']));
-    $template->setValue('shipping_method', htmlspecialchars($data['shipping_method']));
-    $template->setValue('date_issued', date('F j, Y', strtotime($data['submitted_at'])));
 
     // Save and download the file
     $filename = 'First_Time_Job_Seeker_Certificate_' . $id . '.docx';

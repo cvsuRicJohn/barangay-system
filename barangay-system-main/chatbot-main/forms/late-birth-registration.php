@@ -52,6 +52,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $shipping_method = trim($_POST['shipping_method'] ?? '');
     $cost = 20; // fixed cost for all except first-time job seeker
 
+    // Calculate age server-side
+    function calculate_age($dob) {
+        $dob_ts = strtotime($dob);
+        if (!$dob_ts) return null;
+        $today = new DateTime();
+        $birthdate = new DateTime(date('Y-m-d', $dob_ts));
+        $age = $today->diff($birthdate)->y;
+        return $age;
+    }
+    $age = calculate_age($date_of_birth);
+
     // Prevent double submission on page refresh by redirecting after successful POST
     if (
         empty($last_name) || empty($first_name) || empty($middle_name) || empty($address) ||
@@ -68,10 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($hasUserId) {
                 $stmt = $pdo->prepare("INSERT INTO late_birth_registration_requests 
-                    (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method, cost, user_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    (last_name, first_name, middle_name, address, marital_status, place_of_birth, date_of_birth, fathers_name, mothers_name, years_in_barangay, purpose, shipping_method, cost, age, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
-                    $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method, $cost, $_SESSION['user_id']
+                    $last_name, $first_name, $middle_name, $address, $marital_status, $place_of_birth, $date_of_birth, $fathers_name, $mothers_name, $years_in_barangay, $purpose, $shipping_method, $cost, $age, $_SESSION['user_id']
                 ]);
             }
             // Redirect to avoid form resubmission on refresh

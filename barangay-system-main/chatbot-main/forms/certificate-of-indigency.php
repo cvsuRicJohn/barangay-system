@@ -49,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $spouse_name = trim($_POST['spouse_name'] ?? '');
     $number_of_dependents = trim($_POST['number_of_dependents'] ?? '');
     $shipping_method = trim($_POST['shipping_method'] ?? '');
+    $complete_address = trim($_POST['complete_address'] ?? '');
     $cost = 20; // fixed cost
 
     // Calculate age server-side
@@ -66,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (
         empty($first_name) || empty($middle_name) || empty($last_name) || empty($date_of_birth) ||
         empty($civil_status) || empty($occupation) || empty($monthly_income) || empty($proof_of_residency) ||
-        empty($gov_id) || empty($number_of_dependents) || empty($shipping_method)
+        empty($gov_id) || empty($number_of_dependents) || empty($shipping_method) || empty($complete_address)
     ) {
         $error_message = "Please fill in all required fields.";
     } else {
@@ -78,10 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($hasUserId) {
                 $stmt = $pdo->prepare("INSERT INTO certificate_of_indigency_requests 
-                    (first_name, middle_name, last_name, date_of_birth, age, civil_status, occupation, monthly_income, proof_of_residency, gov_id, spouse_name, number_of_dependents, shipping_method, cost, user_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    (first_name, middle_name, last_name, date_of_birth, age, civil_status, occupation, monthly_income, proof_of_residency, gov_id, spouse_name, number_of_dependents, shipping_method, complete_address, cost, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
-                    $first_name, $middle_name, $last_name, $date_of_birth, $age, $civil_status, $occupation, $monthly_income, $proof_of_residency, $gov_id, $spouse_name, $number_of_dependents, $shipping_method, $cost, $_SESSION['user_id']
+                    $first_name, $middle_name, $last_name, $date_of_birth, $age, $civil_status, $occupation, $monthly_income, $proof_of_residency, $gov_id, $spouse_name, $number_of_dependents, $shipping_method, $complete_address, $cost, $_SESSION['user_id']
                 ]);
             }
             // Redirect to avoid form resubmission on refresh
@@ -235,10 +236,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 value="<?php echo $success_message ? '' : (isset($_POST['age']) ? htmlspecialchars($_POST['age']) : ''); ?>">
         </div>
 
-        <div class="form-group col-md-4">
-            <label>Complete Address *</label>
-            <input type="text" name="complete_address" class="form-control" required readonly value="<?php echo $success_message ? '' : htmlspecialchars($_POST['complete_address'] ?? ($user_data['address'] ?? '')); ?>">
-        </div>
+            <div class="form-group col-md-4">
+                <label>Complete Address *</label>
+                <input type="text" name="complete_address" id="complete_address" class="form-control" required readonly value="<?php echo $success_message ? '' : htmlspecialchars($_POST['complete_address'] ?? ($user_data['complete_address'] ?? $user_data['address'] ?? '')); ?>">
+            </div>
         
         <div class="form-group col-md-2">
             <label>Civil Status *</label>

@@ -601,11 +601,12 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
                 'submitted_at' => 'Submitted At',
                 'shipping_method' => 'Shipping Method'
             ],
-            'certificate_of_indigency_requests' => [
+'certificate_of_indigency_requests' => [
                 'id' => 'ID',
                 'first_name' => 'First Name',
                 'middle_name' => 'Middle Name',
                 'last_name' => 'Last Name',
+                'complete_address' => 'Complete Address',
                 'date_of_birth' => 'Date of Birth',
                 'age' => 'Age',
                 'civil_status' => 'Civil Status',
@@ -696,7 +697,7 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
                 'shipping_method' => 'Shipping Method',
                 'submitted_at' => 'Submitted At'
             ],
-            'late_birth_registration_requests' => [
+'late_birth_registration_requests' => [
                 'id' => 'ID',
                 'last_name' => 'Last Name',
                 'first_name' => 'First Name',
@@ -705,6 +706,7 @@ $currentTab = $_GET['tab'] ?? 'dashboard';
                 'marital_status' => 'Marital Status',
                 'place_of_birth' => 'Place of Birth',
                 'date_of_birth' => 'Date of Birth',
+                'age' => 'Age',
                 'fathers_name' => 'Father\'s Name',
                 'mothers_name' => 'Mother\'s Name',
                 'years_in_barangay' => 'Years in Barangay',
@@ -869,8 +871,10 @@ echo '<a href="edit.php?entity='.$entityEsc.'&id='.$idEsc.'&tab='.$entityEsc.'" 
     
 }
         if ($entityKey === 'out_of_school_youth_requests') {
+    if (strtolower($row['status']) === 'approved') {
         echo '<a href="generate_school_youth.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate School Youth Document" target="_blank"><i class="fas fa-file-word"></i> Generate School Youth</a> ';
 }
+    }   
         if ($entityKey === 'certificate_of_residency_requests') {
     if (strtolower($row['status']) === 'approved') {
         echo '<a href="generate-residency.php?id=' . $idEsc . '" class="btn btn-sm btn-info" title="Generate Residency Document" target="_blank"><i class="fas fa-file-word"></i> Generate Residency</a> ';
