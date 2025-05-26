@@ -77,28 +77,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Edit Profile | Barangay Bucandala 1</title>
     <?php if (isset($success)): ?>
         <meta http-equiv="refresh" content="2;url=profile.php" />
     <?php endif; ?>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f5f6fa;
-        }
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f5f6fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .edit-profile-container {
+        max-width: 700px;
+        margin: 40px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .form-control {
+        font-size: 15px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+
+    /* MOBILE FULLSCREEN STYLES */
+    @media (max-width: 576px) {
         .edit-profile-container {
-            max-width: 700px;
-            margin: 40px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 100%;
+            margin: 0;
+            border-radius: 0;
+            padding: 20px 15px;
+            min-height: 100vh;
+            box-shadow: none;
         }
+
+        h2 {
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
         .form-group label {
-            font-weight: bold;
+            font-size: 14px;
         }
-    </style>
+
+        .form-control {
+            font-size: 14px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn-secondary {
+            margin-left: 0 !important;
+        }
+    }
+</style>
 </head>
 <body>
 <div class="container edit-profile-container">
