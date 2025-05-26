@@ -20,6 +20,7 @@ body::before {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: -1;
+  pointer-events: none; /* ✅ Important */
 }
 
 header {
@@ -86,14 +87,17 @@ header {
   line-height: 1.4;
 }
 
+/* HERO SECTION */
 .hero-section {
   position: relative;
   width: 100%;
-  height: 600px;
-  overflow: hidden;
+  min-height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  z-index: 0;
 }
 
 .hero-image,
@@ -101,10 +105,26 @@ header {
   position: absolute;
   width: 180px;
   height: 180px;
-  object-fit: cover;
+  object-fit: contain;
   filter: brightness(70%);
+  pointer-events: none; /* Prevent blocking clicks */
   z-index: 1;
 }
+
+.text-overlay {
+  position: relative;
+  z-index: 10; /* On top */
+  max-width: 700px;
+  text-align: center;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 60px 70px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  opacity: 1 !important; /* Make sure it’s visible */
+}
+
 
 .hero-image {
   top: 10px;
@@ -116,9 +136,27 @@ header {
   right: 40px;
 }
 
+/* IMAGE RESPONSIVENESS */
+@media screen and (max-width: 768px) {
+  .hero-image,
+  .hero {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero-image,
+  .hero {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* TEXT OVERLAY */
 .text-overlay {
   position: relative;
-  z-index: 1;
+  z-index: 2; /* higher than logos */
   max-width: 700px;
   text-align: center;
   color: white;
@@ -127,8 +165,9 @@ header {
   padding: 60px 70px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  animation: fadeInUp 1.2s ease forwards;
-  opacity: 0;
+  opacity: 1; /* fully visible and clickable */
+  /* Optional animation - uncomment if you want */
+  /* animation: fadeInUp 1.2s ease forwards; */
 }
 
 .text-overlay h1 {
@@ -159,10 +198,13 @@ header {
   text-decoration: none;
 }
 
+/* ABOUT SECTION */
 .about-section {
   padding: 50px 20px;
   background-color: #f9f9f9c7;
   font-family: 'Segoe UI', sans-serif;
+  position: relative;
+  z-index: 2; /* to ensure it's above images */
 }
 
 .container-about {
@@ -204,13 +246,17 @@ header {
   color: #555;
 }
 
+/* ABOUT BUTTONS */
 .about-buttons {
+  position: relative;
+  z-index: 10;
   display: flex;
   gap: 10px;
   margin: 20px 0;
 }
 
 .about-btn {
+  width: 100%;
   padding: 10px 20px;
   border: none;
   background: #f0f0f0;
@@ -229,6 +275,44 @@ header {
 .about-description {
   margin: 20px 0;
   font-style: italic;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+/* RESPONSIVE STYLES */
+@media screen and (max-width: 320px) {
+  .text-overlay {
+    padding: 30px;
+  }
+
+  .about-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .text-overlay {
+    padding: 20px 15px;
+    font-size: 14px;
+  }
+
+  .text-overlay h1 {
+    font-size: 2rem;
+  }
+
+  .text-overlay p {
+    font-size: 1rem;
+  }
 }
 
 .contact-info {
@@ -251,6 +335,7 @@ header {
   font-weight: 700;
   color: #222;
 }
+
 
 /* ====== ANIMATIONS ====== */
 @keyframes fadeInUp {
@@ -373,7 +458,7 @@ nav a:hover {
 }
 
 /* Mobile-friendly styles */
-@media (max-width: 768px) {
+@media (max-width: 400px) {
   .dropdown-content {
     position: static;
     box-shadow: none;
@@ -641,7 +726,7 @@ html {
     align-items: center;
     flex-wrap: wrap; /* allow wrap if screen too small */
   }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 320px) {
   nav > *:not(.keep-on-mobile) {
     display: none !important;
   }
@@ -763,4 +848,8 @@ html {
   .time-section {
     text-align: center;
   }
+}
+
+* {
+  outline: 1px solid red;
 }

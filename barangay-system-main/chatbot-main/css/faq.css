@@ -247,13 +247,13 @@ body::before {
 }
 
 /* Ensure it stays visible and responsive on smaller devices */
-@media (max-width: 576px) {
+@media (max-width: 320px) {
   .logo-container {
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap; /* allow wrap if screen too small */
   }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 320px) {
   nav > *:not(.keep-on-mobile) {
     display: none !important;
   }

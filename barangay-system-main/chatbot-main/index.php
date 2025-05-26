@@ -359,7 +359,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
   
   <!-- Chatbot iframe -->
   <iframe src="chatbot.php"
-    style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;">
+    style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 500px; border: none; z-index: 999;">
   </iframe>
 
   <script src="js/index.js"></script>
