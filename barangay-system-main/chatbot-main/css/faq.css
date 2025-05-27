@@ -376,3 +376,70 @@ body::before {
     text-align: center;
   }
 }
+
+/* --- CHATBOT BUTTON --- */
+.chatbot-redirect-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 50px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.chatbot-redirect-btn:hover {
+    transform: scale(1.05);
+}
+
+.bot-icon img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.bot-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.bot-title {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.bot-status {
+    font-size: 12px;
+    color: #28a745;
+    display: flex;
+    align-items: center;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: #28a745;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+  .chatbot-redirect-btn {
+    bottom: 15px;
+    right: 40px;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .bot-text {
+    display: none; /* icon-only on mobile if needed */
+  }
+}

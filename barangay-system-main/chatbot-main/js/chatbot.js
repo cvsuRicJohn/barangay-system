@@ -218,7 +218,7 @@ Always answer politely, clearly, and in the same language the user uses. Be help
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer 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",
+        "Authorization": "Bearer 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",
         "HTTP-Referer": "https://www.multilingualchatbot",
         "X-Title": "multilingualchatbot",
         "Content-Type": "application/json"

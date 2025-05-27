@@ -357,10 +357,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact_submit'])) {
     </div>
   </div>
   
-  <!-- Chatbot iframe -->
-  <iframe src="chatbot.php"
-    style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 500px; border: none; z-index: 999;">
-  </iframe>
+<!-- Chatbot Redirect Button -->
+<a href="chatbot.php" class="chatbot-redirect-btn">
+  <div class="bot-icon">
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Bot Icon">
+  </div>
+  <div class="bot-text">
+    <span class="bot-title">Barangay ChatBot</span>
+    <span class="bot-status">
+      <span class="dot"></span> Online
+    </span>
+  </div>
+</a>
 
   <script src="js/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>

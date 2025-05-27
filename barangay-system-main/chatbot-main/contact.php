@@ -315,9 +315,18 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </div>
 
-    <iframe src="chatbot.php"
-    style="position: fixed; bottom: 10px; right: 10px; width: 340px; height: 800px; border: none; z-index: 999;"> 
-    </iframe>
+  <!-- Chatbot Redirect Button -->
+  <a href="chatbot.php" class="chatbot-redirect-btn">
+    <div class="bot-icon">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Bot Icon">
+    </div>
+    <div class="bot-text">
+      <span class="bot-title">Barangay ChatBot</span>
+      <span class="bot-status">
+        <span class="dot"></span> Online
+      </span>
+    </div>
+  </a>
 
     <script src="js/contact.js"></script>
 
